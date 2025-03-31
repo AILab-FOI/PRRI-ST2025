@@ -42,6 +42,12 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/bullet/bullet.png',
         'y_offset': 50,
     },
+    'segrtHugo':{
+        'num_layers': 1,
+        'scale': 2,
+        'path': 'assets/entities/player/SegrtHugo.png',
+        'y_offset': 50,
+    },
 }
 
 # stacked sprites settings
@@ -108,6 +114,26 @@ STACKED_SPRITE_ATTRS = {
         'path': 'assets/stacked_sprites/tank.png',
         'num_layers': 17,
         'scale': 8,
+        'y_offset': 0,
+        'mask_layer': 4,
+    },
+        'anvil': {
+        'path': 'assets/stacked_sprites/anvil.png',
+        'num_layers': 66,
+        'scale': 1,
+        'y_offset': 0,
+    },
+        'chest': {
+        'path': 'assets/stacked_sprites/chest.png',
+        'num_layers': 36,
+        'scale': 1,
+        'y_offset': 0,
+        'mask_layer': 4,
+    },
+        'zid1': {
+        'path': 'assets/stacked_sprites/Zid1.png',
+        'num_layers': 120,
+        'scale': 1,
         'y_offset': 0,
         'mask_layer': 4,
     },
