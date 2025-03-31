@@ -72,3 +72,44 @@ class SettingsPopup(Popup):
         if self.visible and self.hovered_option is not None:
             return self.options[self.hovered_option]
         return None
+    
+class MainMenu: 
+    def __init__(self, app):
+        self.app = app
+        self.screen = app.screen
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 32)
+        self.options = ["Start New Game", "Load Game", "Quit"]
+        self.selected_option = 0 
+    
+    def draw(self):
+        self.screen.fill((0, 0, 0))  
+        title_text = self.font.render("Whispering Tales", True, (255, 255, 255))
+        title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, 100))
+        self.screen.blit(title_text, title_rect)
+
+        for i, option in enumerate(self.options):
+            color = (255, 255, 0) if i == self.selected_option else (255, 255, 255)
+            text = self.font.render(option, True, color)
+            text_rect = text.get_rect(center=(self.screen.get_width() // 2, 320 + i * 60))
+            self.screen.blit(text, text_rect)
+        pg.display.flip()
+
+    def handle_events(self):
+        for e in pg.event.get():
+            if e.type == pg.QUIT:
+                pg.quit()
+                exit()
+            elif e.type == pg.KEYDOWN:
+                if e.key == pg.K_UP:
+                    self.selected_option = (self.selected_option - 1) % len(self.options)
+                elif e.key == pg.K_DOWN:
+                    self.selected_option = (self.selected_option + 1) % len(self.options)
+                elif e.key == pg.K_RETURN:
+                    if self.selected_option == 0:
+                        print("Starting new game...")
+                        self.app.start_game()  
+                    elif self.selected_option == 1:  
+                        print("Loading game...")
+                    elif self.selected_option == 2: 
+                        pg.quit()
+                        exit()

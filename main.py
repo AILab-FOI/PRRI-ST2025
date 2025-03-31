@@ -10,7 +10,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup
+from popup import InventoryPopup, SettingsPopup, MainMenu
 
 class App:
     def __init__(self):
@@ -31,9 +31,10 @@ class App:
         # game objects
         self.player = None
         self.cache = None
-        self.scene = LoadingScene( self )
+        self.scene = None    #LoadingScene( self )
         self.message = Message( self )
-
+        self.menu = MainMenu(self)
+        
         self.inventory_popup = InventoryPopup(self.screen)
         self.settings_popup = SettingsPopup(self.screen)
         self.show_settings = False
@@ -60,6 +61,10 @@ class App:
             self.settings_popup.draw()
 
         pg.display.flip()
+
+    def start_game(self):
+        self.menu = None
+        self.scene = LoadingScene(self)
 
     def check_events(self):
         self.anim_trigger = False
@@ -90,11 +95,16 @@ class App:
 
 async def run( app ):
     while True:
-        if app.player:
-            app.check_events()
-        app.get_time()
-        app.update()
-        app.draw()
+        if app.menu is not None:
+            app.menu.draw()
+            app.menu.handle_events()
+            
+        else:    
+            if app.player:
+                app.check_events()
+            app.get_time()
+            app.update()
+            app.draw()
         await asyncio.sleep( 0 )
 
 
