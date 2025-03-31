@@ -35,7 +35,7 @@ class App:
         self.scene = LoadingScene( self )
         self.message = Message( self )
 
-
+        self.show_popup = False
     def update(self):
         self.scene.update()
         self.entity_group.update()
@@ -52,8 +52,22 @@ class App:
             self.main_group.draw(self.screen)
             self.message.draw()
         
-        
+        if self.show_popup:
+            self.draw_popup()
         pg.display.flip()
+
+    def draw_popup(self):
+        screen_width, screen_height = self.screen.get_size()
+        popup_width, popup_height = int(screen_width * 0.6), int(screen_height * 0.6)
+        popup_x, popup_y = (screen_width - popup_width) // 2, (screen_height - popup_height) // 2
+        popup_rect = pg.Rect(popup_x, popup_y, popup_width, popup_height)
+        
+        pg.draw.rect(self.screen, (50, 50, 50), popup_rect)
+        pg.draw.rect(self.screen, (200, 200, 200), popup_rect, 3)
+        font = pg.font.Font(None, 48)
+        text = font.render("Inventory", True, (255, 255, 255))
+        text_rect = text.get_rect(center=(screen_width // 2, popup_y + 50))
+        self.screen.blit(text, text_rect)
 
     def check_events(self):
         self.anim_trigger = False
@@ -64,6 +78,8 @@ class App:
             elif e.type == self.anim_event:
                 self.anim_trigger = True
             elif e.type == pg.KEYDOWN:
+                if e.key == pg.K_TAB:
+                    self.show_popup = not self.show_popup
                 self.player.single_fire(event=e)
 
     def get_time(self):
