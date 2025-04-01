@@ -7,17 +7,17 @@ import threading
 
 P = 'player'
 K = 'kitty'  # entity
-A, B, C, D, E, F, G, H = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
+A, B, C, D, E, F, G, H, CH, AN = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake', 'chest', 'anvil'
 S = 'sphere' # transform object
 
 MAP = [
     [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
-    [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, 0],
+    [E, C, C, C, 0, C, C, CH, E, 0, C, C, C, 0],
     [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, C, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, E, 0, E, 0, 0, F, E, 0, C],
+    [C, 0, 0, E, AN, 0, 0, C, C, 0, 0, 0, 0, C],
+    [C, E, 0, 0, P, CH, 0, E, 0, 0, F, E, 0, C],
     [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, 0, 0, 0, E, 0, E, 0, 0, B, C, E],
+    [0, C, E, AN, 0, 0, E, 0, E, 0, 0, B, C, E],
     [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
     [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
 ]
