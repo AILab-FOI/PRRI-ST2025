@@ -34,6 +34,9 @@ class Scene:
         self.app.message.set_message( self.app.player.message )
         self.app.message.active = True
 
+        self.app.hint_popup.start_time = pg.time.get_ticks()  
+        self.app.hint_popup.visible = True  
+
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
         rand_pos = lambda pos: pos + vec2(uniform(-0.25, 0.25))

@@ -10,7 +10,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, MainMenu
+from popup import InventoryPopup, SettingsPopup, MainMenu, HintPopup, HelpPopup
 
 class App:
     def __init__(self):
@@ -35,9 +35,12 @@ class App:
         self.message = Message( self )
         self.menu = MainMenu(self)
         
+        self.hint_popup = HintPopup(self.screen) 
         self.inventory_popup = InventoryPopup(self.screen)
-        self.settings_popup = SettingsPopup(self.screen)
+        self.help_popup = HelpPopup(self.screen) 
+        self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.show_settings = False
+
 
     def update(self):
         self.scene.update()
@@ -55,16 +58,22 @@ class App:
             self.main_group.draw(self.screen)
             self.message.draw()
         
+        if self.hint_popup.visible:
+            self.hint_popup.draw()
         if self.inventory_popup.visible:
             self.inventory_popup.draw()
         if self.settings_popup.visible:
             self.settings_popup.draw()
+        if self.help_popup.visible:
+            self.help_popup.draw()  # Prikazivanje Help popupa
+
 
         pg.display.flip()
 
     def start_game(self):
         self.menu = None
         self.scene = LoadingScene(self)
+
 
     def check_events(self):
         self.anim_trigger = False
@@ -79,6 +88,7 @@ class App:
                     self.inventory_popup.toggle()
                 elif e.key == pg.K_ESCAPE:
                     self.settings_popup.toggle()
+                    self.help_popup.visible = False 
                 if not (self.settings_popup.visible or self.inventory_popup.visible) and self.player is not None:
                     self.player.single_fire(event=e)
             elif e.type == pg.MOUSEBUTTONDOWN and e.button == 1:
@@ -89,6 +99,8 @@ class App:
                         sys.exit()
                     elif action == "Continue":
                         self.settings_popup.toggle()
+                    elif action == "Help":
+                        self.help_popup.visible = True  
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001

@@ -43,11 +43,12 @@ class InventoryPopup(Popup):
         super().__init__(screen, "Inventory")
 
 class SettingsPopup(Popup):
-    def __init__(self, screen):
+    def __init__(self, screen, help_popup=None):
         super().__init__(screen, "Settings")
         self.options = ["Continue", "Help", "Save Game", "Load Game", "Quit Game"]
         self.option_rects = []
         self.hovered_option = None
+        self.help_popup = help_popup
 
     def draw(self):
         super().draw()
@@ -70,9 +71,83 @@ class SettingsPopup(Popup):
     
     def handle_mouse_click(self):
         if self.visible and self.hovered_option is not None:
-            return self.options[self.hovered_option]
+            selected_option = self.options[self.hovered_option]
+            if selected_option == "Help":
+                self.help_popup.visible = True  
+            return selected_option
         return None
-    
+
+#popup hint kako bi igrač znao otvoriti postavke na početku igre
+class HintPopup(Popup):
+    def __init__(self, screen):
+        super().__init__(screen, "", 0.4, 0.1)
+        self.text = "Ako želite vidjeti postavke i kontrole pritisnite Esc!"
+        self.visible = True
+        self.start_time = pg.time.get_ticks()
+        self.duration = 5000
+
+    def draw(self):
+        if not self.visible:
+            return
+
+        if pg.time.get_ticks() - self.start_time > self.duration:
+            self.visible = False
+            return
+
+        
+        text_surface = self.font.render(self.text, True, (255, 255, 255))
+        text_width = text_surface.get_width() + 100  
+        text_height = text_surface.get_height() + 20
+
+       
+        self.rect.width = text_width
+        self.rect.height = text_height
+        self.rect.topleft = (20, self.screen.get_height() // 4)
+
+        
+        pg.draw.rect(self.screen, (50, 50, 50), self.rect, border_radius=10)
+        pg.draw.rect(self.screen, (200, 200, 200), self.rect, 2, border_radius=10)
+        text_rect = text_surface.get_rect(midleft=(self.rect.left + 10, self.rect.centery))
+        self.screen.blit(text_surface, text_rect)
+
+class HelpPopup(Popup):
+    def __init__(self, screen):
+        super().__init__(screen, "Help", 0.6, 0.6)
+        
+        self.text = [
+            ("Esc", "Zatvaranje Help popupa"),
+            ("W", "Kretanje naprijed"),
+            ("A", "Kretanje lijevo"),
+            ("S", "Kretanje unatrag"),
+            ("D", "Kretanje desno"),
+            ("Tab", "Otvaranje inventarija"),
+            ("↑", "Bacanje blata"),
+            ("←", "Okretanje kamere lijevo"),
+            ("→", "Okretanje kamere desno")
+        ]
+        self.visible = False  
+
+    def draw(self):
+        if not self.visible:
+            return
+        super().draw()
+
+        
+        start_y = self.rect.top + 120  
+        line_height = 40  
+
+        for i, (key, action) in enumerate(self.text):
+            key_text = f"Tipka '{key}'"
+            key_surface = self.font.render(key_text, True, (255, 255, 255))
+            action_surface = self.font.render(f" - {action}", True, (255, 255, 255))
+
+            key_x = self.rect.left + 50  
+            action_x = self.rect.left + 250  
+            y_position = start_y + i * line_height  
+
+            self.screen.blit(key_surface, (key_x, y_position))
+            self.screen.blit(action_surface, (action_x, y_position))
+
 class MainMenu: 
     def __init__(self, app):
         self.app = app
