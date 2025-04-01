@@ -119,16 +119,17 @@ STACKED_SPRITE_ATTRS = {
     },
         'anvil': {
         'path': 'assets/stacked_sprites/anvil.png',
-        'num_layers': 66,
-        'scale': 1,
-        'y_offset': 0,
+        'num_layers': 28,
+        'scale': 4,
+        'y_offset': -30,
+        'mask_layer': 4
     },
         'chest': {
         'path': 'assets/stacked_sprites/chest.png',
-        'num_layers': 36,
-        'scale': 1,
+        'num_layers': 20,
+        'scale': 4,
         'y_offset': 0,
-        'mask_layer': 4,
+        'mask_layer': 4
     },
         'zid1': {
         'path': 'assets/stacked_sprites/Zid1.png',
