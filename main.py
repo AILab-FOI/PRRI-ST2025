@@ -33,7 +33,6 @@ class App:
         self.player = None
         self.cache = None
         self.scene = None    #LoadingScene( self )
-        self.message = Message( self )
         self.menu = MainMenu(self)
         
         self.hint_popup = HintPopup(self.screen) 
@@ -60,7 +59,6 @@ class App:
             self.screen.fill(BG_COLOR)
             self.entity_group.draw(self.screen)
             self.main_group.draw(self.screen)
-            self.message.draw()
         
         if self.hint_popup.visible:
             self.hint_popup.draw()
@@ -107,14 +105,15 @@ class App:
                         self.settings_popup.toggle()
                     elif action == "Quests":
                         self.quest_popup.toggle()
+                    elif action == "Help":
+                        self.help_popup.visible = True 
                         
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_click(e)
             elif e.type == pg.MOUSEWHEEL:
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_wheel(e)
-                    elif action == "Help":
-                        self.help_popup.visible = True  
+                     
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001

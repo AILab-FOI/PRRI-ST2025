@@ -31,8 +31,6 @@ class Scene:
         self.app = app
         self.transform_objects = []
         self.load_scene()
-        self.app.message.set_message( self.app.player.message )
-        self.app.message.active = True
 
         self.app.hint_popup.start_time = pg.time.get_ticks()  
         self.app.hint_popup.visible = True  

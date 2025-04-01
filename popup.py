@@ -188,7 +188,7 @@ class HintPopup(Popup):
        
         self.rect.width = text_width
         self.rect.height = text_height
-        self.rect.topleft = (20, self.screen.get_height() // 4)
+        self.rect.topleft = (20, self.screen.get_height() // 10)
 
         
         pg.draw.rect(self.screen, (50, 50, 50), self.rect, border_radius=10)

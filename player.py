@@ -30,11 +30,7 @@ class Player(BaseEntity):
         self.direction = 'DOWN'
         self.moving = False
 
-        self.message = """Welcome to the Game.
 
-How are you today?
-
-"""
 
     def control(self):
         self.moving = False
