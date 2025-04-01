@@ -36,6 +36,7 @@ class App:
         self.menu = MainMenu(self)
         
         self.hint_popup = HintPopup(self.screen) 
+        self.hint_popup.visible = False
         self.inventory_popup = InventoryPopup(self.screen)
         self.help_popup = HelpPopup(self.screen) 
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
@@ -77,6 +78,7 @@ class App:
     def start_game(self):
         self.menu = None
         self.scene = LoadingScene(self)
+        pg.time.set_timer(pg.USEREVENT + 1, 3000, loops=1)
 
 
     def check_events(self):
@@ -87,6 +89,8 @@ class App:
                 sys.exit()
             elif e.type == self.anim_event:
                 self.anim_trigger = True
+            elif e.type == pg.USEREVENT + 1:  
+                self.hint_popup.visible = True
             elif e.type == pg.KEYDOWN:
                 if e.key == pg.K_TAB:
                     self.inventory_popup.toggle()

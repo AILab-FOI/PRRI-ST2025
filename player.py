@@ -68,8 +68,6 @@ class Player(BaseEntity):
     def single_fire(self, event):
         if event.key == pg.K_UP:
             Bullet(app=self.app)
-        if event.key == pg.K_SPACE:
-            self.app.message.handle_input()
 
     def check_collision(self):
         hitobst = pg.sprite.spritecollide(self, self.app.collision_group,
