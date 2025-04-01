@@ -1,4 +1,5 @@
 import pygame as pg
+import questRepository
 
 class Popup:
     def __init__(self, screen, title, width_ratio=0.6, height_ratio=0.6):
@@ -45,7 +46,7 @@ class InventoryPopup(Popup):
 class SettingsPopup(Popup):
     def __init__(self, screen):
         super().__init__(screen, "Settings")
-        self.options = ["Continue", "Help", "Save Game", "Load Game", "Quit Game"]
+        self.options = ["Continue", "Quests", "Help", "Save Game", "Load Game", "Quit Game"]
         self.option_rects = []
         self.hovered_option = None
 
@@ -72,6 +73,91 @@ class SettingsPopup(Popup):
         if self.visible and self.hovered_option is not None:
             return self.options[self.hovered_option]
         return None
+    
+class QuestPopup(Popup):
+    def __init__(self, screen):
+        super().__init__(screen, "Quests")
+        self.quests = questRepository.get_all_quests()
+        self.scroll_offset = 0
+        self.scroll_step = 30
+        self.max_display = 6
+        self.text_wrap_width = self.width - 40
+
+        self.close_button_size = 50
+        self.close_button_rect = pg.Rect(
+            self.x + self.width - self.close_button_size - 15, 
+            self.y + 15, 
+            self.close_button_size, 
+            self.close_button_size)
+
+    def wrap_text(self, text, font, max_width):
+        words = text.split()
+        lines = []
+        current_line = ""
+        
+        for word in words:
+            test_line = current_line + (" " if current_line else "") + word
+            test_width, _ = font.size(test_line)
+            
+            if test_width <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word
+        
+        if current_line:
+            lines.append(current_line)
+        
+        return lines
+
+    def draw(self):
+        super().draw()
+        if not self.visible:
+            return
+
+        start_y = self.y + 120
+        line_spacing = 10
+        text_height = 0
+        
+        for i, quest in enumerate(self.quests[self.scroll_offset:self.scroll_offset + self.max_display]):
+            quest_name_surface = self.font.render(quest.name, True, self.text_color)
+            quest_name_rect = quest_name_surface.get_rect(midtop=(self.screen.get_width() // 2, start_y + text_height))
+            self.screen.blit(quest_name_surface, quest_name_rect)
+            text_height += self.font.get_height() + line_spacing
+            
+            wrapped_description = self.wrap_text(quest.description, self.font, self.text_wrap_width)
+            
+            for line in wrapped_description:
+                quest_surface = self.font.render(line, True, self.text_color)
+                quest_rect = quest_surface.get_rect(midtop=(self.screen.get_width() // 2, start_y + text_height))
+                self.screen.blit(quest_surface, quest_rect)
+                text_height += self.font.get_height() + line_spacing
+            
+            text_height += self.font.get_height()
+
+        pg.draw.rect(self.screen, (139, 69, 19), self.close_button_rect)
+        close_text = self.font.render("X", True, (255,255,255))
+        close_text_rect = close_text.get_rect(center=self.close_button_rect.center)
+        self.screen.blit(close_text, close_text_rect)
+
+    def scroll_up(self):
+        if self.scroll_offset > 0:
+            self.scroll_offset -= 1
+
+    def scroll_down(self):
+        if self.scroll_offset + self.max_display < len(self.quests):
+            self.scroll_offset += 1
+
+    def handle_mouse_wheel(self, event):
+        if event.y > 0:
+            self.scroll_up()
+        elif event.y < 0:
+            self.scroll_down()
+
+    def handle_mouse_click(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if self.visible and self.close_button_rect.collidepoint(event.pos):
+                self.visible = False
     
 class MainMenu: 
     def __init__(self, app):

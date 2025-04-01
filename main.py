@@ -10,7 +10,8 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, MainMenu
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu
+import questRepository
 
 class App:
     def __init__(self):
@@ -37,7 +38,10 @@ class App:
         
         self.inventory_popup = InventoryPopup(self.screen)
         self.settings_popup = SettingsPopup(self.screen)
+        self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
+
+        questRepository.load_quests_from_json()
 
     def update(self):
         self.scene.update()
@@ -59,6 +63,8 @@ class App:
             self.inventory_popup.draw()
         if self.settings_popup.visible:
             self.settings_popup.draw()
+        if self.quest_popup.visible:
+            self.quest_popup.draw()
 
         pg.display.flip()
 
@@ -89,6 +95,14 @@ class App:
                         sys.exit()
                     elif action == "Continue":
                         self.settings_popup.toggle()
+                    elif action == "Quests":
+                        self.quest_popup.toggle()
+                        
+                if self.quest_popup.visible:
+                    self.quest_popup.handle_mouse_click(e)
+            elif e.type == pg.MOUSEWHEEL:
+                if self.quest_popup.visible:
+                    self.quest_popup.handle_mouse_wheel(e)
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001
