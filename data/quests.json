@@ -1,0 +1,50 @@
+{
+    "quests": [
+        {
+            "id": 0,
+            "name": "The First Step",
+            "description": "Get out of your home and start your adventure",
+            "stages": [
+                {
+                    "id": 0,
+                    "objective": "Pick up your backpack, you might need it later"
+                },
+                {
+                    "id": 1,
+                    "objective": "It seems that your backback is torn, so you need to fix it before you can use it. Find an anvil to fix it"
+                },
+                {
+                    "id": 2,
+                    "objective": "You fixed your backpack, now you can use it. Now go out and explore the world"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "The Elmchanted forest",
+            "description": "Two guards are blocking the way out of the Elmchanted forest. You need to find a way to get past them",
+            "stages": [
+                {
+                    "id": 0,
+                    "objective": "Talk to the guards and find out what they want"
+                },
+                {
+                    "id": 1,
+                    "objective": "The guards told you that they want you to get them their pet hedgehog back, go through the forest and find it"
+                },
+                {
+                    "id": 2,
+                    "objective": "You found the hedgehog, but it seems to be scared and is hiding in a bush. Perhaps an apple might help it come out"
+                },
+                {
+                    "id": 3,
+                    "objective": "You gave the hedgehog an apple and it came out of the bush. Now you can take it back to the guards"
+                },
+                {
+                    "id": 4,
+                    "objective": "You took the hedgehog back to the guards. They are very happy and let you pass. Now you can continue your adventure"
+                }
+            ]
+        }
+    ]
+}

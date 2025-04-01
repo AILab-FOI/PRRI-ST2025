@@ -10,7 +10,8 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, MainMenu, HintPopup, HelpPopup
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup
+import questRepository
 
 class App:
     def __init__(self):
@@ -39,7 +40,10 @@ class App:
         self.inventory_popup = InventoryPopup(self.screen)
         self.help_popup = HelpPopup(self.screen) 
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
+        self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
+
+        questRepository.load_quests_from_json()
 
 
     def update(self):
@@ -64,6 +68,8 @@ class App:
             self.inventory_popup.draw()
         if self.settings_popup.visible:
             self.settings_popup.draw()
+        if self.quest_popup.visible:
+            self.quest_popup.draw()
         if self.help_popup.visible:
             self.help_popup.draw()  # Prikazivanje Help popupa
 
@@ -99,6 +105,14 @@ class App:
                         sys.exit()
                     elif action == "Continue":
                         self.settings_popup.toggle()
+                    elif action == "Quests":
+                        self.quest_popup.toggle()
+                        
+                if self.quest_popup.visible:
+                    self.quest_popup.handle_mouse_click(e)
+            elif e.type == pg.MOUSEWHEEL:
+                if self.quest_popup.visible:
+                    self.quest_popup.handle_mouse_wheel(e)
                     elif action == "Help":
                         self.help_popup.visible = True  
 
