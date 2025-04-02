@@ -1,5 +1,6 @@
 import pygame as pg
 import questRepository
+from mockData.mockInventory import MockInventoryData
 
 class Popup:
     def __init__(self, screen, title, width_ratio=0.6, height_ratio=0.6):
@@ -42,6 +43,36 @@ class Popup:
 class InventoryPopup(Popup):
     def __init__(self, screen):
         super().__init__(screen, "Inventory")
+        self.inventory = MockInventoryData("player")
+        #todo when save game is implemented, load inventory from save file
+
+    def draw(self):
+        super().draw()
+        item_size = self.width // 6
+        padding = 10
+        items_per_row = (self.width - 2 * padding) // (item_size + padding)
+        start_x = self.x + padding
+        start_y = self.y + 120
+
+        for i, item in enumerate(self.inventory.inventory.items):
+            row = i // items_per_row
+            col = i % items_per_row
+            item_x = start_x + col * (item_size + padding)
+            item_y = start_y + row * (item_size + padding)
+
+            item_rect = pg.Rect(item_x, item_y, item_size, item_size)
+            pg.draw.rect(self.screen, self.bg_color, item_rect)
+            pg.draw.rect(self.screen, self.border_color, item_rect, 2)
+
+            if item.icon:
+                icon_surface = pg.image.load(item.icon)
+                icon_surface = pg.transform.scale(icon_surface, (item_size, item_size))
+                self.screen.blit(icon_surface, (item_x, item_y))
+            else:
+                item_text = self.font.render(item.name[:2], True, (0, 0, 0))
+                text_rect = item_text.get_rect(center=item_rect.center)
+                self.screen.blit(item_text, text_rect)
+        
 
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):
