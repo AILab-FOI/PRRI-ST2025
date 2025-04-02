@@ -105,7 +105,7 @@ class Scene:
                     chest_pos = vec2(i, j) + vec2(0.5)
                     break
 
-        if chest_pos and player_pos.distance_to(chest_pos) < 1.5:
+        if chest_pos and player_pos.distance_to(chest_pos) < 0.65:
             self.app.chest_popup.visible = True
         else:
             self.app.chest_popup.visible = False
