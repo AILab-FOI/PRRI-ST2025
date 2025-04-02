@@ -24,3 +24,18 @@ def get_inventory_by_entity_name(entity_name):
     for inventory in inventories:
         if inventory.entity_name == entity_name:
             return inventory
+        
+def switch_items_from_inventories(entity_name_1, entity_name_2, item_name):
+    inventory_1 = get_inventory_by_entity_name(entity_name_1)
+    inventory_2 = get_inventory_by_entity_name(entity_name_2)
+
+    item_to_switch = None
+
+    for item in inventory_1.get_items():
+        if item.name == item_name:
+            item_to_switch = item
+            break
+
+    if item_to_switch:
+        inventory_1.remove_item(item_to_switch)
+        inventory_2.add_item(item_to_switch)

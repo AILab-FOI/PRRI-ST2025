@@ -118,6 +118,9 @@ class App:
                         
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_click(e)
+                mouse_pos = e.pos
+                self.inventory_popup.handle_item_click(mouse_pos)
+                self.chest_popup.handle_item_click(mouse_pos)
             elif e.type == pg.MOUSEWHEEL:
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_wheel(e)

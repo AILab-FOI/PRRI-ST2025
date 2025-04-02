@@ -58,6 +58,8 @@ class InventoryPopup(Popup):
         start_x = self.x + padding
         start_y = self.y + 120
 
+        self.item_rects = []
+
         for i, item in enumerate(self.inventory.items):
             row = i // items_per_row
             col = i % items_per_row
@@ -65,6 +67,7 @@ class InventoryPopup(Popup):
             item_y = start_y + row * (item_size + padding)
 
             item_rect = pg.Rect(item_x, item_y, item_size, item_size)
+            self.item_rects.append((item_rect, item))
             pg.draw.rect(self.screen, self.bg_color, item_rect)
             pg.draw.rect(self.screen, self.border_color, item_rect, 2)
 
@@ -76,6 +79,21 @@ class InventoryPopup(Popup):
                 item_text = self.font.render(item.name[:2], True, (0, 0, 0))
                 text_rect = item_text.get_rect(center=item_rect.center)
                 self.screen.blit(item_text, text_rect)
+
+    def handle_item_click(self, mouse_pos):
+        if self.inventory is None:
+            print("Error: Inventory is not loaded.")
+            return
+
+        for item_rect, item in self.item_rects:
+            if item_rect.collidepoint(mouse_pos) and self.visible == True:
+                try:
+                    if self.entity_name != "player":
+                        inventoryRepository.switch_items_from_inventories(self.entity_name, "player", item.name)
+                        self.inventory = inventoryRepository.get_inventory_by_entity_name(self.entity_name)
+                except Exception as e:
+                    print(e)
+                break
 
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):
