@@ -7,12 +7,13 @@ from player import Player
 import threading
 
 P = 'player'
+M = 'MajstorIvan' #NPC
 A, B, C, D, E = 'blue_tree',  'grass',  'chest', 'anvil', 'kuca'
 
 MAP = [
-[0, 0, 0, B, 0, 0, 0, B, 0, 0, 0, 0],    
+[0, 0, 0, B, A, 0, A, B, 0, 0, 0, 0],    
 [A, 0, A, 0, 0, 0, 0, 0, A, 0, A, 0],
-[A, B, 0, B, 0, 0, 0, 0, 0, 0, 0, 0],
+[A, B, 0, B, 0, M, 0, 0, 0, 0, 0, 0],
 [0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
 [0, A, 0, 0, B, 0, D, A, 0, 0, 0, 0],
 [A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
@@ -47,6 +48,8 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
+                elif name == 'MajstorIvan':
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
@@ -71,9 +74,9 @@ class Scene:
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.start_repair()
-                # self.draw_repair_progress() -- trebalo bi crtati progress bar
         self.update_repair()
         self.check_if_close_to_chest()
+        self.check_npc_interaction()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -110,7 +113,6 @@ class Scene:
         else:
             self.app.chest_popup.visible = False
 
-
     def update_repair(self):
         if self.repairing:
             elapsed_time = pg.time.get_ticks() - self.repairing_start_time
@@ -119,20 +121,21 @@ class Scene:
                 self.repairing_start_time = None
                 # pg.mixer.Sound('assets/sounds/').play() tu ide zvuk
                 print("Torba je uspješno popravljena!") #tu ide pop up s porukom
-                
 
-    def draw_repair_progress(self):
-        if self.repairing:
-            elapsed_time = pg.time.get_ticks() - self.repairing_start_time
-            progress = elapsed_time / self.repair_duration 
+    def check_npc_interaction(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        majstor_pos = None
 
-            bar_width = 200
-            bar_height = 20
-            bar_x = WIDTH // 2 - bar_width // 2
-            bar_y = HEIGHT - 100
-
-            pg.draw.rect(self.app.screen, (50, 50, 50), (bar_x, bar_y, bar_width, bar_height))
-            pg.draw.rect(self.app.screen, (0, 255, 0), (bar_x, bar_y, int(bar_width * progress), bar_height))
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'MajstorIvan':
+                    majstor_pos = vec2(i, j) + vec2(0.5)
+                    break
+        if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
+            self.app.ivan_popup.visible = True
+            return True
+        else: self.app.ivan_popup.visible = False
+        return False          
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):
     if args is None:

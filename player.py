@@ -80,11 +80,11 @@ class Player(BaseEntity):
         else:
             self.inc = -self.prev_inc
             if hit:
-                self.app.message.set_message( hit[ 0 ].message )
-                self.app.message.active = True
-            if hitobst and hitobst[ 0 ].message != '':
-                self.app.message.set_message( hitobst[ 0 ].message )
-                self.app.message.active = True
+                try:
+                    self.app.message.set_message(hit[0].message)
+                    self.app.message.active = True
+                except AttributeError:
+                    pass
 
                 
     """def animate(self):

@@ -11,7 +11,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, IvanNPC
 import questRepository 
 
 class App:
@@ -44,7 +44,7 @@ class App:
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
-        
+        self.ivan_popup = IvanNPC(self.screen)
         questRepository.load_quests_from_json()
         inventoryRepository.load_inventories(inventoryRepository.file_path)
 
@@ -75,7 +75,8 @@ class App:
             self.quest_popup.draw()
         if self.help_popup.visible:
             self.help_popup.draw()  # Prikazivanje Help popupa
-
+        if self.ivan_popup.visible:
+            self.ivan_popup.draw()
 
         pg.display.flip()
 

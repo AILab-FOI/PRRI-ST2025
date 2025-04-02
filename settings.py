@@ -18,7 +18,7 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 ENTITY_SPRITE_ATTRS = {
     'player': {
         'path': 'assets/entities/player/SegrtHugo.png',
-        #'mask_path': 'assets/entities/player/mask.png', zakomentiran jer se skaliral mask pa je zbuggal kretanje i collisione
+        'mask_path': 'assets/entities/player/mask.png', 
         'num_layers': 1,
         'scale': 3,
         'y_offset': 0,
@@ -34,6 +34,13 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.4,
         'path': 'assets/entities/bullet/bullet.png',
         'y_offset': 50,
+    },
+    'MajstorIvan':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/npcs/MajstorIvan.png',
+        #'mask_path': 'assets/entities/npcs/mask.png',  treba popravit z-index ako ocemo imati mask path
+        'y_offset': 20
     }
 }
 
