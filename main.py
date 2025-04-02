@@ -11,7 +11,7 @@ import asyncio
 from itertools import cycle
 from message import Message
 from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup
-import questRepository
+import questRepository 
 
 class App:
     def __init__(self):
@@ -42,7 +42,7 @@ class App:
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
-
+        
         questRepository.load_quests_from_json()
 
 
