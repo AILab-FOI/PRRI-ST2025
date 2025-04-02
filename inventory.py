@@ -1,6 +1,7 @@
 class Inventory:
-    def __init__(self):
-        self.items = []
+    def __init__(self, entity_name, items):
+        self.entity_name = entity_name
+        self.items = items
         self.selected_item = None
 
     def add_item(self, item):

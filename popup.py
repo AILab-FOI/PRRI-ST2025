@@ -1,6 +1,6 @@
 import pygame as pg
+import inventoryRepository
 import questRepository
-from mockData.mockInventory import MockInventoryData
 
 class Popup:
     def __init__(self, screen, title, width_ratio=0.6, height_ratio=0.6):
@@ -41,12 +41,16 @@ class Popup:
                 pg.draw.circle(self.screen, self.rivet_color, (cx, cy), self.rivet_radius)
 
 class InventoryPopup(Popup):
-    def __init__(self, screen):
+    def __init__(self, screen, entity_name):
         super().__init__(screen, "Inventory")
-        self.inventory = MockInventoryData("player")
-        #todo when save game is implemented, load inventory from save file
+        self.inventory = None
+        self.entity_name = entity_name
+        # todo when save game is implemented, load inventory from save file
 
     def draw(self):
+        if self.inventory is None:
+            self.inventory = inventoryRepository.get_inventory_by_entity_name(self.entity_name)
+
         super().draw()
         item_size = self.width // 6
         padding = 10
@@ -54,7 +58,7 @@ class InventoryPopup(Popup):
         start_x = self.x + padding
         start_y = self.y + 120
 
-        for i, item in enumerate(self.inventory.inventory.items):
+        for i, item in enumerate(self.inventory.items):
             row = i // items_per_row
             col = i % items_per_row
             item_x = start_x + col * (item_size + padding)
@@ -72,7 +76,6 @@ class InventoryPopup(Popup):
                 item_text = self.font.render(item.name[:2], True, (0, 0, 0))
                 text_rect = item_text.get_rect(center=item_rect.center)
                 self.screen.blit(item_text, text_rect)
-        
 
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):

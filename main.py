@@ -3,6 +3,7 @@
 
 import sys
 import platform
+import inventoryRepository
 from settings import *
 from cache import Cache
 from player import Player
@@ -37,14 +38,15 @@ class App:
         
         self.hint_popup = HintPopup(self.screen) 
         self.hint_popup.visible = False
-        self.inventory_popup = InventoryPopup(self.screen)
+        self.inventory_popup = InventoryPopup(self.screen, 'player')
+        self.chest_popup = InventoryPopup(self.screen, 'chest')
         self.help_popup = HelpPopup(self.screen) 
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
         
         questRepository.load_quests_from_json()
-
+        inventoryRepository.load_inventories(inventoryRepository.file_path)
 
     def update(self):
         self.scene.update()
@@ -65,6 +67,8 @@ class App:
             self.hint_popup.draw()
         if self.inventory_popup.visible:
             self.inventory_popup.draw()
+        if self.chest_popup.visible:
+            self.chest_popup.draw()
         if self.settings_popup.visible:
             self.settings_popup.draw()
         if self.quest_popup.visible:

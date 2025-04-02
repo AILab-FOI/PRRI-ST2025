@@ -1,3 +1,4 @@
+from popup import InventoryPopup
 from stacked_sprite import *
 from random import uniform
 from entity import Entity
@@ -70,10 +71,9 @@ class Scene:
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.start_repair()
-                #self.draw_repair_progress() -- trebalo bi crtati progress bar
+                # self.draw_repair_progress() -- trebalo bi crtati progress bar
         self.update_repair()
-
-    
+        self.check_if_close_to_chest()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -94,6 +94,22 @@ class Scene:
         if not self.repairing:
             self.repairing = True
             self.repairing_start_time = pg.time.get_ticks()
+
+    def check_if_close_to_chest(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        chest_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'chest':
+                    chest_pos = vec2(i, j) + vec2(0.5)
+                    break
+
+        if chest_pos and player_pos.distance_to(chest_pos) < 0.5:
+            self.app.chest_popup.visible = True
+        else:
+            self.app.chest_popup.visible = False
+
 
     def update_repair(self):
         if self.repairing:
