@@ -30,11 +30,7 @@ class Player(BaseEntity):
         self.direction = 'DOWN'
         self.moving = False
 
-        self.message = """Welcome to the Game.
 
-How are you today?
-
-"""
 
     def control(self):
         self.moving = False
@@ -72,8 +68,6 @@ How are you today?
     def single_fire(self, event):
         if event.key == pg.K_UP:
             Bullet(app=self.app)
-        if event.key == pg.K_SPACE:
-            self.app.message.handle_input()
 
     def check_collision(self):
         hitobst = pg.sprite.spritecollide(self, self.app.collision_group,
@@ -93,7 +87,7 @@ How are you today?
                 self.app.message.active = True
 
                 
-    def animate(self):
+    """def animate(self):
         if self.app.anim_trigger:
             if self.direction == 'DOWN':
                 if self.moving:
@@ -117,9 +111,10 @@ How are you today?
                     self.frame_index = self.right_ind[ 1 ]
 
             self.image = self.images[self.frame_index]
+    """   # zakomentirano samo zato jer sprite segrta huga nema jos nijednu animaciju
 
     def update(self):
-        #super().update()
+        #super().update() 
         self.animate()
         self.control()
         self.check_collision()

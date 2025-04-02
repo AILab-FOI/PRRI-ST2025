@@ -6,20 +6,18 @@ from player import Player
 import threading
 
 P = 'player'
-K = 'kitty'  # entity
-A, B, C, D, E, F, G, H, CH, AN = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake', 'chest', 'anvil'
-S = 'sphere' # transform object
+A, B, C, D, E = 'blue_tree',  'grass',  'chest', 'anvil', 'kuca'
 
 MAP = [
-    [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
-    [E, C, C, C, 0, C, C, CH, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, AN, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, CH, 0, E, 0, 0, F, E, 0, C],
-    [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, AN, 0, 0, E, 0, E, 0, 0, B, C, E],
-    [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
-    [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
+[0, 0, 0, B, 0, 0, 0, B, 0, 0, 0, 0],    
+[A, 0, A, 0, 0, 0, 0, 0, A, 0, A, 0],
+[A, B, 0, B, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
+[0, A, 0, 0, B, 0, D, A, 0, 0, 0, 0],
+[A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
+[0, B, A, 0, 0, 0, 0, 0, 0, A, 0, 0],
+[0, 0, 0, 0, A, 0, B, 0, 0, 0, 0, 0],
+    
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -31,8 +29,13 @@ class Scene:
         self.app = app
         self.transform_objects = []
         self.load_scene()
-        self.app.message.set_message( self.app.player.message )
-        self.app.message.active = True
+
+        self.app.hint_popup.start_time = pg.time.get_ticks()  
+        self.app.hint_popup.visible = True  
+
+        self.repairing = False
+        self.repairing_start_time = None
+        self.repair_duration = 10000
 
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
@@ -43,16 +46,11 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
-                elif name == 'kitty':
-                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
                                   collision=False)
-                elif name == 'sphere':
-                    obj = StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
-                    self.transform_objects.append(obj)
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 
@@ -68,9 +66,57 @@ class Scene:
     def update(self):
         self.get_closest_object_to_player()
         self.transform()
+        if self.check_anvil_interaction() and not self.repairing:
+            keys = pg.key.get_pressed()
+            if keys[pg.K_e]:
+                self.start_repair()
+                #self.draw_repair_progress() -- trebalo bi crtati progress bar
+        self.update_repair()
 
+    
 
+    def check_anvil_interaction(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        anvil_pos = None
 
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'anvil':
+                    anvil_pos = vec2(i, j) + vec2(0.5)
+                    break
+
+        if anvil_pos and player_pos.distance_to(anvil_pos) < 1.5:
+            return True
+        # treba dodati pop up ako je blizu da moze popraviti
+        return False
+
+    def start_repair(self):
+        if not self.repairing:
+            self.repairing = True
+            self.repairing_start_time = pg.time.get_ticks()
+
+    def update_repair(self):
+        if self.repairing:
+            elapsed_time = pg.time.get_ticks() - self.repairing_start_time
+            if elapsed_time >= self.repair_duration:
+                self.repairing = False
+                self.repairing_start_time = None
+                # pg.mixer.Sound('assets/sounds/').play() tu ide zvuk
+                print("Torba je uspješno popravljena!") #tu ide pop up s porukom
+                
+
+    def draw_repair_progress(self):
+        if self.repairing:
+            elapsed_time = pg.time.get_ticks() - self.repairing_start_time
+            progress = elapsed_time / self.repair_duration 
+
+            bar_width = 200
+            bar_height = 20
+            bar_x = WIDTH // 2 - bar_width // 2
+            bar_y = HEIGHT - 100
+
+            pg.draw.rect(self.app.screen, (50, 50, 50), (bar_x, bar_y, bar_width, bar_height))
+            pg.draw.rect(self.app.screen, (0, 255, 0), (bar_x, bar_y, int(bar_width * progress), bar_height))
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):
     if args is None:
@@ -129,7 +175,6 @@ class LoadingScene:
         counter = next(self.stacked_sprite_iterator, 'done')
         if counter == 'done':
             self.done_cache()
-        
         if self.done:
             # Switch to the game scene after loading is complete
             self.app.player = Player(self.app)

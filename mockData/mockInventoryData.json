@@ -1,0 +1,38 @@
+{
+    "entities": [
+        {
+            "entityName" : "player",
+            "inventory" : [
+                {
+                    "itemName" : "Segrt",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                },
+                {
+                    "itemName" : "Hammer",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                },
+                {
+                    "itemName" : "Slingshot",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                }
+            ]
+        },
+        {
+            "entityName" : "chest",
+            "inventory" : [
+                {
+                    "itemName" : "Gold Coin",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                },
+                {
+                    "itemName" : "Silver Coin",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                },
+                {
+                    "itemName" : "Bronze Coin",
+                    "imgPath" : "assets/entities/player/SegrtHugo.png"
+                }
+            ]
+        }
+    ]
+}

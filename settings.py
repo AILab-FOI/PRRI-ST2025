@@ -17,18 +17,11 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
-        'path': 'assets/entities/player/player.png',
-        'mask_path': 'assets/entities/player/mask.png',
-        'num_layers': 7,
-        'scale': 0.35,
+        'path': 'assets/entities/player/SegrtHugo.png',
+        #'mask_path': 'assets/entities/player/mask.png', zakomentiran jer se skaliral mask pa je zbuggal kretanje i collisione
+        'num_layers': 1,
+        'scale': 3,
         'y_offset': 0,
-    },
-    'kitty': {
-        'path': 'assets/entities/cats/kitty.png',
-        'num_layers': 8,
-        'scale': 0.8,
-        'y_offset': -20,
-	'message':"""Hello! I'm a kitty cat! """
     },
     'explosion': {
         'num_layers': 7,
@@ -41,13 +34,7 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.4,
         'path': 'assets/entities/bullet/bullet.png',
         'y_offset': 50,
-    },
-    'segrtHugo':{
-        'num_layers': 1,
-        'scale': 2,
-        'path': 'assets/entities/player/SegrtHugo.png',
-        'y_offset': 50,
-    },
+    }
 }
 
 # stacked sprites settings
@@ -56,33 +43,6 @@ and is also cached for all angles of the object, set manually or by default
 equal to num_layer // 2'''
 
 STACKED_SPRITE_ATTRS = {
-    'sphere': {
-        'path': 'assets/stacked_sprites/sphere.png',
-        'num_layers': 13,
-        'scale': 10,
-        'y_offset': 0,
-        'mask_layer': 4,
-    },
-    'pancake': {
-        'path': 'assets/stacked_sprites/pancake.png',
-        'num_layers': 11,
-        'scale': 7,
-        'y_offset': 0,
-        'mask_layer': 4,
-    },
-    'cup': {
-        'path': 'assets/stacked_sprites/cup.png',
-        'num_layers': 13,
-        'scale': 8,
-        'y_offset': 10,
-    },
-    'crate': {
-        'path': 'assets/stacked_sprites/crate.png',
-        'num_layers': 16,
-        'scale': 5,
-        'y_offset': 10,
-	'message':"""Maybe some treasure in here? Nope... empty..."""
-    },
     'grass': {
         'path': 'assets/stacked_sprites/grass.png',
         'num_layers': 11,
@@ -96,47 +56,28 @@ STACKED_SPRITE_ATTRS = {
         'scale': 8,
         'y_offset': -130,
         'transparency': True,
-        'mask_layer': 3,
-    },
-    'car': {
-        'path': 'assets/stacked_sprites/car.png',
-        'num_layers': 9,
-        'scale': 10,
-        'y_offset': 10,
-    },
-    'van': {
-        'path': 'assets/stacked_sprites/van.png',
-        'num_layers': 20,
-        'scale': 6,
-        'y_offset': 10,
-    },
-    'tank': {
-        'path': 'assets/stacked_sprites/tank.png',
-        'num_layers': 17,
-        'scale': 8,
-        'y_offset': 0,
-        'mask_layer': 4,
+        'mask_layer': 21,
     },
         'anvil': {
         'path': 'assets/stacked_sprites/anvil.png',
         'num_layers': 28,
         'scale': 4,
         'y_offset': -30,
-        'mask_layer': 4
+        'mask_layer': 14
     },
         'chest': {
         'path': 'assets/stacked_sprites/chest.png',
         'num_layers': 20,
         'scale': 4,
         'y_offset': 0,
-        'mask_layer': 4
+        'mask_layer': 10
     },
-        'zid1': {
-        'path': 'assets/stacked_sprites/Zid1.png',
-        'num_layers': 120,
-        'scale': 1,
+        'kuca': {
+        'path': 'assets/stacked_sprites/kuca.png',
+        'num_layers': 65,
+        'scale': 5.5,
         'y_offset': 0,
-        'mask_layer': 4,
+        'mask_layer': 32
     },
 }
 
