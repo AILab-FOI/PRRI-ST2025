@@ -11,7 +11,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, IvanNPC
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, IvanNPC, MessagePopup
 import questRepository 
 
 class App:
@@ -34,6 +34,7 @@ class App:
         self.player = None
         self.cache = None
         self.scene = None    #LoadingScene( self )
+        self.popup = MessagePopup(self)
         self.menu = MainMenu(self)
         
         self.hint_popup = HintPopup(self.screen) 
@@ -74,10 +75,11 @@ class App:
         if self.quest_popup.visible:
             self.quest_popup.draw()
         if self.help_popup.visible:
-            self.help_popup.draw()  # Prikazivanje Help popupa
+            self.help_popup.draw()  
         if self.ivan_popup.visible:
             self.ivan_popup.draw()
-
+        if self.popup.visible:
+            self.popup.draw()
         pg.display.flip()
 
     def start_game(self):

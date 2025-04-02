@@ -95,6 +95,71 @@ class InventoryPopup(Popup):
                     print(e)
                 break
 
+class MessagePopup:
+    def __init__(self, app):
+        self.app = app
+        self.message = ""
+        self.show_until = 0
+        self.visible = False
+        self.font = pg.font.Font(None, 36)
+        
+        screen_width, screen_height = self.app.screen.get_size()
+        self.rect = pg.Rect(
+            (screen_width - 600) // 2,  
+            screen_height - 150,  
+            600,  
+            100   
+        )
+        self.background_color = (50, 50, 50)
+        self.border_color = (200, 200, 200)
+        self.text_color = (255, 255, 255)
+
+    def show_message(self, text, duration):
+        self.message = text
+        self.show_until = pg.time.get_ticks() + (duration * 1000)
+        self.visible = True  
+    
+    def hide_message(self):
+        self.message = ""
+        self.visible = False  
+    
+    def draw(self):
+        if self.visible and pg.time.get_ticks() < self.show_until:
+            # Pozadina prozora
+            pg.draw.rect(self.app.screen, self.background_color, self.rect, border_radius=10)
+            pg.draw.rect(self.app.screen, self.border_color, self.rect, 2, border_radius=10)
+
+            # Prikazivanje poruke
+            wrapped_text = self.wrap_text(self.message, self.font, self.rect.width - 20)
+            start_y = self.rect.top + 20
+            line_height = 30
+
+            for i, line in enumerate(wrapped_text):
+                text_surface = self.font.render(line, True, self.text_color)
+                text_x = self.rect.left + 10
+                y_position = start_y + i * line_height
+                self.app.screen.blit(text_surface, (text_x, y_position))
+
+        elif pg.time.get_ticks() >= self.show_until:
+            self.hide_message()
+
+    def wrap_text(self, text, font, max_width):
+        words = text.split(" ")
+        lines = []
+        current_line = ""
+
+        for word in words:
+            test_line = f"{current_line} {word}".strip()
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word
+
+        if current_line:
+            lines.append(current_line)
+        return lines
+
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):
         super().__init__(screen, "Settings")

@@ -36,8 +36,10 @@ class Scene:
         self.app.hint_popup.visible = True  
 
         self.repairing = False
+        self.repaired = False
         self.repairing_start_time = None
-        self.repair_duration = 10000
+        self.success_message_time = None
+        self.repair_duration = 7000  
 
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
@@ -68,35 +70,40 @@ class Scene:
             obj.rot = 30 * self.app.time
 
     def update(self):
-        self.get_closest_object_to_player()
-        self.transform()
-        if self.check_anvil_interaction() and not self.repairing:
-            keys = pg.key.get_pressed()
-            if keys[pg.K_e]:
-                self.start_repair()
+        if self.check_anvil_interaction():
+            if not self.repairing and not self.repaired:  
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
+                keys = pg.key.get_pressed()
+                if keys[pg.K_e]:  
+                    self.start_repair()  
+            elif self.repaired:
+                self.app.popup.show_message("Torba je uspješno popravljena!", 3)  
+        else:
+            if self.success_message_time and pg.time.get_ticks() - self.success_message_time < 3000:
+                pass  
+            else:
+                self.app.popup.hide_message()  
+
         self.update_repair()
         self.check_if_close_to_chest()
-        self.check_npc_interaction()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
         anvil_pos = None
-
+        
         for j, row in enumerate(MAP):
             for i, name in enumerate(row):
                 if name == 'anvil':
                     anvil_pos = vec2(i, j) + vec2(0.5)
                     break
-
-        if anvil_pos and player_pos.distance_to(anvil_pos) < 1.5:
-            return True
-        # treba dodati pop up ako je blizu da moze popraviti
-        return False
+        
+        return anvil_pos and player_pos.distance_to(anvil_pos) < 1.0
 
     def start_repair(self):
-        if not self.repairing:
+        if not self.repairing and not self.repaired:  
             self.repairing = True
             self.repairing_start_time = pg.time.get_ticks()
+            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 7)
 
     def check_if_close_to_chest(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -116,11 +123,11 @@ class Scene:
     def update_repair(self):
         if self.repairing:
             elapsed_time = pg.time.get_ticks() - self.repairing_start_time
-            if elapsed_time >= self.repair_duration:
+            if elapsed_time >= self.repair_duration:  
                 self.repairing = False
+                self.repaired = True  
                 self.repairing_start_time = None
-                # pg.mixer.Sound('assets/sounds/').play() tu ide zvuk
-                print("Torba je uspješno popravljena!") #tu ide pop up s porukom
+                self.success_message_time = pg.time.get_ticks()  
 
     def check_npc_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
