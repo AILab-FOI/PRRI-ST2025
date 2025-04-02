@@ -86,6 +86,7 @@ class Scene:
 
         self.update_repair()
         self.check_if_close_to_chest()
+        self.check_npc_interaction()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
