@@ -256,9 +256,10 @@ class HelpPopup(Popup):
             ("Esc", "Zatvaranje Help popupa"),
             ("W", "Kretanje naprijed"),
             ("A", "Kretanje lijevo"),
-            ("S", "Kretanje unatrag"),
+            ("S", "Kretanje natrag"),
             ("D", "Kretanje desno"),
-            ("Tab", "Otvaranje inventarija"),
+            ("E", "Interakcija s objektima"),
+            ("Tab", "Otvaranje inventorija"),
             ("↑", "Bacanje blata"),
             ("←", "Okretanje kamere lijevo"),
             ("→", "Okretanje kamere desno")
