@@ -6,20 +6,18 @@ from player import Player
 import threading
 
 P = 'player'
-K = 'kitty'  # entity
-A, B, C, D, E, F, G, H, CH, AN = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake', 'chest', 'anvil'
-S = 'sphere' # transform object
+A, B, C, D, E = 'blue_tree',  'grass',  'chest', 'anvil', 'kuca'
 
 MAP = [
-    [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
-    [E, C, C, C, 0, C, C, CH, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, AN, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, CH, 0, E, 0, 0, F, E, 0, C],
-    [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, AN, 0, 0, E, 0, E, 0, 0, B, C, E],
-    [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
-    [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
+[0, 0, 0, B, 0, 0, 0, B, 0, 0, 0, 0],    
+[A, 0, A, 0, 0, 0, 0, 0, A, 0, A, 0],
+[A, B, 0, B, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
+[0, A, 0, 0, B, 0, D, A, 0, 0, 0, 0],
+[A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
+[0, B, A, 0, 0, 0, 0, 0, 0, A, 0, 0],
+[0, 0, 0, 0, A, 0, B, 0, 0, 0, 0, 0],
+    
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -44,16 +42,11 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
-                elif name == 'kitty':
-                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
                                   collision=False)
-                elif name == 'sphere':
-                    obj = StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
-                    self.transform_objects.append(obj)
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 
