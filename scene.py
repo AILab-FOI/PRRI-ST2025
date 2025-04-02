@@ -11,7 +11,6 @@ A, B, C, D, E, F, G, H, CH, AN = 'van', 'tank', 'blue_tree', 'car', 'grass', 'cr
 S = 'sphere' # transform object
 
 MAP = [
-<<<<<<< Updated upstream
     [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
     [E, C, C, C, 0, C, C, CH, E, 0, C, C, C, 0],
     [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
@@ -21,17 +20,6 @@ MAP = [
     [0, C, E, AN, 0, 0, E, 0, E, 0, 0, B, C, E],
     [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
     [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
-=======
-[0, 0, 0, B, 0, 0, 0, B, 0, 0, 0, 0],    
-[A, 0, A, 0, 0, E, 0, 0, A, 0, A, 0],
-[A, B, 0, B, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
-[0, A, 0, 0, B, 0, D, A, 0, 0, 0, 0],
-[A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
-[0, B, A, 0, 0, 0, 0, 0, 0, A, 0, 0],
-[0, 0, 0, 0, A, 0, B, 0, 0, 0, 0, 0],
-    
->>>>>>> Stashed changes
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -163,7 +151,7 @@ class LoadingScene:
         # Display the current message based on progress
         current_message_index = min(int(self.progress), len(self.messages) - 1)
         msg = self.messages[current_message_index]
-        text = self.font.render(msg, True, (255, 0, 0))
+        text = self.font.render(msg, True, (0, 0, 0))
         text_rect = text.get_rect(center=(screen_center_x, screen_center_y + 80))
         self.app.screen.blit(text, text_rect)
 
@@ -176,7 +164,7 @@ class LoadingScene:
         progress_width = int(self.progress / len(self.messages) * self.bar_width)
         bar_rect = pg.Rect(0, 0, progress_width, self.bar_height)
         bar_rect.midleft = bar_bg_rect.midleft
-        pg.draw.rect(self.app.screen, (255, 0, 0), bar_rect)
+        pg.draw.rect(self.app.screen, (221, 220, 79), bar_rect)
 
 
 
