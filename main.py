@@ -11,7 +11,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, IvanNPC, MessagePopup
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, IvanNPC, MessagePopup, MaraNPC
 import questRepository 
 
 class App:
@@ -46,6 +46,7 @@ class App:
         self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
         self.ivan_popup = IvanNPC(self.screen)
+        self.mara_popup = MaraNPC(self.screen)
         questRepository.load_quests_from_json()
         inventoryRepository.load_inventories(inventoryRepository.file_path)
 
@@ -78,6 +79,8 @@ class App:
             self.help_popup.draw()  
         if self.ivan_popup.visible:
             self.ivan_popup.draw()
+        if self.mara_popup.visible:
+            self.mara_popup.draw()
         if self.popup.visible:
             self.popup.draw()
         pg.display.flip()

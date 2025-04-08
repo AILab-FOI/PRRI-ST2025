@@ -442,3 +442,53 @@ class IvanNPC(Popup):
         if current_line:
             lines.append(current_line)
         return lines
+
+class MaraNPC(Popup):
+    def __init__(self, screen):
+        super().__init__(screen, "Seljanka Mara", 0.6, 0.2)  
+        
+        self.text = (
+            "Ijao izgubila sam ježa !!! "
+            "Možeš li mi pomoći pronaći ga, "
+            "trebao bi biti na jednom od puteljaka."
+        )
+        self.rect.bottom = self.screen.get_height() - 50
+        self.rect.left = (self.screen.get_width() - self.rect.width) // 2
+
+    def draw(self):
+        if not self.visible:
+            return
+        pg.draw.rect(self.screen, (50, 50, 50), self.rect, border_radius=10)
+        pg.draw.rect(self.screen, (200, 200, 200), self.rect, 2, border_radius=10)
+
+        title_surface = self.font.render("Seljanka Mara", True, (255, 255, 255))
+        title_x = self.rect.left + 10
+        title_y = self.rect.top + 10
+        self.screen.blit(title_surface, (title_x, title_y))
+        
+        wrapped_text = self.wrap_text(self.text, self.font, self.rect.width - 20)
+        start_y = self.rect.top + 40
+        line_height = 25  
+
+        for i, line in enumerate(wrapped_text):
+            text_surface = self.font.render(line, True, (255, 255, 255))
+            text_x = self.rect.left + 10  
+            y_position = start_y + i * line_height  
+            self.screen.blit(text_surface, (text_x, y_position))
+
+    def wrap_text(self, text, font, max_width):
+        words = text.split(" ")
+        lines = []
+        current_line = ""
+        
+        for word in words:
+            test_line = f"{current_line} {word}".strip()
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word
+        
+        if current_line:
+            lines.append(current_line)
+        return lines

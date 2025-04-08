@@ -41,6 +41,13 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/npcs/MajstorIvan.png',
         #'mask_path': 'assets/entities/npcs/mask.png',  treba popravit z-index ako ocemo imati mask path
         'y_offset': 20
+    },
+    'SeljankaMara':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/npcs/MajstorIvan.png',
+        #'mask_path': 'assets/entities/npcs/mask.png',  treba popravit z-index ako ocemo imati mask path
+        'y_offset': 20
     }
 }
 

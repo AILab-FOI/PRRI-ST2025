@@ -8,6 +8,7 @@ import threading
 
 P = 'player'
 M = 'MajstorIvan' #NPC
+S = 'SeljankaMara' #NPC2
 A, B, C, D, E = 'blue_tree',  'grass',  'chest', 'anvil', 'kuca'
 
 MAP = [
@@ -52,6 +53,8 @@ class Scene:
                     self.app.player.offset = pos * TILE_SIZE
                 elif name == 'MajstorIvan':
                     Entity(self.app, name=name, pos=pos)
+                elif name == 'SeljankaMara':
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
@@ -87,6 +90,7 @@ class Scene:
         self.update_repair()
         self.check_if_close_to_chest()
         self.check_npc_interaction()
+        self.check_npc_interaction2()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -143,7 +147,23 @@ class Scene:
             self.app.ivan_popup.visible = True
             return True
         else: self.app.ivan_popup.visible = False
+        return False     
+
+    def check_npc_interaction2(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        mara_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'SeljankaMara':
+                    mara_pos = vec2(i, j) + vec2(0.5)
+                    break
+        if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
+            self.app.mara_popup.visible = True
+            return True
+        else: self.app.mara_popup.visible = False
         return False          
+     
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):
     if args is None:
