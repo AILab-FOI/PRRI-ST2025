@@ -1,4 +1,6 @@
+import inventoryRepository
 from popup import InventoryPopup
+import questRepository
 from stacked_sprite import *
 from random import uniform
 from entity import Entity
@@ -10,11 +12,12 @@ P = 'player'
 M = 'MajstorIvan' #NPC
 S = 'SeljankaMara' #NPC2
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
+J = 'jez'
 
 MAP = [
     [d1, 0, 0, 0, d2, 0, d1, 0, d1, 0, d2, 0, d1],
     [0, 0, d2, t, 0, 0, d2, t, 0, t, 0, 0, 0],
-    [t, 0, t, d1, t, 0, c, 0, 0, d2, d2, 0, 0],
+    [t, 0, t, d1, t, 0, c, 0, J, d2, d2, 0, 0],
     [d2, 0, 0, t, 0, 0, t, M, 0, a, t, 0, d2],
     [0, d1, t, d2, t, P, d3, t, t, 0, t, d1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, d2, 0, d2, 0],
@@ -40,7 +43,9 @@ class Scene:
         self.repaired = False
         self.repairing_start_time = None
         self.success_message_time = None
-        self.repair_duration = 7000  
+        self.repair_duration = 7000
+        questRepository.get_quest_by_id(0).startQuest()
+        questRepository.get_quest_by_id(1).startQuest()
 
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
@@ -77,6 +82,8 @@ class Scene:
             obj.rot = 30 * self.app.time
 
     def update(self):
+        
+
         if self.check_anvil_interaction():
             if not self.repairing and not self.repaired:  
                 self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
@@ -95,6 +102,8 @@ class Scene:
         self.check_if_close_to_chest()
         self.check_npc_interaction()
         self.check_npc_interaction2()
+        self.check_first_quest()
+        self.check_second_quest()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -168,8 +177,84 @@ class Scene:
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
             self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 1)
             return True
-        return False          
-     
+        return False 
+    
+    def check_first_quest(self):
+        quest = questRepository.get_quest_by_id(0)
+        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
+        
+        if quest.current_stage == 0:
+            if player_inventory.contains_item('backpack'):
+                quest.setStage(1)
+        elif quest.current_stage == 1:
+            if self.check_anvil_interaction():
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
+                keys = pg.key.get_pressed()
+                if keys[pg.K_e]:
+                    self.start_repair()
+                    player_inventory.remove_item('backpack')
+                    quest.setStage(2)
+        elif quest.current_stage == 2:
+            quest.is_completed = True
+            quest.setStage(-1)
+
+    def check_second_quest(self):
+        quest = questRepository.get_quest_by_id(1)
+        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
+
+        #todo fix the popups, some aren't showing
+
+        if(quest.current_stage == 0):
+            if self.check_npc_interact('SeljankaMara'):
+                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
+                quest.setStage(1)
+        elif quest.current_stage == 1:
+            if self.check_npc_interact('jez'):
+                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 3)
+                keys = pg.key.get_pressed()
+
+                if keys[pg.K_e]:
+                    self.app.popup.show_message("Uspješno ste pokupili ježa!", 3)
+                    inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
+                    #todo erase jez from map
+                    if(player_inventory.contains_item('hedgehog')):
+                        quest.setStage(2)
+        elif quest.current_stage == 2:
+            if self.check_npc_interact('SeljankaMara'):
+                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 3)
+                player_inventory.remove_item(player_inventory.get_item('hedgehog'))
+                #todo make jez appear near mara
+                quest.setStage(-1)
+                quest.is_completed = True
+    
+    def check_npc_interact(self, npc_name):
+        player_pos = self.app.player.offset / TILE_SIZE
+        npc_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == npc_name:
+                    npc_pos = vec2(i, j) + vec2(0.5)
+                    break
+        if npc_pos and player_pos.distance_to(npc_pos) < 1.0:
+            keys = pg.key.get_pressed()
+            if keys[pg.K_e]:
+                return True
+        return False
+    
+    def check_if_close_to_entity(self, entity_name):
+        player_pos = self.app.player.offset / TILE_SIZE
+        entity_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == entity_name:
+                    entity_pos = vec2(i, j) + vec2(0.5)
+                    break
+
+        if entity_pos and player_pos.distance_to(entity_pos) < 0.65:
+            return True
+        return False
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):
     if args is None:

@@ -1,0 +1,34 @@
+{
+    "entities":[
+        {
+            "entityName":"player",
+            "inventory":[]
+        },
+        {
+            "entityName":"SeljankaMara",
+            "inventory":[]
+        },
+        {
+            "entityName":"chest",
+            "inventory":[
+                {
+                    "itemName":"backpack",
+                    "imgPath":"assets/entities/explosion/explosion.png"
+                },
+                {
+                    "itemName":"slingshot",
+                    "imgPath":"assets/entities/bullet/bullet.png"
+                }
+            ]
+        },
+        {
+            "entityName":"jez",
+            "inventory":[
+                {
+                    "itemName":"hedgehog",
+                    "imgPath":"assets/entities/player/SegrtHugo.png"
+                }
+            ]
+        }
+    ]
+}
