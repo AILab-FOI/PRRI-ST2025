@@ -359,15 +359,19 @@ class MainMenu:
         self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 32)
         self.options = ["Start New Game", "Load Game", "Quit"]
         self.selected_option = 0 
+
+        self.bg_img = pg.image.load('assets/images/splash.png')
+        self.bg_img = pg.transform.smoothscale(self.bg_img, self.app.screen.get_size())
     
     def draw(self):
-        self.screen.fill((0, 0, 0))  
+        self.screen.blit(self.bg_img, (0, 0)) 
+ 
         title_text = self.font.render("Whispering Tales", True, (255, 255, 255))
         title_rect = title_text.get_rect(center=(self.screen.get_width() // 2, 100))
         self.screen.blit(title_text, title_rect)
 
         for i, option in enumerate(self.options):
-            color = (255, 255, 0) if i == self.selected_option else (255, 255, 255)
+            color = (255, 0, 0) if i == self.selected_option else (255, 255, 255)
             text = self.font.render(option, True, color)
             text_rect = text.get_rect(center=(self.screen.get_width() // 2, 320 + i * 60))
             self.screen.blit(text, text_rect)
