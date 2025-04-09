@@ -97,7 +97,14 @@ STACKED_SPRITE_ATTRS = {
         'scale': 3,
         'y_offset': 0,
         'mask_layer': 40
-    }
+    },
+        'breza': {
+            'path': 'assets/stacked_sprites/breza.png',
+            'num_layers': 80,
+            'scale': 3,
+            'y_offset': 0,
+            'mask_layer': 40
+        }
 }
 
 

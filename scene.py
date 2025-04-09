@@ -9,14 +9,14 @@ import threading
 P = 'player'
 M = 'MajstorIvan' #NPC
 S = 'SeljankaMara' #NPC2
-d1, d2, t, c, a, b = 'blue_tree', 'drvo', 'grass', 'chest', 'anvil', 'bunar', 
+d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
 
 MAP = [
     [d1, 0, 0, 0, d2, 0, d1, 0, d1, 0, d2, 0, d1],
     [0, 0, d2, t, 0, 0, d2, t, 0, t, 0, 0, 0],
     [t, 0, t, d1, t, 0, c, 0, 0, d2, d2, 0, 0],
     [d2, 0, 0, t, 0, 0, t, M, 0, a, t, 0, d2],
-    [0, d1, t, d2, t, P, 0, t, t, 0, t, d1, 0],
+    [0, d1, t, d2, t, P, d3, t, t, 0, t, d1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, d2, 0, d2, 0],
     [0, d2, t, b, 0, t, d2, t, 0, t, 0, 0, d1],
     [d1, 0, 0, 0, t, S, t, 0, 0, 0, d1, t, 0],
@@ -61,6 +61,8 @@ class Scene:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
                                   collision=False)
                 elif name == 'drvo':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'breza':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
