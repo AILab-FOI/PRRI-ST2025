@@ -35,7 +35,6 @@ class Scene:
 
         self.app.hint_popup.start_time = pg.time.get_ticks()  
         self.app.hint_popup.visible = True  
-        self.torba_popravljena = False
         self.repairing = False
         self.repaired = False
         self.repairing_start_time = None
