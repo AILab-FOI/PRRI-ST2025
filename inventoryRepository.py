@@ -1,7 +1,7 @@
 import json
 from inventory import Inventory, InventoryItem
 
-file_path = "./mockData/mockInventoryData.json"
+file_path = "./data/inventoryData.json"
 inventories = []
 
 def load_inventories(file_path):

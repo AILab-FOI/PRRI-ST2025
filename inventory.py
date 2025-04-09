@@ -13,6 +13,12 @@ class Inventory:
 
     def get_items(self):
         return self.items
+    
+    def contains_item(self, item_name):
+        for i in self.items:
+            if i.name == item_name:
+                return True
+        return False
 
 class InventoryItem:
     def __init__(self, name, icon):

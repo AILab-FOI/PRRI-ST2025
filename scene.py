@@ -1,4 +1,6 @@
+import inventoryRepository
 from popup import InventoryPopup
+import questRepository
 from stacked_sprite import *
 from random import uniform
 from entity import Entity
@@ -39,7 +41,8 @@ class Scene:
         self.repaired = False
         self.repairing_start_time = None
         self.success_message_time = None
-        self.repair_duration = 7000  
+        self.repair_duration = 7000
+        questRepository.get_quest_by_id(0).startQuest()
 
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
@@ -72,6 +75,8 @@ class Scene:
             obj.rot = 30 * self.app.time
 
     def update(self):
+        
+
         if self.check_anvil_interaction():
             if not self.repairing and not self.repaired:  
                 self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
@@ -90,6 +95,7 @@ class Scene:
         self.check_if_close_to_chest()
         self.check_npc_interaction()
         self.check_npc_interaction2()
+        self.check_first_quest()
 
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -161,8 +167,28 @@ class Scene:
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
             self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
             return True
-        return False          
-     
+        return False 
+    
+    def check_first_quest(self):
+        quest = questRepository.get_quest_by_id(0)
+        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
+
+        print(quest.current_stage)
+        
+        if quest.current_stage == 0:
+            if player_inventory.contains_item('backpack'):
+                quest.setStage(1)
+        elif quest.current_stage == 1:
+            if self.check_anvil_interaction():
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
+                keys = pg.key.get_pressed()
+                if keys[pg.K_e]:
+                    self.start_repair()
+                    player_inventory.remove_item('backpack')
+                    quest.setStage(2)
+        elif quest.current_stage == 2:
+            quest.is_completed = True
+            quest.setStage(-1)
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):
     if args is None:
