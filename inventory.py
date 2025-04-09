@@ -14,6 +14,12 @@ class Inventory:
     def get_items(self):
         return self.items
     
+    def get_item(self, item_name):
+        for i in self.items:
+            if i.name == item_name:
+                return i
+        return None
+    
     def contains_item(self, item_name):
         for i in self.items:
             if i.name == item_name:

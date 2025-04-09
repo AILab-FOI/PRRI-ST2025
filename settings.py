@@ -93,6 +93,13 @@ STACKED_SPRITE_ATTRS = {
         'y_offset': 0,
         'mask_layer': 32
     },
+        'jez':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/npcs/MajstorIvan.png',
+        'y_offset': 20,
+        'mask_layer': 0
+    }
 }
 
 
