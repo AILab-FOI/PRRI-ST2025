@@ -84,7 +84,7 @@ class Scene:
                 if keys[pg.K_e]:  
                     self.start_repair()  
             elif self.repaired:
-                self.app.popup.show_message("Torba je uspješno popravljena!", 3)  
+                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 3)  
         else:
             if self.success_message_time and pg.time.get_ticks() - self.success_message_time < 3000:
                 pass  
@@ -148,9 +148,11 @@ class Scene:
                     majstor_pos = vec2(i, j) + vec2(0.5)
                     break
         if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
-            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 3)
-            if(self.repaired == True):
-                self.app.popup.show_message("Torba je uspješno popravljena!", 1)
+            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 5)
+            if self.repaired:  
+                self.app.popup.show_message("Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
+                                            "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
+                                            "Požuri do Seljanke Mare kako bi nastavio svoj put!", 5)
             return True
         return False     
 
@@ -164,7 +166,7 @@ class Scene:
                     mara_pos = vec2(i, j) + vec2(0.5)
                     break
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
+            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 1)
             return True
         return False          
      

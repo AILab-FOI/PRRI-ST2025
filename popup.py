@@ -137,25 +137,19 @@ class MessagePopup:
     
     def draw(self):
         if self.visible and pg.time.get_ticks() < self.show_until:
-            # Pozadina prozora
             wrapped_text = self.wrap_text(self.message, self.font, self.rect.width - (self.padding_x * 2))
             
-            # Izračunavanje potrebne visine na temelju sadržaja teksta
-            line_height = int(self.font.get_height() * 1.2)  # Malo više prostora između redaka
+            line_height = int(self.font.get_height() * 1.2)  
             text_height = len(wrapped_text) * line_height
             
-            # Prilagodba visine popupa da odgovara tekstu s jednakim paddingom
             popup_height = text_height + (self.padding_y * 2)
-            self.rect.height = max(popup_height, 80)  # Minimalna visina
+            self.rect.height = max(popup_height, 80)  
             
-            # Centriranje popupa vertikalno ako se položaj mijenja
             bottom_margin = 60
             self.rect.y = self.app.screen.get_height() - 150 - bottom_margin
             
-            # Crtanje glavnog pozadinskog prozora
             self._draw_medieval_background()
             
-            # Prikazivanje poruke
             start_y = self.rect.top + self.padding_y
 
             for i, line in enumerate(wrapped_text):
@@ -188,16 +182,16 @@ class MessagePopup:
         self._draw_rivets()
     
     def _draw_corner_decorations(self):
-        # Ako imamo učitane ukrasne slike za kutove, koristimo njih
+
         corner_size = 20
         
-        # Gornji lijevi kut
+
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.left + 5, self.rect.top + corner_size),
             (self.rect.left + 5, self.rect.top + 5),
             (self.rect.left + corner_size, self.rect.top + 5)
         ], 2)
-        # Dodatni ukras
+       
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.left + 10, self.rect.top + 15),
             (self.rect.left + 15, self.rect.top + 10)
@@ -208,32 +202,29 @@ class MessagePopup:
             (self.rect.right - 5, self.rect.top + 5),
             (self.rect.right - corner_size, self.rect.top + 5)
         ], 2)
-        # Dodatni ukras
+       
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.right - 10, self.rect.top + 15),
             (self.rect.right - 15, self.rect.top + 10)
         ], 2)
         
-        # Donji lijevi kut
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.left + 5, self.rect.bottom - corner_size),
             (self.rect.left + 5, self.rect.bottom - 5),
             (self.rect.left + corner_size, self.rect.bottom - 5)
         ], 2) 
 
-         # Dodatni ukras
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.left + 10, self.rect.bottom - 15),
             (self.rect.left + 15, self.rect.bottom - 10)
         ], 2)
         
-        # Donji desni kut
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.right - 5, self.rect.bottom - corner_size),
             (self.rect.right - 5, self.rect.bottom - 5),
             (self.rect.right - corner_size, self.rect.bottom - 5)
         ], 2)
-        # Dodatni ukras
+
         pg.draw.lines(self.app.screen, self.accent_color, False, [
             (self.rect.right - 10, self.rect.bottom - 15),
             (self.rect.right - 15, self.rect.bottom - 10)
