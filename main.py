@@ -77,10 +77,6 @@ class App:
             self.quest_popup.draw()
         if self.help_popup.visible:
             self.help_popup.draw()  
-        #if self.ivan_popup.visible:
-        #    self.ivan_popup.draw()
-        #if self.mara_popup.visible:
-        #    self.mara_popup.draw()
         if self.popup.visible:
             self.popup.draw()
         pg.display.flip()

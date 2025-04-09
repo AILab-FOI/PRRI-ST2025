@@ -143,12 +143,10 @@ class Scene:
                     majstor_pos = vec2(i, j) + vec2(0.5)
                     break
         if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
-            #self.app.ivan_popup.visible = True
             self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 3)
             if(self.repaired == True):
                 self.app.popup.show_message("Torba je uspješno popravljena!", 1)
             return True
-        #else: self.app.ivan_popup.visible = False
         return False     
 
     def check_npc_interaction2(self):
@@ -161,10 +159,8 @@ class Scene:
                     mara_pos = vec2(i, j) + vec2(0.5)
                     break
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            #self.app.mara_popup.visible = True
             self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
             return True
-        #else: self.app.mara_popup.visible = False
         return False          
      
 

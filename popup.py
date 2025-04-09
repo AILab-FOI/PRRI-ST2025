@@ -104,20 +104,32 @@ class MessagePopup:
         self.font = pg.font.Font(None, 36)
         
         screen_width, screen_height = self.app.screen.get_size()
+        bottom_margin = 60
         self.rect = pg.Rect(
             (screen_width - 600) // 2,  
-            screen_height - 150,  
+            screen_height - 150 - bottom_margin,  
             600,  
             100   
         )
-        self.background_color = (50, 50, 50)
-        self.border_color = (200, 200, 200)
-        self.text_color = (255, 255, 255)
+        self.background_color = (222, 204, 156)  
+        self.border_color = (101, 67, 33)  
+        self.text_color = (50, 30, 10)  
+        self.accent_color = (139, 69, 19)  
+
+        self.padding_x = 30  
+        self.padding_y = 20  
+
+        self.border_width = 4
+        self.corner_size = 12
+
+        self.random_seed = pg.time.get_ticks()
 
     def show_message(self, text, duration):
         self.message = text
         self.show_until = pg.time.get_ticks() + (duration * 1000)
         self.visible = True  
+
+        self.random_seed = pg.time.get_ticks()
     
     def hide_message(self):
         self.message = ""
@@ -126,22 +138,118 @@ class MessagePopup:
     def draw(self):
         if self.visible and pg.time.get_ticks() < self.show_until:
             # Pozadina prozora
-            pg.draw.rect(self.app.screen, self.background_color, self.rect, border_radius=10)
-            pg.draw.rect(self.app.screen, self.border_color, self.rect, 2, border_radius=10)
-
+            wrapped_text = self.wrap_text(self.message, self.font, self.rect.width - (self.padding_x * 2))
+            
+            # Izračunavanje potrebne visine na temelju sadržaja teksta
+            line_height = int(self.font.get_height() * 1.2)  # Malo više prostora između redaka
+            text_height = len(wrapped_text) * line_height
+            
+            # Prilagodba visine popupa da odgovara tekstu s jednakim paddingom
+            popup_height = text_height + (self.padding_y * 2)
+            self.rect.height = max(popup_height, 80)  # Minimalna visina
+            
+            # Centriranje popupa vertikalno ako se položaj mijenja
+            bottom_margin = 60
+            self.rect.y = self.app.screen.get_height() - 150 - bottom_margin
+            
+            # Crtanje glavnog pozadinskog prozora
+            self._draw_medieval_background()
+            
             # Prikazivanje poruke
-            wrapped_text = self.wrap_text(self.message, self.font, self.rect.width - 20)
-            start_y = self.rect.top + 15
-            line_height = 30
+            start_y = self.rect.top + self.padding_y
 
             for i, line in enumerate(wrapped_text):
                 text_surface = self.font.render(line, True, self.text_color)
-                text_x = self.rect.left + 10
+                text_x = self.rect.left + self.padding_x
                 y_position = start_y + i * line_height
                 self.app.screen.blit(text_surface, (text_x, y_position))
 
         elif pg.time.get_ticks() >= self.show_until:
             self.hide_message()
+    
+    def _draw_medieval_background(self):
+        pg.draw.rect(self.app.screen, self.background_color, self.rect, border_radius=8)
+
+        pg.draw.rect(self.app.screen, self.border_color, self.rect, self.border_width, border_radius=8)
+        
+        inner_rect = self.rect.inflate(-20, -20)
+        pg.draw.rect(self.app.screen, self.border_color, inner_rect, 1, border_radius=5)
+        
+        self._draw_corner_decorations()
+
+        title_bar_height = 6
+        title_rect_top = pg.Rect(self.rect.left + 15, self.rect.top + title_bar_height*2, 
+                            self.rect.width - 30, title_bar_height)
+        title_rect_bottom = pg.Rect(self.rect.left + 15, self.rect.bottom - title_bar_height*3, 
+                            self.rect.width - 30, title_bar_height)
+        pg.draw.rect(self.app.screen, self.accent_color, title_rect_top)
+        pg.draw.rect(self.app.screen, self.accent_color, title_rect_bottom)
+        
+        self._draw_rivets()
+    
+    def _draw_corner_decorations(self):
+        # Ako imamo učitane ukrasne slike za kutove, koristimo njih
+        corner_size = 20
+        
+        # Gornji lijevi kut
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.left + 5, self.rect.top + corner_size),
+            (self.rect.left + 5, self.rect.top + 5),
+            (self.rect.left + corner_size, self.rect.top + 5)
+        ], 2)
+        # Dodatni ukras
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.left + 10, self.rect.top + 15),
+            (self.rect.left + 15, self.rect.top + 10)
+        ], 2) 
+
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.right - 5, self.rect.top + corner_size),
+            (self.rect.right - 5, self.rect.top + 5),
+            (self.rect.right - corner_size, self.rect.top + 5)
+        ], 2)
+        # Dodatni ukras
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.right - 10, self.rect.top + 15),
+            (self.rect.right - 15, self.rect.top + 10)
+        ], 2)
+        
+        # Donji lijevi kut
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.left + 5, self.rect.bottom - corner_size),
+            (self.rect.left + 5, self.rect.bottom - 5),
+            (self.rect.left + corner_size, self.rect.bottom - 5)
+        ], 2) 
+
+         # Dodatni ukras
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.left + 10, self.rect.bottom - 15),
+            (self.rect.left + 15, self.rect.bottom - 10)
+        ], 2)
+        
+        # Donji desni kut
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.right - 5, self.rect.bottom - corner_size),
+            (self.rect.right - 5, self.rect.bottom - 5),
+            (self.rect.right - corner_size, self.rect.bottom - 5)
+        ], 2)
+        # Dodatni ukras
+        pg.draw.lines(self.app.screen, self.accent_color, False, [
+            (self.rect.right - 10, self.rect.bottom - 15),
+            (self.rect.right - 15, self.rect.bottom - 10)
+        ], 2) 
+
+        pg.draw.circle(self.app.screen, self.accent_color, (self.rect.left + 12, self.rect.top + 12), 3)
+        pg.draw.circle(self.app.screen, self.accent_color, (self.rect.right - 12, self.rect.top + 12), 3)
+        pg.draw.circle(self.app.screen, self.accent_color, (self.rect.left + 12, self.rect.bottom - 12), 3)
+        pg.draw.circle(self.app.screen, self.accent_color, (self.rect.right - 12, self.rect.bottom - 12), 3)
+
+    def _draw_rivets(self):
+        rivet_positions = []
+        
+        for pos in rivet_positions:
+            pg.draw.circle(self.app.screen, (80, 50, 20), pos, 4)
+            pg.draw.circle(self.app.screen, (160, 120, 60), pos, 2)
 
     def wrap_text(self, text, font, max_width):
         paragraphs = text.split('\n')
@@ -397,105 +505,3 @@ class MainMenu:
                     elif self.selected_option == 2: 
                         pg.quit()
                         exit()
-"""
-class IvanNPC(Popup):
-    def __init__(self, screen):
-        super().__init__(screen, "Majstor Ivan", 0.6, 0.2)  
-        
-        self.text = (
-            "Dobro došao! Prije nego kreneš u pustolovinu, "
-            "moraš popraviti svoju torbu. Imaš u chestu "
-            "neke iteme koji će ti pomoći. Sretno!"
-        )
-        self.rect.bottom = self.screen.get_height() - 50
-        self.rect.left = (self.screen.get_width() - self.rect.width) // 2
-
-    def draw(self):
-        if not self.visible:
-            return
-        pg.draw.rect(self.screen, (50, 50, 50), self.rect, border_radius=10)
-        pg.draw.rect(self.screen, (200, 200, 200), self.rect, 2, border_radius=10)
-
-        title_surface = self.font.render("Majstor Ivan", True, (255, 255, 255))
-        title_x = self.rect.left + 10
-        title_y = self.rect.top + 10
-        self.screen.blit(title_surface, (title_x, title_y))
-        
-        wrapped_text = self.wrap_text(self.text, self.font, self.rect.width - 20)
-        start_y = self.rect.top + 40
-        line_height = 25  
-
-        for i, line in enumerate(wrapped_text):
-            text_surface = self.font.render(line, True, (255, 255, 255))
-            text_x = self.rect.left + 10  
-            y_position = start_y + i * line_height  
-            self.screen.blit(text_surface, (text_x, y_position))
-
-    def wrap_text(self, text, font, max_width):
-        words = text.split(" ")
-        lines = []
-        current_line = ""
-        
-        for word in words:
-            test_line = f"{current_line} {word}".strip()
-            if font.size(test_line)[0] <= max_width:
-                current_line = test_line
-            else:
-                lines.append(current_line)
-                current_line = word
-        
-        if current_line:
-            lines.append(current_line)
-        return lines
-"""
-"""
-class MaraNPC(Popup):
-    def __init__(self, screen):
-        super().__init__(screen, "Seljanka Mara", 0.6, 0.2)  
-        
-        self.text = (
-            "Ijao izgubila sam ježa !!! "
-            "Možeš li mi pomoći pronaći ga, "
-            "trebao bi biti na jednom od puteljaka."
-        )
-        self.rect.bottom = self.screen.get_height() - 50
-        self.rect.left = (self.screen.get_width() - self.rect.width) // 2
-
-    def draw(self):
-        if not self.visible:
-            return
-        pg.draw.rect(self.screen, (50, 50, 50), self.rect, border_radius=10)
-        pg.draw.rect(self.screen, (200, 200, 200), self.rect, 2, border_radius=10)
-
-        title_surface = self.font.render("Seljanka Mara", True, (255, 255, 255))
-        title_x = self.rect.left + 10
-        title_y = self.rect.top + 10
-        self.screen.blit(title_surface, (title_x, title_y))
-        
-        wrapped_text = self.wrap_text(self.text, self.font, self.rect.width - 20)
-        start_y = self.rect.top + 40
-        line_height = 25  
-
-        for i, line in enumerate(wrapped_text):
-            text_surface = self.font.render(line, True, (255, 255, 255))
-            text_x = self.rect.left + 10  
-            y_position = start_y + i * line_height  
-            self.screen.blit(text_surface, (text_x, y_position))
-
-    def wrap_text(self, text, font, max_width):
-        words = text.split(" ")
-        lines = []
-        current_line = ""
-        
-        for word in words:
-            test_line = f"{current_line} {word}".strip()
-            if font.size(test_line)[0] <= max_width:
-                current_line = test_line
-            else:
-                lines.append(current_line)
-                current_line = word
-        
-        if current_line:
-            lines.append(current_line)
-        return lines
-    """
