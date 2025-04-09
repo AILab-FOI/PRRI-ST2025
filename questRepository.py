@@ -22,7 +22,7 @@ def get_quest_by_id(id):
     return None
 
 def get_all_quests():
-    print(quests);
+    print(quests)
 
     return quests
 

@@ -11,7 +11,7 @@ TILE_SIZE = 250  #
 PLAYER_SPEED = 0.4
 PLAYER_ROT_SPEED = 0.0015
 
-BG_COLOR = 'olivedrab'  #
+BG_COLOR = '#117c13'  #
 NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
 # entity settings
@@ -37,14 +37,14 @@ ENTITY_SPRITE_ATTRS = {
     },
     'MajstorIvan':{
         'num_layers': 1,
-        'scale': 3,
+        'scale': 3.5,
         'path': 'assets/entities/npcs/MajstorIvan.png',
         'y_offset': 20
     },
     'SeljankaMara':{
         'num_layers': 1,
         'scale': 3,
-        'path': 'assets/entities/npcs/MajstorIvan.png',
+        'path': 'assets/entities/cats/seljankaMara.png',
         'y_offset': 20
     }
 }
@@ -80,14 +80,14 @@ STACKED_SPRITE_ATTRS = {
         'chest': {
         'path': 'assets/stacked_sprites/chest.png',
         'num_layers': 20,
-        'scale': 4,
+        'scale': 3,
         'y_offset': 0,
         'mask_layer': 10
     },
         'bunar': {
         'path': 'assets/stacked_sprites/bunar.png',
         'num_layers': 81,
-        'scale': 2,
+        'scale': 2.5,
         'y_offset': 0,
         'mask_layer': 40 
     },
@@ -96,22 +96,24 @@ STACKED_SPRITE_ATTRS = {
         'num_layers': 80,
         'scale': 3,
         'y_offset': 0,
+        'transparency': True,
         'mask_layer': 40
     },
-        'jez':{
-        'num_layers': 1,
-        'scale': 3,
-        'path': 'assets/entities/npcs/MajstorIvan.png',
-        'y_offset': 20,
-        'mask_layer': 0
-    },
         'breza': {
-            'path': 'assets/stacked_sprites/breza.png',
-            'num_layers': 80,
-            'scale': 3,
-            'y_offset': 0,
-            'mask_layer': 40
-        }
+        'path': 'assets/stacked_sprites/breza.png',
+        'num_layers': 80,
+        'scale': 5,
+        'y_offset': 0,
+        'transparency': True,
+        'mask_layer': 40
+        },
+        'jez':{
+        'path': 'assets/stacked_sprites/hedgehog.png',
+        'num_layers': 2,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 1
+    }
 }
 
 
