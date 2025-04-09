@@ -9,18 +9,19 @@ import threading
 P = 'player'
 M = 'MajstorIvan' #NPC
 S = 'SeljankaMara' #NPC2
-A, B, C, D, E = 'blue_tree',  'grass',  'chest', 'anvil', 'kuca'
+d1, d2, t, c, a, b = 'blue_tree', 'drvo', 'grass', 'chest', 'anvil', 'bunar', 
 
 MAP = [
-[0, 0, 0, B, A, 0, A, B, 0, 0, 0, 0],    
-[A, 0, A, 0, 0, 0, 0, 0, A, 0, A, 0],
-[A, B, 0, B, 0, M, 0, 0, 0, 0, 0, 0],
-[0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
-[0, A, 0, S, B, 0, D, A, 0, 0, 0, 0],
-[A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
-[0, B, A, 0, 0, 0, 0, 0, 0, A, 0, 0],
-[0, 0, 0, 0, A, 0, B, 0, 0, 0, 0, 0],
-    
+    [d1, 0, 0, 0, d2, 0, d1, 0, d1, 0, d2, 0, d1],
+    [0, 0, d2, t, 0, 0, d2, t, 0, t, 0, 0, 0],
+    [t, 0, t, d1, t, 0, c, 0, 0, d2, d2, 0, 0],
+    [d2, 0, 0, t, 0, 0, t, M, 0, a, t, 0, d2],
+    [0, d1, t, d2, t, P, 0, t, t, 0, t, d1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, d2, 0, d2, 0],
+    [0, d2, t, b, 0, t, d2, t, 0, t, 0, 0, d1],
+    [d1, 0, 0, 0, t, S, t, 0, 0, 0, d1, t, 0],
+    [0, 0, t, d2, d1, 0, d2, 0, t, d2, 0, 0, 0],
+    [d1, 0, d1, t, d2, t, 0, d1, t, 0, t, 0, d1]
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -59,6 +60,8 @@ class Scene:
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
                                   collision=False)
+                elif name == 'drvo':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 

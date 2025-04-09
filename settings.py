@@ -39,14 +39,12 @@ ENTITY_SPRITE_ATTRS = {
         'num_layers': 1,
         'scale': 3,
         'path': 'assets/entities/npcs/MajstorIvan.png',
-        #'mask_path': 'assets/entities/npcs/mask.png',  treba popravit z-index ako ocemo imati mask path
         'y_offset': 20
     },
     'SeljankaMara':{
         'num_layers': 1,
         'scale': 3,
         'path': 'assets/entities/npcs/MajstorIvan.png',
-        #'mask_path': 'assets/entities/npcs/mask.png',  treba popravit z-index ako ocemo imati mask path
         'y_offset': 20
     }
 }
@@ -86,13 +84,20 @@ STACKED_SPRITE_ATTRS = {
         'y_offset': 0,
         'mask_layer': 10
     },
-        'kuca': {
-        'path': 'assets/stacked_sprites/kuca.png',
-        'num_layers': 65,
-        'scale': 5.5,
+        'bunar': {
+        'path': 'assets/stacked_sprites/bunar.png',
+        'num_layers': 81,
+        'scale': 2,
         'y_offset': 0,
-        'mask_layer': 32
+        'mask_layer': 40 
     },
+        'drvo': {
+        'path': 'assets/stacked_sprites/drvo_1.png',
+        'num_layers': 80,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 40
+    }
 }
 
 
