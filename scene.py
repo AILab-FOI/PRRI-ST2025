@@ -103,6 +103,7 @@ class Scene:
         self.update_repair()
         self.check_if_close_to_chest()
         self.check_npc_interaction()
+        self.check_npc_interaction2()
         self.check_first_quest()
         self.check_second_quest()
 
@@ -165,6 +166,20 @@ class Scene:
                                             "Požuri do Seljanke Mare kako bi nastavio svoj put!", 5)
             return True
         return False     
+
+    def check_npc_interaction2(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        mara_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'SeljankaMara':
+                    mara_pos = vec2(i, j) + vec2(0.5)
+                    break
+        if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
+            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 1)
+            return True
+        return False 
     
     def check_first_quest(self):
         quest = questRepository.get_quest_by_id(0)
@@ -193,22 +208,22 @@ class Scene:
 
         if(quest.current_stage == 0):
             if self.check_npc_interact('SeljankaMara'):
-                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 5)
+                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_npc_interact('jez'):
-                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 5)
+                print("Pritisnite tipku E za pokupiti ježa.", 3)
                 keys = pg.key.get_pressed()
 
                 if keys[pg.K_e]:
-                    self.app.popup.show_message("Uspješno ste pokupili ježa!", 5)
+                    print("Uspješno ste pokupili ježa!", 3)
                     inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
                     #todo erase jez from map
                     if(player_inventory.contains_item('hedgehog')):
                         quest.setStage(2)
         elif quest.current_stage == 2:
             if self.check_npc_interact('SeljankaMara'):
-                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 5)
+                print("Hvala ti puno, evo ti nagrada!", 3)
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
                 #todo make jez appear near mara
                 quest.setStage(-1)
@@ -223,7 +238,7 @@ class Scene:
                 if name == npc_name:
                     npc_pos = vec2(i, j) + vec2(0.5)
                     break
-        if npc_pos and player_pos.distance_to(npc_pos) < 1.5:
+        if npc_pos and player_pos.distance_to(npc_pos) < 1.0:
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 return True
@@ -243,20 +258,20 @@ class Scene:
             return True
         return False
 
-    def run_in_thread(func, args=None, kwargs=None, callback=None):
-        if args is None:
-            args = ()
-        if kwargs is None:
-            kwargs = {}
+def run_in_thread(func, args=None, kwargs=None, callback=None):
+    if args is None:
+        args = ()
+    if kwargs is None:
+        kwargs = {}
 
-        def wrapped_func():
-            result = func(*args, **kwargs)
-            if callback:
-                callback()
+    def wrapped_func():
+        result = func(*args, **kwargs)
+        if callback:
+            callback()
 
-        thread = threading.Thread(target=wrapped_func)
-        thread.start()
-        return thread
+    thread = threading.Thread(target=wrapped_func)
+    thread.start()
+    return thread
         
         
 
