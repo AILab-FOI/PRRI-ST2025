@@ -131,7 +131,7 @@ class MessagePopup:
 
             # Prikazivanje poruke
             wrapped_text = self.wrap_text(self.message, self.font, self.rect.width - 20)
-            start_y = self.rect.top + 20
+            start_y = self.rect.top + 15
             line_height = 30
 
             for i, line in enumerate(wrapped_text):
@@ -144,20 +144,21 @@ class MessagePopup:
             self.hide_message()
 
     def wrap_text(self, text, font, max_width):
-        words = text.split(" ")
+        paragraphs = text.split('\n')
         lines = []
-        current_line = ""
 
-        for word in words:
-            test_line = f"{current_line} {word}".strip()
-            if font.size(test_line)[0] <= max_width:
-                current_line = test_line
-            else:
+        for paragraph in paragraphs:
+            words = paragraph.split(" ")
+            current_line = ""
+            for word in words:
+                test_line = f"{current_line} {word}".strip()
+                if font.size(test_line)[0] <= max_width:
+                    current_line = test_line
+                else:
+                    lines.append(current_line)
+                    current_line = word
+            if current_line:
                 lines.append(current_line)
-                current_line = word
-
-        if current_line:
-            lines.append(current_line)
         return lines
 
 class SettingsPopup(Popup):
@@ -396,7 +397,7 @@ class MainMenu:
                     elif self.selected_option == 2: 
                         pg.quit()
                         exit()
-
+"""
 class IvanNPC(Popup):
     def __init__(self, screen):
         super().__init__(screen, "Majstor Ivan", 0.6, 0.2)  
@@ -446,7 +447,8 @@ class IvanNPC(Popup):
         if current_line:
             lines.append(current_line)
         return lines
-
+"""
+"""
 class MaraNPC(Popup):
     def __init__(self, screen):
         super().__init__(screen, "Seljanka Mara", 0.6, 0.2)  
@@ -496,3 +498,4 @@ class MaraNPC(Popup):
         if current_line:
             lines.append(current_line)
         return lines
+    """

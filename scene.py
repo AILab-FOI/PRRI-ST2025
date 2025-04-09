@@ -16,7 +16,7 @@ MAP = [
 [A, 0, A, 0, 0, 0, 0, 0, A, 0, A, 0],
 [A, B, 0, B, 0, M, 0, 0, 0, 0, 0, 0],
 [0, 0, A, P, 0, 0, 0, 0, B, A, 0, 0],
-[0, A, 0, 0, B, 0, D, A, 0, 0, 0, 0],
+[0, A, 0, S, B, 0, D, A, 0, 0, 0, 0],
 [A, 0, 0, B, C, A, 0, B, 0, 0, 0, 0],
 [0, B, A, 0, 0, 0, 0, 0, 0, A, 0, 0],
 [0, 0, 0, 0, A, 0, B, 0, 0, 0, 0, 0],
@@ -35,7 +35,7 @@ class Scene:
 
         self.app.hint_popup.start_time = pg.time.get_ticks()  
         self.app.hint_popup.visible = True  
-
+        self.torba_popravljena = False
         self.repairing = False
         self.repaired = False
         self.repairing_start_time = None
@@ -133,20 +133,23 @@ class Scene:
                 self.repaired = True  
                 self.repairing_start_time = None
                 self.success_message_time = pg.time.get_ticks()  
+    
 
     def check_npc_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
         majstor_pos = None
-
         for j, row in enumerate(MAP):
             for i, name in enumerate(row):
                 if name == 'MajstorIvan':
                     majstor_pos = vec2(i, j) + vec2(0.5)
                     break
         if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
-            self.app.ivan_popup.visible = True
+            #self.app.ivan_popup.visible = True
+            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 3)
+            if(self.repaired == True):
+                self.app.popup.show_message("Torba je uspješno popravljena!", 1)
             return True
-        else: self.app.ivan_popup.visible = False
+        #else: self.app.ivan_popup.visible = False
         return False     
 
     def check_npc_interaction2(self):
@@ -159,9 +162,10 @@ class Scene:
                     mara_pos = vec2(i, j) + vec2(0.5)
                     break
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            self.app.mara_popup.visible = True
+            #self.app.mara_popup.visible = True
+            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
             return True
-        else: self.app.mara_popup.visible = False
+        #else: self.app.mara_popup.visible = False
         return False          
      
 
