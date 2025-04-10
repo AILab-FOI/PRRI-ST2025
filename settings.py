@@ -113,6 +113,27 @@ STACKED_SPRITE_ATTRS = {
         'scale': 3,
         'y_offset': 0,
         'mask_layer': 1
+    },
+        'stol_majstor':{
+        'path': 'assets/stacked_sprites/stol_majstor.png',
+        'num_layers': 19,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 9
+    },
+        'crafting':{
+        'path': 'assets/stacked_sprites/crafting_table.png',
+        'num_layers': 16,
+        'scale': 4,
+        'y_offset': 0,
+        'mask_layer': 8
+    },
+        'radni_stol':{
+        'path': 'assets/stacked_sprites/radni_stol_Hugo.png',
+        'num_layers': 72,
+        'scale': 2,
+        'y_offset': 0,
+        'mask_layer': 34
     }
 }
 

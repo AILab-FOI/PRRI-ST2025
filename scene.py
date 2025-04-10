@@ -13,16 +13,19 @@ M = 'MajstorIvan' #NPC
 S = 'SeljankaMara' #NPC2
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
 J = 'jez'
+ST = 'stol_majstor'
+C = 'crafting'
+RS = 'radni_stol'
 
 MAP = [
     [d1, 0, 0, 0, d2, 0, d1, 0, d1, 0, d2, 0, d1],
     [0, 0, d2, t, 0, 0, d2, t, 0, t, 0, 0, 0],
     [t, 0, t, d1, t, 0, c, 0, J, d2, d2, 0, 0],
-    [d2, 0, 0, t, 0, 0, t, M, 0, a, t, 0, d2],
-    [0, d1, t, d2, t, P, d3, t, t, 0, t, d1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, d2, 0, d2, 0],
+    [d2, 0, 0, t, C, 0, t, M, 0, a, t, 0, d2],
+    [0, d1, t, d2, t, P, d3, ST, t, 0, t, d1, 0],
+    [0, 0, 0, RS, 0, 0, 0, S, 0, d2, 0, d2, 0],
     [0, d2, t, b, 0, t, d2, t, 0, t, 0, 0, d1],
-    [d1, 0, 0, 0, t, S, t, 0, 0, 0, d1, t, 0],
+    [d1, 0, 0, 0, t, 0, t, 0, 0, 0, d1, t, 0],
     [0, 0, t, d2, d1, 0, d2, 0, t, d2, 0, 0, 0],
     [d1, 0, d1, t, d2, t, 0, d1, t, 0, t, 0, d1]
 ]
@@ -71,6 +74,12 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'jez':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
+                elif name == 'stol_majstor':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'crafting':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'radni_stol':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 
