@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import sys
 import platform
 import inventoryRepository
@@ -13,6 +12,7 @@ from itertools import cycle
 from message import Message
 from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup #MaraNPC , IvanNPC
 import questRepository 
+from shoeDeliverySystem import ShoeDelivery
 
 class App:
     def __init__(self):
@@ -37,6 +37,7 @@ class App:
         self.popup = MessagePopup(self)
         self.menu = MainMenu(self)
         
+        self.shoe_delivery = ShoeDelivery(self)
         self.hint_popup = HintPopup(self.screen) 
         self.hint_popup.visible = False
         self.inventory_popup = InventoryPopup(self.screen, 'player')
@@ -54,6 +55,7 @@ class App:
         self.scene.update()
         self.entity_group.update()
         self.main_group.update()
+        self.shoe_delivery.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
 

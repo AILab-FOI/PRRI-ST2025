@@ -46,6 +46,18 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 3,
         'path': 'assets/entities/cats/seljankaMara.png',
         'y_offset': 20
+    },
+    'MajstorMarko':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/cats/MajstorIvan.png',
+        'y_offset': 20
+    },
+    'MajstorDalibor':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/cats/MajstorIvan.png',
+        'y_offset': 20
     }
 }
 
