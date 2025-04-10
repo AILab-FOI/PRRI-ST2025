@@ -58,6 +58,13 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 3,
         'path': 'assets/entities/cats/MajstorIvan.png',
         'y_offset': 20
+    },
+        'jez':{
+        'path': 'assets/stacked_sprites/hedgehog.png',
+        'num_layers': 2,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 1
     }
 }
 
@@ -118,13 +125,6 @@ STACKED_SPRITE_ATTRS = {
         'y_offset': 0,
         'transparency': True,
         'mask_layer': 40
-        },
-        'jez':{
-        'path': 'assets/stacked_sprites/hedgehog.png',
-        'num_layers': 2,
-        'scale': 3,
-        'y_offset': 0,
-        'mask_layer': 1
     },
         'stol_majstor':{
         'path': 'assets/stacked_sprites/stol_majstor.png',

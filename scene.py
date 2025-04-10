@@ -79,7 +79,7 @@ class Scene:
                 elif name == 'breza':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'jez':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'stol_majstor':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'crafting':
