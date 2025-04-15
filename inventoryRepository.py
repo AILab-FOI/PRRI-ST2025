@@ -1,8 +1,16 @@
 import json
 from inventory import Inventory, InventoryItem
 
-file_path = "./data/inventoryData.json"
+inventory_file_path = "./data/inventoryData.json"
+item_file_path = "./data/itemData.json"
 inventories = []
+item_data = {}
+
+def load_items(file_path):
+    global item_data
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+        item_data = {item['itemName']: item for item in data['items']}
 
 def load_inventories(file_path):
     global inventories
@@ -14,7 +22,7 @@ def load_inventories(file_path):
                 items=[
                     InventoryItem(
                         name=item['itemName'],
-                        icon=item['imgPath'],
+                        icon=item_data[item['itemName']]['imgPath']
                     ) for item in entity['inventory']
                 ]
             ) for entity in data['entities']
@@ -25,9 +33,9 @@ def get_inventory_by_entity_name(entity_name):
         if inventory.entity_name == entity_name:
             return inventory
         
-def switch_items_from_inventories(entity_name_1, entity_name_2, item_name):
-    inventory_1 = get_inventory_by_entity_name(entity_name_1)
-    inventory_2 = get_inventory_by_entity_name(entity_name_2)
+def switch_items_from_inventories(from_entity, to_entity, item_name):
+    inventory_1 = get_inventory_by_entity_name(from_entity)
+    inventory_2 = get_inventory_by_entity_name(to_entity)
 
     item_to_switch = None
 
@@ -39,3 +47,13 @@ def switch_items_from_inventories(entity_name_1, entity_name_2, item_name):
     if item_to_switch:
         inventory_1.remove_item(item_to_switch)
         inventory_2.add_item(item_to_switch)
+
+def create_item(item_name):
+    if item_name in item_data:
+        item_info = item_data[item_name]
+        return InventoryItem(name=item_info['itemName'], icon=item_info['imgPath'])
+    else:
+        raise ValueError(f"Item '{item_name}' not found in item data.")
+
+load_items(item_file_path)
+load_inventories(inventory_file_path)

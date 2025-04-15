@@ -1,34 +1,39 @@
 {
-    "entities":[
+    "entities": [
         {
-            "entityName":"player",
-            "inventory":[]
+            "entityName": "player",
+            "inventory": []
         },
         {
-            "entityName":"SeljankaMara",
-            "inventory":[]
+            "entityName": "SeljankaMara",
+            "inventory": []
         },
         {
-            "entityName":"chest",
-            "inventory":[
+            "entityName": "chest",
+            "inventory": [
                 {
-                    "itemName":"backpack",
-                    "imgPath":"assets/entities/explosion/explosion.png"
+                    "itemName": "backpack"
                 },
                 {
-                    "itemName":"slingshot",
-                    "imgPath":"assets/entities/bullet/bullet.png"
+                    "itemName": "slingshot"
                 }
             ]
         },
         {
-            "entityName":"jez",
-            "inventory":[
+            "entityName": "jez",
+            "inventory": [
                 {
-                    "itemName":"hedgehog",
-                    "imgPath":"assets/entities/player/SegrtHugo.png"
+                    "itemName": "hedgehog"
                 }
             ]
+        },
+        {
+            "entityName": "MajstorMarko",
+            "inventory": []
+        },
+        {
+            "entityName": "MajstorDalibor",
+            "inventory": []
         }
     ]
 }

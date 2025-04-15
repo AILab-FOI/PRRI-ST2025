@@ -49,7 +49,6 @@ class App:
         #self.ivan_popup = IvanNPC(self.screen)
         #self.mara_popup = MaraNPC(self.screen)
         questRepository.load_quests_from_json()
-        inventoryRepository.load_inventories(inventoryRepository.file_path)
 
     def update(self):
         self.scene.update()

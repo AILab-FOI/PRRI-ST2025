@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "itemName": "backpack",
+            "imgPath": "assets/entities/explosion/explosion.png"
+        },
+        {
+            "itemName": "slingshot",
+            "imgPath": "assets/entities/bullet/bullet.png"
+        },
+        {
+            "itemName": "hedgehog",
+            "imgPath": "assets/entities/player/SegrtHugo.png"
+        },
+        {
+            "itemName": "unrepairedShoes",
+            "imgPath": "assets/entities/cats/kitty.png"
+        },
+        {
+            "itemName": "repairedShoes",
+            "imgPath": "assets/entities/cats/seljankaMara.png"
+        }
+    ]
+}

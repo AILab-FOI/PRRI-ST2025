@@ -16,6 +16,8 @@ class ShoeDelivery:
         self.pickup = False
         self.delivery_npcs = ['MajstorDalibor']  
         self.current_delivery_npc = None
+        self.player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
+        self.npc_inventory = inventoryRepository.get_inventory_by_entity_name('MajstorMarko')
 
     def update(self):
         current_time = pg.time.get_ticks()
@@ -32,6 +34,8 @@ class ShoeDelivery:
     def generate_shoes(self):
         self.app.popup.show_message("Stigle su nove cipele za popravak kod Majstora Marka!", 3)
         self.pickup = True
+        self.npc_inventory.add_item(inventoryRepository.create_item('unrepairedShoes'))
+
         
     def check_shoe_pickup(self):
         if self.app.scene.check_if_close_to_entity('MajstorMarko') and self.pickup:
@@ -41,6 +45,8 @@ class ShoeDelivery:
                 self.unrepaired_shoes += 1 
                 self.app.popup.show_message("Preuzeo si cipele! Odnesi ih na popravak.", 3)
                 self.pickup = False
+                inventoryRepository.switch_items_from_inventories('MajstorMarko', 'player', 'unrepairedShoes')
+
 
     def check_repair(self):
         if self.unrepaired_shoes == 1 and self.app.scene.check_if_close_to_entity('crafting'):
@@ -52,6 +58,8 @@ class ShoeDelivery:
                 delivery_npc = random.choice(self.delivery_npcs)
                 self.current_delivery_npc = delivery_npc
                 self.app.popup.show_message(f"Cipele popravljene! Dostavi ih NPC-u: {delivery_npc}.", 3)
+                self.player_inventory.add_item(inventoryRepository.create_item('repairedShoes'))
+                self.player_inventory.remove_item(self.player_inventory.get_item('unrepairedShoes'))
 
     def check_delivery(self):
         if self.repaired_shoes == 0 or not self.current_delivery_npc:
@@ -63,4 +71,5 @@ class ShoeDelivery:
             if keys[pg.K_e]:
                 self.repaired_shoes -= 1
                 self.app.popup.show_message(f"Dostava cipela NPC-u {self.current_delivery_npc} obavljena! Bravo!", 3)
-                self.current_delivery_npc = None  
+                inventoryRepository.switch_items_from_inventories('player', self.current_delivery_npc, 'repairedShoes')
+                self.current_delivery_npc = None
