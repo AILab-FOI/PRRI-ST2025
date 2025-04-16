@@ -17,9 +17,9 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
-        'path': 'assets/entities/player/SegrtHugo.png',
+        'path': 'assets/entities/player/SegrtHugoAnimiran.png',
         'mask_path': 'assets/entities/player/mask.png', 
-        'num_layers': 1,
+        'num_layers': 5,
         'scale': 3,
         'y_offset': 0,
     },

@@ -87,7 +87,7 @@ class Player(BaseEntity):
                     pass
 
                 
-    """def animate(self):
+    def animate(self):
         if self.app.anim_trigger:
             if self.direction == 'DOWN':
                 if self.moving:
@@ -111,11 +111,11 @@ class Player(BaseEntity):
                     self.frame_index = self.right_ind[ 1 ]
 
             self.image = self.images[self.frame_index]
-    """   # zakomentirano samo zato jer sprite segrta huga nema jos nijednu animaciju
+
 
     def update(self):
         #super().update() 
-        self.animate()
+        #self.animate()
         self.control()
         self.check_collision()
         self.move()
