@@ -49,8 +49,8 @@ ENTITY_SPRITE_ATTRS = {
     },
     'MajstorMarko':{
         'num_layers': 1,
-        'scale': 3,
-        'path': 'assets/entities/npcs/npc1.png',
+        'scale': 3.5,
+        'path': 'assets/entities/npcs/majstorIvan.png',
         'y_offset': 20
     },
     'Karlo':{                #bivši Majstor Dalibor
@@ -141,7 +141,7 @@ STACKED_SPRITE_ATTRS = {
         'stol_majstor':{
         'path': 'assets/stacked_sprites/stol_majstor.png',
         'num_layers': 19,
-        'scale': 3,
+        'scale': 4,
         'y_offset': 0,
         'mask_layer': 9
     },
@@ -155,7 +155,7 @@ STACKED_SPRITE_ATTRS = {
         'radni_stol':{
         'path': 'assets/stacked_sprites/radni_stol_Hugo.png',
         'num_layers': 72,
-        'scale': 2,
+        'scale': 2.5,
         'y_offset': 0,
         'mask_layer': 34
     }
