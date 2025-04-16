@@ -51,10 +51,10 @@ class App:
         questRepository.load_quests_from_json()
 
     def update(self):
+        self.shoe_delivery.update()
         self.scene.update()
         self.entity_group.update()
         self.main_group.update()
-        self.shoe_delivery.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
 
