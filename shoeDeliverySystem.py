@@ -15,7 +15,7 @@ class ShoeDelivery:
         self.max_unrepaired = 1
         self.pickup = False
         self.spremno_za_predaju = False
-        self.delivery_npcs = ['MajstorDalibor', 'MajstorLuka', 'MajstorJanko']  
+        self.delivery_npcs = ['Karlo', 'Tomislav', 'Zora']  
         self.current_delivery_npc = None
         self.player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
         self.npc_inventory = inventoryRepository.get_inventory_by_entity_name('MajstorMarko')

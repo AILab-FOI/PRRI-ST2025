@@ -53,19 +53,19 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/npcs/npc1.png',
         'y_offset': 20
     },
-    'MajstorDalibor':{
+    'Karlo':{                #bivši Majstor Dalibor
         'num_layers': 1,
         'scale': 3,
         'path': 'assets/entities/npcs/npc2.png',
         'y_offset': 20
     },
-    'MajstorLuka':{
+    'Tomislav':{                      #bivši Majstor Luka
         'num_layers': 1,
         'scale': 3,
         'path': 'assets/entities/npcs/npc3.png',
         'y_offset': 20
     },
-    'MajstorJanko':{
+    'Zora':{                 #bivši Majstor Janko
         'num_layers': 1,
         'scale': 3,
         'path': 'assets/entities/npcs/npc4.png',

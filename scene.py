@@ -11,9 +11,9 @@ import threading
 P = 'player'
 M = 'MajstorIvan' #NPC
 MM = 'MajstorMarko'
-MD = 'MajstorDalibor'
-ML = 'MajstorLuka'
-MJ = 'MajstorJanko'
+MD = 'Karlo'
+ML = 'Tomislav'
+MJ = 'Zora'
 S = 'SeljankaMara'
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
 J = 'jez'
@@ -69,11 +69,11 @@ class Scene:
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'MajstorMarko':
                     Entity(self.app, name=name, pos=pos)
-                elif name == 'MajstorDalibor':
+                elif name == 'Karlo':
                     Entity(self.app, name=name, pos=pos)
-                elif name == 'MajstorJanko':
+                elif name == 'Zora':
                     Entity(self.app, name=name, pos=pos)
-                elif name == 'MajstorLuka':
+                elif name == 'Tomislav':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
