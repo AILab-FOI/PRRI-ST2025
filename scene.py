@@ -109,11 +109,11 @@ class Scene:
                     self.start_repair()  
             elif self.repaired:
                 self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 3)  
-        else:
-            if self.success_message_time and pg.time.get_ticks() - self.success_message_time < 3000:
-                pass  
-            else:
-                self.app.popup.hide_message()  
+        #else:
+            #if self.success_message_time and pg.time.get_ticks() - self.success_message_time < 3000:
+            #    pass  
+            #else:
+            #    self.app.popup.hide_message()  
 
         self.update_repair()
         self.check_if_close_to_chest()
