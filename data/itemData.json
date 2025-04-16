@@ -2,11 +2,11 @@
     "items": [
         {
             "itemName": "backpack",
-            "imgPath": "assets/entities/explosion/explosion.png"
+            "imgPath": "assets/entities/bullet/axe.png"
         },
         {
             "itemName": "slingshot",
-            "imgPath": "assets/entities/bullet/bullet.png"
+            "imgPath": "assets/entities/bullet/torch.png"
         },
         {
             "itemName": "hedgehog",
@@ -14,11 +14,11 @@
         },
         {
             "itemName": "unrepairedShoes",
-            "imgPath": "assets/entities/cats/kitty.png"
+            "imgPath": "assets/entities/bullet/cipele.png"
         },
         {
             "itemName": "repairedShoes",
-            "imgPath": "assets/entities/cats/seljankaMara.png"
+            "imgPath": "assets/entities/bullet/cipele.png"
         }
     ]
 }
