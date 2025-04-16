@@ -223,7 +223,7 @@ class Scene:
 
         if(quest.current_stage == 0):
             if self.check_npc_interact('SeljankaMara'):
-                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
+                #self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_npc_interact('jez'):
