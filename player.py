@@ -18,13 +18,13 @@ class Player(BaseEntity):
         self.angle = 0
         self.diag_move_corr = 1 / math.sqrt(2)
 
-        self.down_ind = [ 0, 1, 2, 3, 4, 5, 6 ]
+        self.down_ind = [ 0, 1, 2, 3, 4]
         self.down_list = cycle( self.down_ind )
-        self.up_ind = [ 0, 1, 2, 3, 4, 5, 6 ]
+        self.up_ind = [ 0, 1, 2, 3, 4]
         self.up_list = cycle( self.up_ind )
-        self.left_ind = [ 0, 1, 2, 3, 4, 5, 6 ]
+        self.left_ind = [ 0, 1, 2, 3, 4]
         self.left_list = cycle( self.left_ind )
-        self.right_ind = [ 0, 1, 2, 3, 4, 5, 6 ]
+        self.right_ind = [ 0, 1, 2, 3, 4]
         self.right_list = cycle( self.right_ind )
 
         self.direction = 'DOWN'
@@ -110,12 +110,14 @@ class Player(BaseEntity):
                 else:
                     self.frame_index = self.right_ind[ 1 ]
 
+
+
             self.image = self.images[self.frame_index]
 
 
     def update(self):
         #super().update() 
-        #self.animate()
+        self.animate()
         self.control()
         self.check_collision()
         self.move()
