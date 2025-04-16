@@ -12,6 +12,8 @@ P = 'player'
 M = 'MajstorIvan' #NPC
 MM = 'MajstorMarko'
 MD = 'MajstorDalibor'
+ML = 'MajstorLuka'
+MJ = 'MajstorJanko'
 S = 'SeljankaMara' #NPC2
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
 J = 'jez'
@@ -22,12 +24,12 @@ RS = 'radni_stol'
 MAP = [
     [d1, 0, 0, 0, d2, 0, d1, 0, d1, 0, d2, 0, d1],
     [0, 0, d2, t, MD, 0, d2, t, 0, t, 0, 0, 0],
-    [t, 0, t, d1, t, 0, c, 0, J, d2, d2, 0, 0],
+    [t, 0, t, d1, t, 0, c, 0, J, d2, MJ, d2, 0],
     [d2, 0, 0, t, C, 0, t, M, 0, a, t, 0, d2],
     [0, d1, t, d2, t, P, d3, ST, t, 0, t, d1, 0],
     [0, 0, 0, RS, 0, 0, 0, S, 0, d2, 0, d2, 0],
     [0, d2, t, b, MM, t, d2, t, 0, t, 0, 0, d1],
-    [d1, 0, 0, 0, t, 0, t, 0, 0, 0, d1, t, 0],
+    [d1, 0, 0, 0, t, 0, t, 0, ML, 0, d1, t, 0],
     [0, 0, t, d2, d1, 0, d2, 0, t, d2, 0, 0, 0],
     [d1, 0, d1, t, d2, t, 0, d1, t, 0, t, 0, d1]
 ]
@@ -69,6 +71,10 @@ class Scene:
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'MajstorDalibor':
                     Entity(self.app, name=name, pos=pos)
+                elif name == 'MajstorJanko':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'MajstorLuka':
+                    Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
@@ -103,17 +109,12 @@ class Scene:
 
         if self.check_anvil_interaction():
             if not self.repairing and not self.repaired:  
-                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
                 keys = pg.key.get_pressed()
                 if keys[pg.K_e]:  
                     self.start_repair()  
             elif self.repaired:
-                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 3)  
-        #else:
-            #if self.success_message_time and pg.time.get_ticks() - self.success_message_time < 3000:
-            #    pass  
-            #else:
-            #    self.app.popup.hide_message()  
+                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 0.5)  
 
         self.update_repair()
         self.check_if_close_to_chest()
@@ -132,13 +133,13 @@ class Scene:
                     anvil_pos = vec2(i, j) + vec2(0.5)
                     break
         
-        return anvil_pos and player_pos.distance_to(anvil_pos) < 1.0
+        return anvil_pos and player_pos.distance_to(anvil_pos) < 0.35
 
     def start_repair(self):
         if not self.repairing and not self.repaired:  
             self.repairing = True
             self.repairing_start_time = pg.time.get_ticks()
-            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 7)
+            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 0.5)
 
     def check_if_close_to_chest(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -174,11 +175,11 @@ class Scene:
                     majstor_pos = vec2(i, j) + vec2(0.5)
                     break
         if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
-            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 5)
+            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 0.5)
             if self.repaired:  
                 self.app.popup.show_message("Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                                             "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
-                                            "Požuri do Seljanke Mare kako bi nastavio svoj put!", 5)
+                                            "Požuri do Seljanke Mare kako bi nastavio svoj put!", 0.5)
             return True
         return False     
 
@@ -192,7 +193,7 @@ class Scene:
                     mara_pos = vec2(i, j) + vec2(0.5)
                     break
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 1)
+            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 0.5)
             return True
         return False 
     
@@ -205,7 +206,7 @@ class Scene:
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_anvil_interaction():
-                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 3)
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
                 keys = pg.key.get_pressed()
                 if keys[pg.K_e]:
                     self.start_repair()
@@ -223,22 +224,21 @@ class Scene:
 
         if(quest.current_stage == 0):
             if self.check_npc_interact('SeljankaMara'):
-                #self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga, trebao bi biti na jednom od puteljaka.", 1)
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_npc_interact('jez'):
-                print("Pritisnite tipku E za pokupiti ježa.", 3)
+                print("Pritisnite tipku E za pokupiti ježa.", 0.5)
                 keys = pg.key.get_pressed()
 
                 if keys[pg.K_e]:
-                    print("Uspješno ste pokupili ježa!", 3)
+                    print("Uspješno ste pokupili ježa!", 0.5)
                     inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
                     #todo erase jez from map
                     if(player_inventory.contains_item('hedgehog')):
                         quest.setStage(2)
         elif quest.current_stage == 2:
             if self.check_npc_interact('SeljankaMara'):
-                print("Hvala ti puno, evo ti nagrada!", 3)
+                print("Hvala ti puno, evo ti nagrada!", 0.5)
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
                 #todo make jez appear near mara
                 quest.setStage(-1)

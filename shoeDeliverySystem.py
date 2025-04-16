@@ -14,7 +14,7 @@ class ShoeDelivery:
         self.repaired_shoes = 0
         self.max_unrepaired = 1
         self.pickup = False
-        self.delivery_npcs = ['MajstorDalibor']  
+        self.delivery_npcs = ['MajstorDalibor', 'MajstorLuka', 'MajstorJanko']  
         self.current_delivery_npc = None
         self.player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
         self.npc_inventory = inventoryRepository.get_inventory_by_entity_name('MajstorMarko')
@@ -33,7 +33,6 @@ class ShoeDelivery:
 
     def generate_shoes(self):
         self.app.popup.show_message("Stigle su nove cipele za popravak kod Majstora Marka!", 3)
-        print("stigle su nove cipele")
         self.pickup = True
         self.npc_inventory.add_item(inventoryRepository.create_item('unrepairedShoes'))
 
@@ -41,12 +40,10 @@ class ShoeDelivery:
     def check_shoe_pickup(self):
         if self.app.scene.check_if_close_to_entity('MajstorMarko') and self.pickup:
             self.app.popup.show_message("Pritisni E da preuzmeš cipele za popravak.", 2)
-            print("pritisni e da preuzmes cipele")
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.unrepaired_shoes += 1 
                 self.app.popup.show_message("Preuzeo si cipele! Odnesi ih na popravak.", 3)
-                print("preuzeio si cipele odnesi ih na popravak")
                 self.pickup = False
                 inventoryRepository.switch_items_from_inventories('MajstorMarko', 'player', 'unrepairedShoes')
 
@@ -54,7 +51,6 @@ class ShoeDelivery:
     def check_repair(self):
         if self.unrepaired_shoes == 1 and self.app.scene.check_if_close_to_entity('crafting'):
             self.app.popup.show_message("Pritisni E kako bi popravio cipele!", 1)
-            print("pritisni e kako bi popravio cipele")
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.unrepaired_shoes -= 1
@@ -62,7 +58,6 @@ class ShoeDelivery:
                 delivery_npc = random.choice(self.delivery_npcs)
                 self.current_delivery_npc = delivery_npc
                 self.app.popup.show_message(f"Cipele popravljene! Dostavi ih NPC-u: {delivery_npc}.", 3)
-                print(f"Cipele popravljene! Dostavi ih NPC-u: {delivery_npc}.")
                 self.player_inventory.add_item(inventoryRepository.create_item('repairedShoes'))
                 self.player_inventory.remove_item(self.player_inventory.get_item('unrepairedShoes'))
 
@@ -72,11 +67,9 @@ class ShoeDelivery:
 
         if self.app.scene.check_if_close_to_entity(self.current_delivery_npc):
             self.app.popup.show_message("Pritisni E kako bi predao cipele!", 1)
-            print("Pritisni E kako bi predao cipele!")
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.repaired_shoes -= 1
                 self.app.popup.show_message(f"Dostava cipela NPC-u {self.current_delivery_npc} obavljena! Bravo!", 3)
-                print(f"Dostava cipela NPC-u {self.current_delivery_npc} obavljena! Bravo!")
                 inventoryRepository.switch_items_from_inventories('player', self.current_delivery_npc, 'repairedShoes')
                 self.current_delivery_npc = None

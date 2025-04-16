@@ -59,6 +59,18 @@ ENTITY_SPRITE_ATTRS = {
         'path': 'assets/entities/cats/MajstorIvan.png',
         'y_offset': 20
     },
+    'MajstorLuka':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/cats/MajstorIvan.png',
+        'y_offset': 20
+    },
+    'MajstorJanko':{
+        'num_layers': 1,
+        'scale': 3,
+        'path': 'assets/entities/cats/MajstorIvan.png',
+        'y_offset': 20
+    },
         'jez':{
         'path': 'assets/stacked_sprites/hedgehog.png',
         'num_layers': 2,
