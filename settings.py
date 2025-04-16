@@ -17,9 +17,9 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
-        'path': 'assets/entities/player/SegrtHugo-novo.png',
+        'path': 'assets/entities/player/SegrtHugoanimiran.png',
         'mask_path': 'assets/entities/player/mask.png', 
-        'num_layers': 5,
+        'num_layers': 7,
         'scale': 3,
         'y_offset': 0,
     },
@@ -50,25 +50,25 @@ ENTITY_SPRITE_ATTRS = {
     'MajstorMarko':{
         'num_layers': 1,
         'scale': 3,
-        'path': 'assets/entities/cats/MajstorIvan.png',
+        'path': 'assets/entities/npcs/npc1.png',
         'y_offset': 20
     },
     'MajstorDalibor':{
         'num_layers': 1,
         'scale': 3,
-        'path': 'assets/entities/cats/MajstorIvan.png',
+        'path': 'assets/entities/npcs/npc2.png',
         'y_offset': 20
     },
     'MajstorLuka':{
         'num_layers': 1,
         'scale': 3,
-        'path': 'assets/entities/cats/MajstorIvan.png',
+        'path': 'assets/entities/npcs/npc3.png',
         'y_offset': 20
     },
     'MajstorJanko':{
         'num_layers': 1,
         'scale': 3,
-        'path': 'assets/entities/cats/MajstorIvan.png',
+        'path': 'assets/entities/npcs/npc4.png',
         'y_offset': 20
     },
         'jez':{
