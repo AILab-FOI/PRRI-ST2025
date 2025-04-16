@@ -63,7 +63,7 @@ class ShoeDelivery:
                 self.player_inventory.add_item(inventoryRepository.create_item('repairedShoes'))
                 self.player_inventory.remove_item(self.player_inventory.get_item('unrepairedShoes'))
         if self.spremno_za_predaju and self.app.scene.check_if_close_to_entity('crafting'):
-            self.app.popup.show_message(f"Cipele si popravio! Moraš ih dostaviti NPC-u: {self.current_delivery_npc}.", 0.5)
+            self.app.popup.show_message(f"Cipele si popravio! Moraš ih dostaviti: {self.current_delivery_npc}.", 0.5)
 
     def check_delivery(self):
         if self.repaired_shoes == 0 or not self.current_delivery_npc:
@@ -74,7 +74,7 @@ class ShoeDelivery:
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
                 self.repaired_shoes -= 1
-                self.app.popup.show_message(f"Dostava cipela NPC-u {self.current_delivery_npc} obavljena! Bravo!", 3)
+                self.app.popup.show_message(f"Dostava cipela {self.current_delivery_npc} obavljena! Bravo!", 3)
                 inventoryRepository.switch_items_from_inventories('player', self.current_delivery_npc, 'repairedShoes')
                 self.current_delivery_npc = None
                 self.spremno_za_predaju = False
