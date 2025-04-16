@@ -36,16 +36,16 @@ ENTITY_SPRITE_ATTRS = {
         'y_offset': 50,
     },
     'MajstorIvan':{
-        'num_layers': 1,
+        'num_layers': 9,
         'scale': 3.5,
-        'path': 'assets/entities/npcs/MajstorIvan.png',
+        'path': 'assets/entities/npcs/MajstorIvan-novo.png',
         'y_offset': 20
     },
     'SeljankaMara':{
-        'num_layers': 3,
+        'num_layers': 9,
         'scale': 3,
-        'path': 'assets/entities/cats/BabaMilka.png',
-        'y_offset': 20
+        'path': 'assets/entities/cats/BabaMilka-novo.png',
+        'y_offset': 4
     },
     'MajstorMarko':{
         'num_layers': 1,
