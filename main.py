@@ -46,8 +46,6 @@ class App:
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.quest_popup = QuestPopup(self.screen)
         self.show_settings = False
-        #self.ivan_popup = IvanNPC(self.screen)
-        #self.mara_popup = MaraNPC(self.screen)
         questRepository.load_quests_from_json()
 
     def update(self):

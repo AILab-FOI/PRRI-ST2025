@@ -42,9 +42,9 @@ ENTITY_SPRITE_ATTRS = {
         'y_offset': 20
     },
     'SeljankaMara':{
-        'num_layers': 1,
+        'num_layers': 3,
         'scale': 3,
-        'path': 'assets/entities/cats/seljankaMara.png',
+        'path': 'assets/entities/cats/BabaMilka.png',
         'y_offset': 20
     },
     'MajstorMarko':{
