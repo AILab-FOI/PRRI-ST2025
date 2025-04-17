@@ -10,7 +10,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup #MaraNPC , IvanNPC
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp
 import questRepository 
 from shoeDeliverySystem import ShoeDelivery
 
@@ -36,7 +36,8 @@ class App:
         self.scene = None    #LoadingScene( self )
         self.popup = MessagePopup(self)
         self.menu = MainMenu(self)
-        
+
+        self.shoe_pickup = ShoePickupPopUp(self.screen, "assets/entities/bullet/cipele2.png")
         self.shoe_delivery = ShoeDelivery(self)
         self.hint_popup = HintPopup(self.screen) 
         self.hint_popup.visible = False
@@ -78,6 +79,8 @@ class App:
             self.help_popup.draw()  
         if self.popup.visible:
             self.popup.draw()
+        if self.shoe_pickup.visible:
+            self.shoe_pickup.draw()
         pg.display.flip()
 
     def start_game(self):

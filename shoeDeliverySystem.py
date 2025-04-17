@@ -13,7 +13,7 @@ class ShoeDelivery:
         self.unrepaired_shoes = 0
         self.repaired_shoes = 0
         self.max_unrepaired = 1
-        self.pickup = False
+        self.pickup = False 
         self.spremno_za_predaju = False
         self.delivery_npcs = ['Karlo', 'Tomislav', 'Zora']  
         self.current_delivery_npc = None
@@ -23,7 +23,7 @@ class ShoeDelivery:
     def update(self):
         current_time = pg.time.get_ticks()
 
-        if self.unrepaired_shoes == 0:
+        if self.unrepaired_shoes == 0 and self.pickup == False:
             if current_time - self.last_generation_time >= self.generation_interval:
                 self.generate_shoes()
                 self.last_generation_time = current_time
@@ -35,6 +35,7 @@ class ShoeDelivery:
     def generate_shoes(self):
         self.app.popup.show_message("Stigle su nove cipele za popravak kod Majstora Marka!", 3)
         self.pickup = True
+        self.app.shoe_pickup.visible = True
         self.npc_inventory.add_item(inventoryRepository.create_item('unrepairedShoes'))
 
         
@@ -46,6 +47,7 @@ class ShoeDelivery:
                 self.unrepaired_shoes += 1 
                 self.app.popup.show_message("Preuzeo si cipele! Odnesi ih na popravak.", 3)
                 self.pickup = False
+                self.app.shoe_pickup.visible = False
                 inventoryRepository.switch_items_from_inventories('MajstorMarko', 'player', 'unrepairedShoes')
 
 

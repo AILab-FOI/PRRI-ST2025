@@ -496,3 +496,37 @@ class MainMenu:
                     elif self.selected_option == 2: 
                         pg.quit()
                         exit()
+
+class ShoePickupPopUp:
+    def __init__(self, screen, image_path=None):
+        self.screen = screen
+        self.image_path = image_path
+        self.image_surface = None
+        self.visible = False 
+        self.border_color = (101, 67, 33)
+        self.bg_color = (222, 204, 156)
+        self.padding = 10
+        self.border_width = 6
+
+        self.width = 80
+        self.height = 80
+        self.margin = 20
+        self.x = self.screen.get_width() - self.width - self.margin
+        self.y = self.margin
+        self.rect = pg.Rect(self.x, self.y, self.width, self.height)
+        self.set_image(image_path)
+
+    def set_image(self, image_path):
+        self.image_path = image_path
+        image = pg.image.load(image_path).convert_alpha()
+        self.image_surface = pg.transform.scale(image, (self.width - 2 * self.padding, self.height - 2 * self.padding))
+    
+    def draw(self):
+        if not self.visible or not self.image_surface:
+            return
+        pg.draw.rect(self.screen, self.bg_color, self.rect, border_radius=8)
+        pg.draw.rect(self.screen, self.border_color, self.rect, self.border_width, border_radius=8)
+
+        image_x = self.rect.x + self.padding - 2
+        image_y = self.rect.y + self.padding
+        self.screen.blit(self.image_surface, (image_x, image_y))
