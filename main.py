@@ -81,6 +81,8 @@ class App:
             self.popup.draw()
         if self.shoe_pickup.visible:
             self.shoe_pickup.draw()
+        if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
+            self.shoe_delivery.minigame.draw()
         pg.display.flip()
 
     def start_game(self):

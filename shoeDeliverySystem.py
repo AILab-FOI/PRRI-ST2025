@@ -4,6 +4,8 @@ import time
 import inventoryRepository
 import threading
 from stacked_sprite import *
+from minigame import Minigame
+
 
 class ShoeDelivery:
     def __init__(self, app):
@@ -19,8 +21,12 @@ class ShoeDelivery:
         self.current_delivery_npc = None
         self.player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
         self.npc_inventory = inventoryRepository.get_inventory_by_entity_name('MajstorMarko')
+        self.minigame = None
 
     def update(self):
+        if self.minigame and self.minigame.is_active():
+            self.minigame.update()
+            return
         current_time = pg.time.get_ticks()
 
         if self.unrepaired_shoes == 0 and self.pickup == False:
@@ -56,14 +62,10 @@ class ShoeDelivery:
             self.app.popup.show_message("Pritisni E kako bi popravio cipele!", 1)
             keys = pg.key.get_pressed()
             if keys[pg.K_e]:
-                self.unrepaired_shoes -= 1
-                self.repaired_shoes += 1
-                delivery_npc = random.choice(self.delivery_npcs)
-                self.current_delivery_npc = delivery_npc
-                #self.app.popup.show_message(f"Cipele popravljene! Dostavi ih NPC-u: {delivery_npc}.", 3)
-                self.spremno_za_predaju = True
+                self.minigame = Minigame(self.app)
                 self.player_inventory.add_item(inventoryRepository.create_item('repairedShoes'))
                 self.player_inventory.remove_item(self.player_inventory.get_item('unrepairedShoes'))
+                
         if self.spremno_za_predaju and self.app.scene.check_if_close_to_entity('crafting'):
             self.app.popup.show_message(f"Cipele si popravio! Moraš ih dostaviti: {self.current_delivery_npc}.", 0.5)
 
