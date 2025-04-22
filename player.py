@@ -33,6 +33,11 @@ class Player(BaseEntity):
 
 
     def control(self):
+        if self.app.shoe_delivery.minigame and self.app.shoe_delivery.minigame.is_active():
+            self.moving = False
+            self.inc = vec2(0)
+            return
+        
         self.moving = False
         self.inc = vec2(0)
         speed = PLAYER_SPEED * self.app.delta_time

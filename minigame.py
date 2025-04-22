@@ -34,6 +34,10 @@ class Minigame:
     def update(self):
         if not self.active:
             return
+        keys = pg.key.get_pressed()
+        if keys[pg.K_ESCAPE]:
+            self.active = False
+            return
 
         self.pointer_x += self.pointer_speed * self.direction
         if self.pointer_x <= self.slider_left or self.pointer_x >= self.slider_left + self.slider_width:

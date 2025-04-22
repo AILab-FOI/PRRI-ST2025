@@ -105,8 +105,12 @@ class App:
                 if e.key == pg.K_TAB:
                     self.inventory_popup.toggle()
                 elif e.key == pg.K_ESCAPE:
-                    self.settings_popup.toggle()
-                    self.help_popup.visible = False 
+                    if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
+                        self.shoe_delivery.minigame.active = False
+                        self.popup.show_message("Izašao si iz miniigre za popravak.", 1.5)
+                    else:
+                        self.settings_popup.toggle()
+                        self.help_popup.visible = False 
                 if not (self.settings_popup.visible or self.inventory_popup.visible) and self.player is not None:
                     self.player.single_fire(event=e)
             elif e.type == pg.MOUSEBUTTONDOWN and e.button == 1:
