@@ -37,7 +37,15 @@ class Player(BaseEntity):
             self.moving = False
             self.inc = vec2(0)
             return
-        
+        if self.app.inventory_popup.visible:
+            self.moving = False
+            self.inc = vec2(0)
+            return
+        if self.app.settings_popup.visible:
+            self.moving = False
+            self.inc = vec2(0)
+            return
+
         self.moving = False
         self.inc = vec2(0)
         speed = PLAYER_SPEED * self.app.delta_time
