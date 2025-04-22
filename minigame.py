@@ -5,6 +5,7 @@ import inventoryRepository
 class Minigame:
     def __init__(self, app):
         self.app = app
+        pg.mixer.init()
         self.surface = pg.Surface((600, 350), pg.SRCALPHA)
         self.rect = self.surface.get_rect(center=(app.screen.get_width() // 2, app.screen.get_height() // 2))
 
@@ -49,6 +50,7 @@ class Minigame:
                 current_time = pg.time.get_ticks()
                 if current_time - self.last_space > 500:
                     self.hits += 1
+                    pg.mixer.Sound("assets/sound/entity_interaction/anvil-hit.mp3").play()
                     self.last_space = current_time
 
         if self.hits >= self.max_hits:
