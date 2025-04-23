@@ -123,7 +123,7 @@ STACKED_SPRITE_ATTRS = {
         'mask_layer': 40 
     },
         'drvo': {
-        'path': 'assets/stacked_sprites/drvo_1.png',
+        'path': 'assets/stacked_sprites/drvo1.png',
         'num_layers': 80,
         'scale': 3,
         'y_offset': 0,
