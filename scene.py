@@ -55,6 +55,18 @@ class Scene:
         questRepository.get_quest_by_id(0).startQuest()
         questRepository.get_quest_by_id(1).startQuest()
 
+        self.cozy_tutorial = True
+        self.npc_dialog_index = 0
+        self.npc_dialog_active = False
+        self.npc_dialog_last_space = 0
+        self.npc_dialog_lines = [
+            "Dobro došao! Prije nego posjetiš Seljanku Maru pokazat ću ti kako da popravljaš cipele. \n[Pritisni SPACE da nastaviš razgovor...]",
+            "Prvo preuzmi cipele od mene kada stignu. Uvijek će ti doći podsjetnik da su cipele došle. Kao što sada vidiš.\n[Pritisni SPACE da nastaviš razgovor...]",
+            "Zatim idi do stola za popravak i popravi cipele!\n[Pritisni SPACE da nastaviš razgovor...]",
+            "Kad završiš, odneseš ih osobi kojoj su namijenjene. Vidjet ćeš u gornjem desnom uglu ekrana sliku osobe kojoj moraš donijeti cipele.\n[Pritisni SPACE da nastaviš razgovor...]",
+            "Ja ću svako malo dobivati cipele za popravak, tako da navrati kada vidiš podsjetnik na vrhu ekrana. Sretno u popravku!\n[Pritisni SPACE da završiš razgovor...]"
+        ]
+
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
         rand_pos = lambda pos: pos + vec2(uniform(-0.25, 0.25))
@@ -121,6 +133,7 @@ class Scene:
         self.update_repair()
         self.check_if_close_to_chest()
         self.check_npc_interaction()
+        self.check_npc_interaction3()
         self.check_first_quest()
         self.check_second_quest()
 
@@ -180,7 +193,8 @@ class Scene:
             if self.repaired:  
                 self.app.popup.show_message("Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                                             "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
-                                            "Požuri do Seljanke Mare kako bi nastavio svoj put!", 0.5)
+                                            "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!", 0.5)
+                #self.app.cozy_mechanic_begin = True
             return True
         return False     
 
@@ -198,6 +212,42 @@ class Scene:
             return True
         return False 
     
+    #NPC KOJI POKAZUJE COZY MEHANIKU
+    def check_npc_interaction3(self):
+        player_pos = self.app.player.offset / TILE_SIZE
+        majstorMarko_pos = None
+
+        for j, row in enumerate(MAP):
+            for i, name in enumerate(row):
+                if name == 'MajstorMarko':
+                    majstorMarko_pos = vec2(i, j) + vec2(0.5)
+                    break
+
+        if majstorMarko_pos and player_pos.distance_to(majstorMarko_pos) < 0.65 and self.cozy_tutorial == True:
+            keys = pg.key.get_pressed()
+            current_time = pg.time.get_ticks()
+            self.app.popup.show_message(self.npc_dialog_lines[self.npc_dialog_index], 1)
+            if keys[pg.K_SPACE] and current_time - self.npc_dialog_last_space > 300:
+                self.npc_dialog_last_space = current_time
+                self.npc_dialog_index += 1
+                if self.npc_dialog_index == 5:
+                    self.cozy_tutorial = False
+                    self.npc_dialog_index = 0
+                if self.npc_dialog_index == 1:
+                    self.app.shoe_pickup.visible = True
+                if self.npc_dialog_index == 2:
+                    self.app.shoe_pickup.visible = False
+                if self.npc_dialog_index == 3:
+                    self.app.delivery_popup.visible = True
+                if self.npc_dialog_index == 4:
+                    self.app.delivery_popup.visible = False
+                    self.app.cozy_mechanic_begin = True
+                if self.npc_dialog_index < len(self.npc_dialog_lines):
+                    self.app.popup.show_message(self.npc_dialog_lines[self.npc_dialog_index], 1)
+        else:
+            self.npc_dialog_index = 0
+
+
     def check_first_quest(self):
         quest = questRepository.get_quest_by_id(0)
         player_inventory = inventoryRepository.get_inventory_by_entity_name('player')

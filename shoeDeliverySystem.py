@@ -11,7 +11,7 @@ class ShoeDelivery:
     def __init__(self, app):
         self.app = app
         self.last_generation_time = pg.time.get_ticks()
-        self.generation_interval = 40000  
+        self.generation_interval = 25000  
         self.unrepaired_shoes = 0
         self.repaired_shoes = 0
         self.max_unrepaired = 1
@@ -29,7 +29,7 @@ class ShoeDelivery:
             return
         current_time = pg.time.get_ticks()
 
-        if self.unrepaired_shoes == 0 and self.pickup == False:
+        if self.app.cozy_mechanic_begin == True and self.unrepaired_shoes == 0 and self.pickup == False:
             if current_time - self.last_generation_time >= self.generation_interval:
                 self.generate_shoes()
                 self.last_generation_time = current_time
@@ -81,4 +81,6 @@ class ShoeDelivery:
                 self.app.popup.show_message(f"Dostava cipela {self.current_delivery_npc} obavljena! Bravo!", 3)
                 inventoryRepository.switch_items_from_inventories('player', self.current_delivery_npc, 'repairedShoes')
                 self.current_delivery_npc = None
+                self.app.delivery_popup.visible = False
                 self.spremno_za_predaju = False
+            

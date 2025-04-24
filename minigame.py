@@ -62,6 +62,14 @@ class Minigame:
         shoe_delivery.repaired_shoes += 1
         delivery_npc = random.choice(shoe_delivery.delivery_npcs)
         shoe_delivery.current_delivery_npc = delivery_npc
+        if delivery_npc == 'Karlo':
+            self.app.npc_path = "assets/entities/npcs/npc2.png"
+        if delivery_npc == 'Tomislav':
+            self.app.npc_path = "assets/entities/npcs/npc3.png"
+        if delivery_npc == 'Zora':
+            self.app.npc_path = "assets/entities/npcs/npc4.png"
+        self.app.delivery_popup.set_image(self.app.npc_path)
+        self.app.delivery_popup.visible = True
         shoe_delivery.spremno_za_predaju = True
         #shoe_delivery.minigame = None
         self.active = False
