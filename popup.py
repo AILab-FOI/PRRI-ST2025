@@ -298,7 +298,7 @@ class SettingsPopup(Popup):
 class QuestPopup(Popup):
     def __init__(self, screen):
         super().__init__(screen, "Quests")
-        self.quests = questRepository.get_all_quests()
+        self.quests = questRepository.get_active_quests()
         self.scroll_offset = 0
         self.scroll_step = 30
         self.max_display = 6
@@ -335,6 +335,8 @@ class QuestPopup(Popup):
         super().draw()
         if not self.visible:
             return
+        
+        self.quests = questRepository.get_active_quests()
 
         start_y = self.y + 120
         line_spacing = 10

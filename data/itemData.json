@@ -10,7 +10,7 @@
         },
         {
             "itemName": "hedgehog",
-            "imgPath": "assets/entities/cats/seljankaMara.png"
+            "imgPath": "assets/stacked_sprites/hedgehog.png"
         },
         {
             "itemName": "unrepairedShoes",

@@ -38,12 +38,19 @@ class Entity(BaseEntity):
             self.message = self.attrs[ 'message' ]
         except:
             self.message = ''
+        
+        self.invisible = False
 
     def update(self):
         super().update()
         self.transform()
         self.set_rect()
         self.change_layer()
+
+        if self.invisible:
+            self.image.set_alpha(0)
+        else:
+            self.image.set_alpha(255)
 
     def transform(self):
         pos = self.pos - self.player.offset

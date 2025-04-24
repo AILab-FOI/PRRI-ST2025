@@ -42,6 +42,7 @@ class Scene:
     def __init__(self, app):
         self.app = app
         self.transform_objects = []
+        self.entity_repository = {}
         self.load_scene()
 
         self.app.hint_popup.start_time = pg.time.get_ticks()  
@@ -85,7 +86,8 @@ class Scene:
                 elif name == 'breza':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'jez':
-                    Entity(self.app, name=name, pos=pos)
+                    entity = Entity(self.app, name=name, pos=pos)
+                    self.entity_repository.setdefault(name, []).append(entity)
                 elif name == 'stol_majstor':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'crafting':
@@ -119,7 +121,6 @@ class Scene:
         self.update_repair()
         self.check_if_close_to_chest()
         self.check_npc_interaction()
-        self.check_npc_interaction2()
         self.check_first_quest()
         self.check_second_quest()
 
@@ -214,37 +215,48 @@ class Scene:
                     quest.setStage(2)
         elif quest.current_stage == 2:
             quest.is_completed = True
+            quest.is_active = False
             quest.setStage(-1)
 
     def check_second_quest(self):
         quest = questRepository.get_quest_by_id(1)
         player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
 
-        #todo fix the popups, some aren't showing
-
         if(quest.current_stage == 0):
             if self.check_npc_interact('SeljankaMara'):
+                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 3)
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_npc_interact('jez'):
-                print("Pritisnite tipku E za pokupiti ježa.", 0.5)
+                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
                 keys = pg.key.get_pressed()
 
                 if keys[pg.K_e]:
-                    print("Uspješno ste pokupili ježa!", 0.5)
                     inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
-                    #todo erase jez from map
+
+                    for j, row in enumerate(MAP):
+                        for i, name in enumerate(row):
+                            if name == 'jez':
+                                jez_list = self.entity_repository.get('jez', [])
+
+                                if jez_list:
+                                    jez = jez_list[0]
+                                    jez.collision = False
+                                    jez.invisible = True
+                                    break
+
                     if(player_inventory.contains_item('hedgehog')):
                         quest.setStage(2)
         elif quest.current_stage == 2:
             if self.check_npc_interact('SeljankaMara'):
-                print("Hvala ti puno, evo ti nagrada!", 0.5)
+                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 3)
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
                 #todo make jez appear near mara
                 quest.setStage(-1)
+                quest.is_active = False
                 quest.is_completed = True
     
-    def check_npc_interact(self, npc_name):
+    def check_npc_interact(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE
         npc_pos = None
 
@@ -254,8 +266,11 @@ class Scene:
                     npc_pos = vec2(i, j) + vec2(0.5)
                     break
         if npc_pos and player_pos.distance_to(npc_pos) < 1.0:
-            keys = pg.key.get_pressed()
-            if keys[pg.K_e]:
+            if is_press_needed:
+                keys = pg.key.get_pressed()
+                if keys[pg.K_e]:
+                    return True
+            else:
                 return True
         return False
     
