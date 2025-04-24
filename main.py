@@ -70,12 +70,6 @@ class App:
         
         if self.hint_popup.visible:
             self.hint_popup.draw()
-        if self.inventory_popup.visible:
-            self.inventory_popup.draw()
-        if self.chest_popup.visible:
-            self.chest_popup.draw()
-        if self.settings_popup.visible:
-            self.settings_popup.draw()
         if self.quest_popup.visible:
             self.quest_popup.draw()
         if self.help_popup.visible:
@@ -88,6 +82,12 @@ class App:
             self.delivery_popup.draw()
         if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
             self.shoe_delivery.minigame.draw()
+        if self.settings_popup.visible:
+            self.settings_popup.draw()
+        if self.inventory_popup.visible:
+            self.inventory_popup.draw()
+        if self.chest_popup.visible:
+            self.chest_popup.draw()
         pg.display.flip()
 
     def start_game(self):
@@ -115,7 +115,7 @@ class App:
                         self.popup.show_message("Izašao si iz miniigre za popravak.", 1.5)
                     else:
                         self.settings_popup.toggle()
-                        self.help_popup.visible = False 
+                        self.help_popup.visible = False
                 if not (self.settings_popup.visible or self.inventory_popup.visible) and self.player is not None:
                     self.player.single_fire(event=e)
             elif e.type == pg.MOUSEBUTTONDOWN and e.button == 1:
@@ -130,7 +130,6 @@ class App:
                         self.quest_popup.toggle()
                     elif action == "Help":
                         self.help_popup.visible = True 
-                        
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_click(e)
                 mouse_pos = e.pos

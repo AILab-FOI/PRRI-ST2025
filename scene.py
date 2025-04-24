@@ -55,6 +55,7 @@ class Scene:
         questRepository.get_quest_by_id(0).startQuest()
         questRepository.get_quest_by_id(1).startQuest()
 
+        self.MaraJez = False
         self.cozy_tutorial = True
         self.npc_dialog_index = 0
         self.npc_dialog_active = False
@@ -119,20 +120,12 @@ class Scene:
             obj.rot = 30 * self.app.time
 
     def update(self):
-        
 
-        if self.check_anvil_interaction():
-            if not self.repairing and not self.repaired:  
-                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
-                keys = pg.key.get_pressed()
-                if keys[pg.K_e]:  
-                    self.start_repair()  
-            elif self.repaired:
-                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 0.5)  
-
+        self.check_anvil_interaction()
         self.update_repair()
         self.check_if_close_to_chest()
         self.check_npc_interaction()
+        self.check_npc_interaction2()
         self.check_npc_interaction3()
         self.check_first_quest()
         self.check_second_quest()
@@ -140,20 +133,28 @@ class Scene:
     def check_anvil_interaction(self):
         player_pos = self.app.player.offset / TILE_SIZE
         anvil_pos = None
-        
+
         for j, row in enumerate(MAP):
             for i, name in enumerate(row):
                 if name == 'anvil':
                     anvil_pos = vec2(i, j) + vec2(0.5)
                     break
-        
-        return anvil_pos and player_pos.distance_to(anvil_pos) < 0.35
+        if anvil_pos and player_pos.distance_to(anvil_pos) < 0.50:
+            if not self.repairing and not self.repaired:
+                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
+                keys = pg.key.get_pressed()
+                if keys[pg.K_e]:
+                    self.start_repair()
+            elif self.repairing == True:
+                self.app.popup.show_message("Torba se popravlja, pričekaj trenutak!", 0.5)
+            elif self.repaired:
+                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 0.5)
 
     def start_repair(self):
         if not self.repairing and not self.repaired:  
             self.repairing = True
             self.repairing_start_time = pg.time.get_ticks()
-            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 5.5)
+
 
     def check_if_close_to_chest(self):
         player_pos = self.app.player.offset / TILE_SIZE
@@ -208,7 +209,10 @@ class Scene:
                     mara_pos = vec2(i, j) + vec2(0.5)
                     break
         if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 0.5)
+            if self.MaraJez == False:
+                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka.", 0.5)
+            elif self.MaraJez == True:
+                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 0.5)
             return True
         return False 
     
@@ -274,7 +278,6 @@ class Scene:
 
         if(quest.current_stage == 0):
             if self.check_npc_interact('SeljankaMara'):
-                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka. \n Pravi put je prekriven lišćem... ali ne svakakvim – onim što kao da šapće pod tvojim koracima.", 3)
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.check_npc_interact('jez'):
@@ -299,13 +302,13 @@ class Scene:
                         quest.setStage(2)
         elif quest.current_stage == 2:
             if self.check_npc_interact('SeljankaMara'):
-                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 3)
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
                 #todo make jez appear near mara
                 quest.setStage(-1)
                 quest.is_active = False
                 quest.is_completed = True
-    
+                self.MaraJez = True
+
     def check_npc_interact(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE
         npc_pos = None
