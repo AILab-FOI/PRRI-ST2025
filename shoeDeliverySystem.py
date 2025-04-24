@@ -81,4 +81,6 @@ class ShoeDelivery:
                 self.app.popup.show_message(f"Dostava cipela {self.current_delivery_npc} obavljena! Bravo!", 3)
                 inventoryRepository.switch_items_from_inventories('player', self.current_delivery_npc, 'repairedShoes')
                 self.current_delivery_npc = None
+                self.app.delivery_popup.visible = False
                 self.spremno_za_predaju = False
+            

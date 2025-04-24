@@ -10,7 +10,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp, DeliveryNPCPopUp
 import questRepository 
 from shoeDeliverySystem import ShoeDelivery
 
@@ -46,6 +46,8 @@ class App:
         self.help_popup = HelpPopup(self.screen) 
         self.settings_popup = SettingsPopup(self.screen, self.help_popup)  # Proslijedimo help popup
         self.quest_popup = QuestPopup(self.screen)
+        self.npc_path = "assets/entities/npcs/npc1.png"
+        self.delivery_popup = DeliveryNPCPopUp(self.screen, self.npc_path)
         self.show_settings = False
         questRepository.load_quests_from_json()
 
@@ -81,6 +83,8 @@ class App:
             self.popup.draw()
         if self.shoe_pickup.visible:
             self.shoe_pickup.draw()
+        if self.delivery_popup.visible:
+            self.delivery_popup.draw()
         if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
             self.shoe_delivery.minigame.draw()
         pg.display.flip()
