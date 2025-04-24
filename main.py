@@ -36,6 +36,7 @@ class App:
         self.scene = None    #LoadingScene( self )
         self.popup = MessagePopup(self)
         self.menu = MainMenu(self)
+        self.cozy_mechanic_begin = False
 
         self.shoe_pickup = ShoePickupPopUp(self.screen, "assets/entities/bullet/cipele2.png")
         self.shoe_delivery = ShoeDelivery(self)
