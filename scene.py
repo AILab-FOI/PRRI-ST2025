@@ -139,7 +139,7 @@ class Scene:
         if not self.repairing and not self.repaired:  
             self.repairing = True
             self.repairing_start_time = pg.time.get_ticks()
-            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 0.5)
+            self.app.popup.show_message("Popravak torbe u tijeku... Pričekaj ovdje...", 5.5)
 
     def check_if_close_to_chest(self):
         player_pos = self.app.player.offset / TILE_SIZE
