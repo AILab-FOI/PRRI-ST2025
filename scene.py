@@ -1,4 +1,4 @@
-import inventoryRepository
+from quest_handler import QuestHandler
 from popup import InventoryPopup
 import questRepository
 from stacked_sprite import *
@@ -44,16 +44,10 @@ class Scene:
         self.transform_objects = []
         self.entity_repository = {}
         self.load_scene()
+        self.questHandler = QuestHandler(self.app, MAP, self.entity_repository)
 
         self.app.hint_popup.start_time = pg.time.get_ticks()  
-        self.app.hint_popup.visible = True  
-        self.repairing = False
-        self.repaired = False
-        self.repairing_start_time = None
-        self.success_message_time = None
-        self.repair_duration = 7000
-        questRepository.get_quest_by_id(0).startQuest()
-        questRepository.get_quest_by_id(1).startQuest()
+        self.app.hint_popup.visible = True
 
         self.MaraJez = False
         self.cozy_tutorial = True
@@ -100,6 +94,7 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'jez':
                     entity = Entity(self.app, name=name, pos=pos)
+                    entity.invisible = True
                     self.entity_repository.setdefault(name, []).append(entity)
                 elif name == 'stol_majstor':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
@@ -120,101 +115,9 @@ class Scene:
             obj.rot = 30 * self.app.time
 
     def update(self):
-
-        self.check_anvil_interaction()
-        self.update_repair()
-        self.check_if_close_to_chest()
-        self.check_npc_interaction()
-        self.check_npc_interaction2()
         self.check_npc_interaction3()
-        self.check_first_quest()
-        self.check_second_quest()
-
-    def check_anvil_interaction(self):
-        player_pos = self.app.player.offset / TILE_SIZE
-        anvil_pos = None
-
-        for j, row in enumerate(MAP):
-            for i, name in enumerate(row):
-                if name == 'anvil':
-                    anvil_pos = vec2(i, j) + vec2(0.5)
-                    break
-        if anvil_pos and player_pos.distance_to(anvil_pos) < 0.50:
-            if not self.repairing and not self.repaired:
-                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
-                keys = pg.key.get_pressed()
-                if keys[pg.K_e]:
-                    self.start_repair()
-            elif self.repairing == True:
-                self.app.popup.show_message("Torba se popravlja, pričekaj trenutak!", 0.5)
-            elif self.repaired:
-                self.app.popup.show_message("Torba je uspješno popravljena! \n Vrati se do majstora Ivana, sigurno čuva neke tajne...", 0.5)
-
-    def start_repair(self):
-        if not self.repairing and not self.repaired:  
-            self.repairing = True
-            self.repairing_start_time = pg.time.get_ticks()
-
-
-    def check_if_close_to_chest(self):
-        player_pos = self.app.player.offset / TILE_SIZE
-        chest_pos = None
-
-        for j, row in enumerate(MAP):
-            for i, name in enumerate(row):
-                if name == 'chest':
-                    chest_pos = vec2(i, j) + vec2(0.5)
-                    break
-
-        if chest_pos and player_pos.distance_to(chest_pos) < 0.65:
-            self.app.chest_popup.visible = True
-        else:
-            self.app.chest_popup.visible = False
-
-    def update_repair(self):
-        if self.repairing:
-            elapsed_time = pg.time.get_ticks() - self.repairing_start_time
-            if elapsed_time >= self.repair_duration:  
-                self.repairing = False
-                self.repaired = True  
-                self.repairing_start_time = None
-                self.success_message_time = pg.time.get_ticks()  
-    
-
-    def check_npc_interaction(self):
-        player_pos = self.app.player.offset / TILE_SIZE
-        majstor_pos = None
-        for j, row in enumerate(MAP):
-            for i, name in enumerate(row):
-                if name == 'MajstorIvan':
-                    majstor_pos = vec2(i, j) + vec2(0.5)
-                    break
-        if majstor_pos and player_pos.distance_to(majstor_pos) < 0.65:
-            self.app.popup.show_message("Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. Imaš u chestu neke iteme koji će ti pomoći. Sretno!", 0.5)
-            if self.repaired:  
-                self.app.popup.show_message("Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
-                                            "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
-                                            "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!", 0.5)
-                #self.app.cozy_mechanic_begin = True
-            return True
-        return False     
-
-    def check_npc_interaction2(self):
-        player_pos = self.app.player.offset / TILE_SIZE
-        mara_pos = None
-
-        for j, row in enumerate(MAP):
-            for i, name in enumerate(row):
-                if name == 'SeljankaMara':
-                    mara_pos = vec2(i, j) + vec2(0.5)
-                    break
-        if mara_pos and player_pos.distance_to(mara_pos) < 0.65:
-            if self.MaraJez == False:
-                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka.", 0.5)
-            elif self.MaraJez == True:
-                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 0.5)
-            return True
-        return False 
+        self.questHandler.fix_backpack()
+        self.questHandler.find_hedgehog()
     
     #NPC KOJI POKAZUJE COZY MEHANIKU
     def check_npc_interaction3(self):
@@ -251,65 +154,7 @@ class Scene:
         else:
             self.npc_dialog_index = 0
 
-
-    def check_first_quest(self):
-        quest = questRepository.get_quest_by_id(0)
-        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
-        
-        if quest.current_stage == 0:
-            if player_inventory.contains_item('backpack'):
-                quest.setStage(1)
-        elif quest.current_stage == 1:
-            if self.check_anvil_interaction():
-                self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
-                keys = pg.key.get_pressed()
-                if keys[pg.K_e]:
-                    self.start_repair()
-                    player_inventory.remove_item('backpack')
-                    quest.setStage(2)
-        elif quest.current_stage == 2:
-            quest.is_completed = True
-            quest.is_active = False
-            quest.setStage(-1)
-
-    def check_second_quest(self):
-        quest = questRepository.get_quest_by_id(1)
-        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
-
-        if(quest.current_stage == 0):
-            if self.check_npc_interact('SeljankaMara'):
-                quest.setStage(1)
-        elif quest.current_stage == 1:
-            if self.check_npc_interact('jez'):
-                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
-                keys = pg.key.get_pressed()
-
-                if keys[pg.K_e]:
-                    inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
-
-                    for j, row in enumerate(MAP):
-                        for i, name in enumerate(row):
-                            if name == 'jez':
-                                jez_list = self.entity_repository.get('jez', [])
-
-                                if jez_list:
-                                    jez = jez_list[0]
-                                    jez.collision = False
-                                    jez.invisible = True
-                                    break
-
-                    if(player_inventory.contains_item('hedgehog')):
-                        quest.setStage(2)
-        elif quest.current_stage == 2:
-            if self.check_npc_interact('SeljankaMara'):
-                player_inventory.remove_item(player_inventory.get_item('hedgehog'))
-                #todo make jez appear near mara
-                quest.setStage(-1)
-                quest.is_active = False
-                quest.is_completed = True
-                self.MaraJez = True
-
-    def check_npc_interact(self, npc_name, is_press_needed=False):
+    def check_if_close_to_entity(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE
         npc_pos = None
 
@@ -318,6 +163,7 @@ class Scene:
                 if name == npc_name:
                     npc_pos = vec2(i, j) + vec2(0.5)
                     break
+        
         if npc_pos and player_pos.distance_to(npc_pos) < 1.0:
             if is_press_needed:
                 keys = pg.key.get_pressed()
@@ -325,20 +171,6 @@ class Scene:
                     return True
             else:
                 return True
-        return False
-    
-    def check_if_close_to_entity(self, entity_name):
-        player_pos = self.app.player.offset / TILE_SIZE
-        entity_pos = None
-
-        for j, row in enumerate(MAP):
-            for i, name in enumerate(row):
-                if name == entity_name:
-                    entity_pos = vec2(i, j) + vec2(0.5)
-                    break
-
-        if entity_pos and player_pos.distance_to(entity_pos) < 0.65:
-            return True
         return False
 
 def run_in_thread(func, args=None, kwargs=None, callback=None):

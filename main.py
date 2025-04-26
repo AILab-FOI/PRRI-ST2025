@@ -70,6 +70,12 @@ class App:
         
         if self.hint_popup.visible:
             self.hint_popup.draw()
+        if self.settings_popup.visible:
+            self.settings_popup.draw()
+        if self.inventory_popup.visible:
+            self.inventory_popup.draw()
+        if self.chest_popup.visible:
+            self.chest_popup.draw()
         if self.quest_popup.visible:
             self.quest_popup.draw()
         if self.help_popup.visible:
@@ -82,12 +88,6 @@ class App:
             self.delivery_popup.draw()
         if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
             self.shoe_delivery.minigame.draw()
-        if self.settings_popup.visible:
-            self.settings_popup.draw()
-        if self.inventory_popup.visible:
-            self.inventory_popup.draw()
-        if self.chest_popup.visible:
-            self.chest_popup.draw()
         pg.display.flip()
 
     def start_game(self):
