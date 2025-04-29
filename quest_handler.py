@@ -1,3 +1,4 @@
+import random
 import questRepository
 import inventoryRepository
 from settings import *
@@ -48,8 +49,7 @@ class QuestHandler:
             if self.__check_if_close_to_entity('MajstorIvan'):
                 self.app.popup.show_message(
                     "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
-                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!"
-                    "\nMožeš pritisnuti T kako bi pratio u svakom trenutku pratio svoje zadatke!",
+                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
                     0.5
                 )
 
@@ -76,22 +76,13 @@ class QuestHandler:
                     3
                 )
 
-                quest.is_completed = True
-                quest.is_active = False
-                quest.setStage(-1)
+                quest.endQuest()
                 questRepository.get_quest_by_id(1).startQuest()
                 questRepository.get_quest_by_id(2).startQuest()
 
     def find_hedgehog(self):
-        def find_hedgehog_location():
-            for j, row in enumerate(self.MAP):
-                for i, name in enumerate(row):
-                    if name == 'jez':
-                        jez_list = self.entity_repository.get('jez', [])
-
-                        if jez_list:
-                            jez = jez_list[0]
-                            return jez
+        def find_hedgehog_location(random_hedgehog_index):
+            return self.entity_repository[random_hedgehog_index]
 
         quest = questRepository.get_quest_by_id(1)
         player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
@@ -100,35 +91,51 @@ class QuestHandler:
             if self.__check_if_close_to_entity('SeljankaMara'):
                 self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka.", 2)
 
-                jez = find_hedgehog_location()
+                self.random_index = random.randint(0, len(self.entity_repository) - 1)
+                jez = find_hedgehog_location(self.random_index)
                 jez.invisible = False
 
                 quest.setStage(1)
+                
         elif quest.current_stage == 1:
-            if self.__check_if_close_to_entity('jez'):
-                if not self.app.hedgehog_minigame.is_active():
-                    self.app.popup.show_message("Pritisni tipku E kako bi uhvatio ježa.", 0.5)
-                    keys = pg.key.get_pressed()
-                    if keys[pg.K_e]:
-                        def on_success():
-                            inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
-                            jez = find_hedgehog_location()
-                            if jez:
-                                jez.invisible = True
-                            if player_inventory.contains_item('hedgehog'):
-                                quest.setStage(2)
+            if self.__check_if_close_to_entity(self.entity_repository[self.random_index].name):
+                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
+                keys = pg.key.get_pressed()
 
-                        self.app.hedgehog_minigame.on_success = on_success
-                        self.app.hedgehog_minigame.start()
+                if keys[pg.K_e]:
+                    if not self.app.hedgehog_minigame.is_active():
+                        self.app.popup.show_message("Pritisni tipku E kako bi uhvatio ježa.", 0.5)
+                        keys = pg.key.get_pressed()
+                        if keys[pg.K_e]:
+                            def on_success():
+                                hedgehog = inventoryRepository.create_item('hedgehog')
+                                inventoryRepository.get_inventory_by_entity_name('player').add_item(hedgehog)
+
+                                jez = find_hedgehog_location(self.random_index)
+                                jez.invisible = True
+
+                                if(player_inventory.contains_item('hedgehog')):
+                                    quest.setStage(2)
+
+                            self.app.hedgehog_minigame.on_success = on_success
+                            self.app.hedgehog_minigame.start()
 
         elif quest.current_stage == 2:
             if self.__check_if_close_to_entity('SeljankaMara'):
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
                 self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 1)
-                #todo make jez appear near mara
-                quest.setStage(-1)
-                quest.is_active = False
-                quest.is_completed = True
+                quest.endQuest()
+        elif quest.is_completed:
+            if not hasattr(self, 'quest_start_time'):
+                self.quest_start_time = pg.time.get_ticks()
+
+            current_time = pg.time.get_ticks()
+            elapsed_time = current_time - self.quest_start_time
+
+            if elapsed_time >= 60000:
+                questRepository.get_quest_by_id(1).startQuest()
+                delattr(self, 'quest_start_time')
+                self.app.popup.show_message("Seljanka Mara te ponovno traži", 2)
     
     def __check_if_close_to_entity(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE

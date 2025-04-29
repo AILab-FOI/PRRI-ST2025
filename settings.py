@@ -77,6 +77,27 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 3,
         'y_offset': 0,
         'mask_layer': 1
+    },
+        'jez2':{
+        'path': 'assets/stacked_sprites/hedgehog.png',
+        'num_layers': 2,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 1
+    },
+        'jez3':{
+        'path': 'assets/stacked_sprites/hedgehog.png',
+        'num_layers': 2,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 1
+    },
+        'jez4':{
+        'path': 'assets/stacked_sprites/hedgehog.png',
+        'num_layers': 2,
+        'scale': 3,
+        'y_offset': 0,
+        'mask_layer': 1
     }
 }
 

@@ -10,7 +10,14 @@ class Quest():
 
     def startQuest(self):
         self.is_active = True
+        self.is_completed = False
         self.current_stage = 0
+    
+    def endQuest(self):
+        self.is_active = False
+        self.is_completed = True
+        self.current_stage = -1
+
 
     def setStage(self, stage_id):
         self.current_stage = stage_id

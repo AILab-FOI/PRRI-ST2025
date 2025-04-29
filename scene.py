@@ -16,7 +16,7 @@ ML = 'Tomislav'
 MJ = 'Zora'
 S = 'SeljankaMara'
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
-J = 'jez'
+J1,J2,J3,J4 = 'jez', 'jez2', 'jez3', 'jez4'
 ST = 'stol_majstor'
 C = 'crafting'
 RS = 'radni_stol'
@@ -24,11 +24,11 @@ RS = 'radni_stol'
 MAP = [
     [d1, 0, d3, t, t, 0, d1, 0, t, 0, d1, 0, d3, t, d1],
     [t, 0, t, d2, 0, MD, 0, t, t, 0, d2, 0, d1, 0, d2],
-    [0, RS, 0, C, 0, t, d3, 0, 0, d2, 0, b, d2, t, d3],
-    [d2, t, t, 0, t, 0, t, 0, S, t, t, d1, J, t, 0],
+    [0, RS, 0, C, 0, t, d3, 0, 0, d2, J1, b, d2, t, d3],
+    [d2, t, t, 0, t, 0, t, 0, S, t, t, d1, J2, t, 0],
     [0, M, 0, P, 0, a, t, 0, 0, d3, t, t, d3, d2, 0],
-    [t, d3, 0, t, 0, t, 0, d2, 0, 0, d1, t, 0, t, d1],
-    [c, 0, t, d1, MM, t, b, 0, 0, d3, 0, t, d3, 0, t],
+    [t, d3, 0, t, 0, t, 0, d2, 0, 0, d1, t, J3, t, d1],
+    [c, 0, t, d1, MM, t, b, 0, 0, d3, J4, t, d3, 0, t],
     [0, ML, 0, 0, t, 0, MJ, 0, d1, t, d2, t, t, d1, d3],
     [d1, t, d3, t, 0, d3, 0, d2, 0, t, 0, d2, d2, t, d1],
 
@@ -42,7 +42,7 @@ class Scene:
     def __init__(self, app):
         self.app = app
         self.transform_objects = []
-        self.entity_repository = {}
+        self.entity_repository = []
         self.load_scene()
         self.questHandler = QuestHandler(self.app, MAP, self.entity_repository)
 
@@ -92,10 +92,10 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'breza':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
-                elif name == 'jez':
+                elif name == 'jez' or name == 'jez2' or name == 'jez3' or name == 'jez4':
                     entity = Entity(self.app, name=name, pos=pos)
                     entity.invisible = True
-                    self.entity_repository.setdefault(name, []).append(entity)
+                    self.entity_repository.append(entity)
                 elif name == 'stol_majstor':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'crafting':
