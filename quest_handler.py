@@ -106,17 +106,21 @@ class QuestHandler:
                 quest.setStage(1)
         elif quest.current_stage == 1:
             if self.__check_if_close_to_entity('jez'):
-                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
-                keys = pg.key.get_pressed()
+                if not self.app.hedgehog_minigame.is_active():
+                    self.app.popup.show_message("Pritisni tipku E kako bi uhvatio ježa.", 0.5)
+                    keys = pg.key.get_pressed()
+                    if keys[pg.K_e]:
+                        def on_success():
+                            inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
+                            jez = find_hedgehog_location()
+                            if jez:
+                                jez.invisible = True
+                            if player_inventory.contains_item('hedgehog'):
+                                quest.setStage(2)
 
-                if keys[pg.K_e]:
-                    inventoryRepository.switch_items_from_inventories('jez', 'player', 'hedgehog')
+                        self.app.hedgehog_minigame.on_success = on_success
+                        self.app.hedgehog_minigame.start()
 
-                    jez = find_hedgehog_location()
-                    jez.invisible = True
-
-                    if(player_inventory.contains_item('hedgehog')):
-                        quest.setStage(2)
         elif quest.current_stage == 2:
             if self.__check_if_close_to_entity('SeljankaMara'):
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))

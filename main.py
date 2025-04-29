@@ -13,6 +13,7 @@ from message import Message
 from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp, DeliveryNPCPopUp
 import questRepository 
 from shoeDeliverySystem import ShoeDelivery
+from popup import HedgehogMiniGame
 
 class App:
     def __init__(self):
@@ -50,6 +51,7 @@ class App:
         self.npc_path = "assets/entities/npcs/npc1.png"
         self.delivery_popup = DeliveryNPCPopUp(self.screen, self.npc_path)
         self.show_settings = False
+        self.hedgehog_minigame = HedgehogMiniGame(self)
         questRepository.load_quests_from_json()
 
     def update(self):
@@ -59,6 +61,7 @@ class App:
         self.main_group.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
+        self.hedgehog_minigame.update()
 
     def draw(self):
         try:
@@ -88,6 +91,8 @@ class App:
             self.delivery_popup.draw()
         if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
             self.shoe_delivery.minigame.draw()
+        if self.hedgehog_minigame.is_active():
+            self.hedgehog_minigame.draw()
         pg.display.flip()
 
     def start_game(self):
@@ -115,11 +120,16 @@ class App:
                     if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
                         self.shoe_delivery.minigame.active = False
                         self.popup.show_message("Izašao si iz miniigre za popravak.", 1.5)
+                    elif self.hedgehog_minigame.is_active():
+                        self.hedgehog_minigame.active = False
+                        self.hedgehog_minigame.visible = False
                     else:
                         self.settings_popup.toggle()
                         self.help_popup.visible = False
                 if not (self.settings_popup.visible or self.inventory_popup.visible) and self.player is not None:
                     self.player.single_fire(event=e)
+                if self.hedgehog_minigame.is_active():
+                    self.hedgehog_minigame.handle_input()
             elif e.type == pg.MOUSEBUTTONDOWN and e.button == 1:
                 if self.settings_popup.visible:
                     action = self.settings_popup.handle_mouse_click()

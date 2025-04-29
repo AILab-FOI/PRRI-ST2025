@@ -530,7 +530,6 @@ class ShoePickupPopUp:
         image_x = self.rect.x + self.padding - 2
         image_y = self.rect.y + self.padding
         self.screen.blit(self.image_surface, (image_x, image_y))
-
         
 class DeliveryNPCPopUp:
     def __init__(self, screen, image_path):
@@ -565,3 +564,92 @@ class DeliveryNPCPopUp:
         image_x = self.rect.x + self.padding - 2
         image_y = self.rect.y + self.padding
         self.screen.blit(self.image_surface, (image_x, image_y))
+
+class HedgehogMiniGame(Popup):
+    def __init__(self, app):
+        super().__init__(app.screen, "Uhvatite Ježa!")
+        self.app = app
+        self.active = False
+        self.start_time = 0
+        self.duration = 4000  
+        self.progress = 0
+        self.required_progress = 15
+        self.success_shown = False
+        self.fail_shown = False
+        self.on_success = lambda: None
+        self.on_fail = lambda: None
+        self.fail_timer = 0
+        self.wait_before_close = 3000
+    
+    def start(self):
+        self.active = True
+        self.visible = True
+        self.progress = 0
+        self.start_time = pg.time.get_ticks()
+        self.success_shown = False
+        self.fail_shown = False
+
+    def is_active(self):
+        return self.active
+    
+    def handle_input(self):
+        if not self.active:
+            return
+
+        keys = pg.key.get_pressed()
+        if keys[pg.K_SPACE]:
+            self.progress += 1
+    
+    def update(self):
+        if not self.active:
+            return
+
+        elapsed = pg.time.get_ticks() - self.start_time
+
+        if self.progress >= self.required_progress and not self.success_shown:
+            self.success_shown = True
+            self.app.popup.show_message("Uspješno si uhvatio ježa!", 1.5)
+            self.success()
+
+        elif elapsed >= self.duration and not self.success_shown and not self.fail_shown:
+            self.fail_shown = True
+            self.visible = False
+            self.app.popup.show_message("Nisi uspio uhvatiti ježa! Pokušaj ponovno.", 1.5)
+            self.fail_timer = pg.time.get_ticks()
+
+        # Odgođeno zatvaranje nakon neuspjeha
+        elif self.fail_shown and self.fail_timer > 0:
+            if pg.time.get_ticks() - self.fail_timer >= self.wait_before_close:
+                self.fail()
+                self.fail_timer = 0
+    
+    def success(self):
+        self.active = False
+        self.visible = False
+        self.on_success()
+
+    def fail(self):
+        self.active = False
+        self.visible = False
+        self.on_fail()
+    
+    def draw(self):
+        if not self.visible:
+            return
+
+        super().draw()
+
+        bar_width = int(self.width * 0.8)
+        bar_height = 40
+        bar_x = self.x + (self.width - bar_width) // 2
+        bar_y = self.y + self.height // 2
+
+        pg.draw.rect(self.screen, (100, 50, 10), (bar_x - 2, bar_y - 2, bar_width + 4, bar_height + 4))
+        pg.draw.rect(self.screen, (50, 30, 10), (bar_x, bar_y, bar_width, bar_height))
+
+        fill_width = int((self.progress / self.required_progress) * bar_width)
+        pg.draw.rect(self.screen, (255, 255, 0), (bar_x, bar_y, fill_width, bar_height))
+
+        instruction = self.font.render("Spamaj SPACE da uhvatiš ježa, imaš 4 sekunde!", True, self.text_color)
+        instr_rect = instruction.get_rect(center=(self.screen.get_width() // 2, bar_y - 60))
+        self.screen.blit(instruction, instr_rect)
