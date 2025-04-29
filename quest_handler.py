@@ -123,7 +123,7 @@ class QuestHandler:
         elif quest.current_stage == 2:
             if self.__check_if_close_to_entity('SeljankaMara'):
                 player_inventory.remove_item(player_inventory.get_item('hedgehog'))
-                self.app.popup.show_message("Hvala ti puno, evo ti nagrada!", 1)
+                self.app.popup.show_message("Hvala ti puno, baš je nestašan danas!", 1)
                 quest.endQuest()
         elif quest.is_completed:
             if not hasattr(self, 'quest_start_time'):
