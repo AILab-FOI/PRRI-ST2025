@@ -109,6 +109,8 @@ class App:
             elif e.type == pg.KEYDOWN:
                 if e.key == pg.K_TAB:
                     self.inventory_popup.toggle()
+                if e.key == pg.K_t:
+                    self.quest_popup.toggle()
                 elif e.key == pg.K_ESCAPE:
                     if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
                         self.shoe_delivery.minigame.active = False

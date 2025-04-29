@@ -48,7 +48,8 @@ class QuestHandler:
             if self.__check_if_close_to_entity('MajstorIvan'):
                 self.app.popup.show_message(
                     "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
-                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
+                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!"
+                    "\nMožeš pritisnuti T kako bi pratio u svakom trenutku pratio svoje zadatke!",
                     0.5
                 )
 
