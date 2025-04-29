@@ -263,7 +263,7 @@ class MessagePopup:
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):
         super().__init__(screen, "Settings")
-        self.options = ["Continue", "Quests", "Help", "Save Game", "Load Game", "Quit Game"]
+        self.options = ["Continue", "Quests", "Help", "Quit Game"]
         self.option_rects = []
         self.hovered_option = None
         self.help_popup = help_popup
@@ -459,7 +459,7 @@ class MainMenu:
         self.app = app
         self.screen = app.screen
         self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 32)
-        self.options = ["Start New Game", "Load Game", "Quit"]
+        self.options = ["Start New Game", "Quit"]
         self.selected_option = 0 
 
         self.bg_img = pg.image.load('assets/images/splash.png')
@@ -493,9 +493,7 @@ class MainMenu:
                     if self.selected_option == 0:
                         print("Starting new game...")
                         self.app.start_game()  
-                    elif self.selected_option == 1:  
-                        print("Loading game...")
-                    elif self.selected_option == 2: 
+                    elif self.selected_option == 1: 
                         pg.quit()
                         exit()
 
