@@ -19,6 +19,10 @@ class App:
     def __init__(self):
         self.screen = pg.display.set_mode(RES, pg.FULLSCREEN) #
         pg.font.init()
+        pg.mixer.init()
+        pg.mixer.music.load("assets/bgm/bgm.ogg")
+        pg.mixer.music.set_volume(0.5)
+        pg.mixer.music.play(-1)
         self.clock = pg.time.Clock()
         self.time = 0
         self.delta_time = 0.01
