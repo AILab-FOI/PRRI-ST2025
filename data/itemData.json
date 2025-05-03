@@ -19,6 +19,18 @@
         {
             "itemName": "repairedShoes",
             "imgPath": "assets/entities/bullet/cipele.png"
+        },
+        {
+            "itemName": "strawberry",
+            "imgPath": "assets/entities/bullet/bullet.png"
+        },
+        {
+            "itemName": "blueberry",
+            "imgPath": "assets/entities/bullet/bullet.png"
+        },
+        {
+            "itemName": "raspberry",
+            "imgPath": "assets/entities/bullet/bullet.png"
         }
     ]
 }

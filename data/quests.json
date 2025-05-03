@@ -68,6 +68,29 @@
                     "objective": "Cipele su dostavljene, ali ima ih još nekoliko za popravak. Majstor Marko će ti reći kada ima posla"
                 }
             ]
+        },
+        {
+            "id": 3,
+            "name": "Sakupljanje bobica",
+            "description": "Pomogni poljoprivredniku Duri u sakupljanju bobica",
+            "stages": [
+                {
+                    "id": 0,
+                    "objective": "Poljoprivrednik Duro ima bobice koje treba ubrati, pitaj ga mozes li mu pomoci"
+                },
+                {
+                    "id": 1,
+                    "objective": "Duro te je zamolio da pomogneš s branjem bobica"
+                },
+                {
+                    "id": 2,
+                    "objective": "Sve bobice su ubrane, vrati se Duri i reci mu da si zavrsio"
+                },
+                {
+                    "id": 3,
+                    "objective": "Duro je odusevljen sto si mu pomogao"
+                }
+            ]
         }
     ]
 }
