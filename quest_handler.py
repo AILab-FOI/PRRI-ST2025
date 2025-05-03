@@ -11,7 +11,12 @@ class QuestHandler:
         questRepository.load_quests_from_json()
         questRepository.get_quest_by_id(0).startQuest()
 
-    def fix_backpack(self):
+    def check_quests(self):
+        self.__fix_backpack()
+        self.__find_hedgehog()
+        self.__collect_berries()
+
+    def __fix_backpack(self):
         quest = questRepository.get_quest_by_id(0)
         player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
 
@@ -79,8 +84,9 @@ class QuestHandler:
                 quest.endQuest()
                 questRepository.get_quest_by_id(1).startQuest()
                 questRepository.get_quest_by_id(2).startQuest()
+                questRepository.get_quest_by_id(3).startQuest()
 
-    def find_hedgehog(self):
+    def __find_hedgehog(self):
         def find_hedgehog_location(random_hedgehog_index):
             return self.entity_repository[random_hedgehog_index]
 
@@ -136,16 +142,84 @@ class QuestHandler:
                 questRepository.get_quest_by_id(1).startQuest()
                 delattr(self, 'quest_start_time')
                 self.app.popup.show_message("Seljanka Mara te ponovno traži", 2)
+
+    def __collect_berries(self):
+        quest = questRepository.get_quest_by_id(3)
+        player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
+
+        BERRY_MAPPING = {
+            'borovnica': 'blueberry',
+            'jagoda': 'strawberry',
+            'malina': 'raspberry'
+        }
+        BERRY_TYPES = list(BERRY_MAPPING.keys())
+        BERRY_COUNT = 3
+
+        if quest.current_stage == 0:
+            if self.__check_if_close_to_entity('poljoprivrednikDuro'):
+                self.random_berries = random.choices(BERRY_TYPES, k=BERRY_COUNT)
+
+                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
+                quest.setStage(1)
+
+        elif quest.current_stage == 1:
+            if self.__check_if_close_to_entity('poljoprivrednikDuro'):
+                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
+
+            if self.__check_if_close_to_entity('grm_borovnica', True) and 'borovnica' in self.random_berries:
+                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
+                self.app.popup.show_message("Borovnica je sakupljena", 0.5)
+            elif self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
+                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
+                self.app.popup.show_message("Jagoda je sakupljena", 0.5)
+            elif self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
+                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
+                self.app.popup.show_message("Malina je sakupljena", 0.5)
+
+            required_berries = [BERRY_MAPPING[berry] for berry in self.random_berries]
+            if player_inventory.contains_items(required_berries):
+                self.app.popup.show_message("Sve bobice su sakupljene", 1)
+                quest.setStage(2)
+
+        elif quest.current_stage == 2:
+            if self.__check_if_close_to_entity('poljoprivrednikDuro', True):
+                for berry in self.random_berries:
+                    player_inventory.remove_item(player_inventory.get_item(BERRY_MAPPING[berry]))
+
+                self.app.popup.show_message("Hvala ti puno", 1)
+                quest.setStage(3)
+
+        elif quest.current_stage == 3:
+            quest.endQuest()
+
+        elif quest.is_completed:
+            if not hasattr(self, 'berry_quest_start_time'):
+                self.berry_quest_start_time = pg.time.get_ticks()
+
+            current_time = pg.time.get_ticks()
+            elapsed_time = current_time - self.berry_quest_start_time
+
+            if elapsed_time >= 120000:
+                questRepository.get_quest_by_id(3).startQuest()
+                delattr(self, 'berry_quest_start_time')
+                self.app.popup.show_message("Duro te ponovno traži", 2)
     
     def __check_if_close_to_entity(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE
         npc_pos = self.__find_entity_pos_in_map(npc_name)
-        
+
         if npc_pos and player_pos.distance_to(npc_pos) < 1.0:
             if is_press_needed:
+                if not hasattr(self, '_key_press_state'):
+                    self._key_press_state = {}
+
                 keys = pg.key.get_pressed()
                 if keys[pg.K_e]:
-                    return True
+                    if not self._key_press_state.get('K_e', False):
+                        self._key_press_state['K_e'] = True
+                        return True
+                else:
+                    self._key_press_state['K_e'] = False
             else:
                 return True
         return False

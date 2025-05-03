@@ -15,22 +15,26 @@ MD = 'Karlo'
 ML = 'Tomislav'
 MJ = 'Zora'
 S = 'SeljankaMara'
+PD = 'poljoprivrednikDuro'
 d1, d2, d3, t, c, a, b = 'blue_tree', 'drvo', 'breza', 'grass', 'chest', 'anvil', 'bunar', 
 J1,J2,J3,J4 = 'jez', 'jez2', 'jez3', 'jez4'
 ST = 'stol_majstor'
 C = 'crafting'
 RS = 'radni_stol'
+GM, GJ, GB = 'grm_malina', 'grm_jagoda', 'grm_borovnica'
+
+NPC_SPRITES = [M,MM,MD,ML,MJ,S,PD]
 
 MAP = [
     [d1, 0, d3, t, t, 0, d1, 0, t, 0, d1, 0, d3, t, d1],
     [t, 0, t, d2, 0, MD, 0, t, t, 0, d2, 0, d1, 0, d2],
     [0, RS, 0, C, 0, t, d3, 0, 0, d2, J1, b, d2, t, d3],
     [d2, t, t, 0, t, 0, t, 0, S, t, t, d1, J2, t, 0],
-    [0, M, 0, P, 0, a, t, 0, 0, d3, t, t, d3, d2, 0],
+    [0, M, 0, P, 0, a, t, 0, 0, d3, t, t, d3, d2, GB],
     [t, d3, 0, t, 0, t, 0, d2, 0, 0, d1, t, J3, t, d1],
-    [c, 0, t, d1, MM, t, b, 0, 0, d3, J4, t, d3, 0, t],
+    [c, 0, t, d1, MM, t, b, 0, 0, d3, J4, t, d3, GJ, t],
     [0, ML, 0, 0, t, 0, MJ, 0, d1, t, d2, t, t, d1, d3],
-    [d1, t, d3, t, 0, d3, 0, d2, 0, t, 0, d2, d2, t, d1],
+    [d1, t, d3, t, 0, d3, 0, d2, 0, t, 0, PD, GM, 0, 0],
 
 ]
 
@@ -71,17 +75,7 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
-                elif name == 'MajstorIvan':
-                    Entity(self.app, name=name, pos=pos)
-                elif name == 'SeljankaMara':
-                    Entity(self.app, name=name, pos=pos)
-                elif name == 'MajstorMarko':
-                    Entity(self.app, name=name, pos=pos)
-                elif name == 'Karlo':
-                    Entity(self.app, name=name, pos=pos)
-                elif name == 'Zora':
-                    Entity(self.app, name=name, pos=pos)
-                elif name == 'Tomislav':
+                elif name in NPC_SPRITES:
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
@@ -116,8 +110,7 @@ class Scene:
 
     def update(self):
         self.check_npc_interaction3()
-        self.questHandler.fix_backpack()
-        self.questHandler.find_hedgehog()
+        self.questHandler.check_quests()
     
     #NPC KOJI POKAZUJE COZY MEHANIKU
     def check_npc_interaction3(self):
