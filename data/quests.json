@@ -21,8 +21,8 @@
         },
         {
             "id": 1,
-            "name": "Marin jež",
-            "description": "Mara je izgubila svog ježa, opet. Pomogni joj u potrazi",
+            "name": "Marin jez",
+            "description": "Mara je izgubila svog jeza, opet. Pomogni joj u potrazi",
             "stages": [
                 {
                     "id": 0,
