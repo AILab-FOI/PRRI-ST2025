@@ -65,6 +65,13 @@ class QuestHandler:
                 quest.setStage(1)
 
         elif quest.current_stage == 1:
+            if self.__check_if_close_to_entity('MajstorIvan'):
+                self.app.popup.show_message(
+                    "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
+                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
+                    0.5
+                )
+
             if self.__check_if_close_to_entity('anvil'):
                 if not self.repair_in_progress:
                     self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 2)
@@ -107,6 +114,9 @@ class QuestHandler:
                 quest.setStage(1)
                 
         elif quest.current_stage == 1:
+            if self.__check_if_close_to_entity('SeljankaMara'):
+                self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka.", 2)
+
             if self.__check_if_close_to_entity(self.entity_repository[self.random_index].name):
                 self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
                 keys = pg.key.get_pressed()
@@ -206,7 +216,7 @@ class QuestHandler:
                 quest.setStage(2)
 
         elif quest.current_stage == 2:
-            if self.__check_if_close_to_entity('poljoprivrednikDuro', True):
+            if self.__check_if_close_to_entity('poljoprivrednikDuro'):
                 for berry in self.random_berries:
                     player_inventory.remove_item(player_inventory.get_item(BERRY_MAPPING[berry]))
 
