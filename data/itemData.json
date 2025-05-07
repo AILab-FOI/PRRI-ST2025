@@ -22,15 +22,15 @@
         },
         {
             "itemName": "strawberry",
-            "imgPath": "assets/entities/bullet/bullet.png"
+            "imgPath": "assets/entities/bullet/torch.png"
         },
         {
             "itemName": "blueberry",
-            "imgPath": "assets/entities/bullet/bullet.png"
+            "imgPath": "assets/entities/bullet/torch.png"
         },
         {
             "itemName": "raspberry",
-            "imgPath": "assets/entities/bullet/bullet.png"
+            "imgPath": "assets/entities/bullet/torch.png"
         }
     ]
 }
