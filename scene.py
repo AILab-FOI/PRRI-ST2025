@@ -26,16 +26,15 @@ GM, GJ, GB = 'grm_malina', 'grm_jagoda', 'grm_borovnica'
 NPC_SPRITES = [M,MM,MD,ML,MJ,S,PD]
 
 MAP = [
-    [d1, 0, d3, t, t, 0, d1, 0, t, 0, d1, 0, d3, t, d1],
-    [t, 0, t, d2, 0, MD, 0, t, t, 0, d2, 0, d1, 0, d2],
-    [0, RS, 0, C, 0, t, d3, 0, 0, d2, J1, b, d2, t, d3],
-    [d2, t, t, 0, t, 0, t, 0, S, t, t, d1, J2, t, 0],
-    [0, M, 0, P, 0, a, t, 0, 0, d3, t, t, d3, d2, GB],
-    [t, d3, 0, t, 0, t, 0, d2, 0, 0, d1, t, J3, t, d1],
-    [c, 0, t, d1, MM, t, b, 0, 0, d3, J4, t, d3, GJ, t],
-    [0, ML, 0, 0, t, 0, MJ, 0, d1, t, d2, t, t, d1, d3],
-    [d1, t, d3, t, 0, d3, 0, d2, 0, t, PD, 0, GM, 0, 0],
-
+    [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2],
+    [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
+    [d2, t, c, t, t, d3, t, ML, t, d3, J3, t, t, J1, t, GB, t, GM, t, d3, d2],
+    [d3, RS, t, t, t, t, t, t, t, MD, t, t, t, t, d2, t, t, t, t, d2, d3],
+    [d2, C, t, P, M, d2, t, MM, t, t, d2, t, S, t, J4, t, PD, t, t, d3, d2],
+    [d3, a, t, t, t, t, t, t, t, t, t, t, t, t, t, d3, t, t, t, d3, d2],
+    [d2, t, t, t, d3, t, MJ, t, d3, J2, t, t, t, t, t, t, t, GJ, t, d2, d3],
+    [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
+    [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2]
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))

@@ -616,7 +616,7 @@ class HedgehogMiniGame(Popup):
         elif elapsed >= self.duration and not self.success_shown and not self.fail_shown:
             self.fail_shown = True
             self.visible = False
-            self.app.popup.show_message("Nisi uspio uhvatiti ježa! Pokušaj ponovno.", 1.5)
+            self.app.popup.show_message("Nisi uspio uhvatiti ježa! Pokušaj ponovno.", 0.8)
             self.fail_timer = pg.time.get_ticks()
 
         # Odgođeno zatvaranje nakon neuspjeha
@@ -723,7 +723,7 @@ class BerryMiniGame:
                 self.state = self.READY
                 self.start_time = time.time()
 
-            if self.state == self.READY and (time.time() - self.start_time) > 1.5:
+            if self.state == self.READY and (time.time() - self.start_time) > 1:
                 self.state = self.WAITING
                 self.wait_time = random.uniform(1.5, 4.0)
                 self.game_start_ticks = pg.time.get_ticks()

@@ -3,8 +3,8 @@ import sys
 
 vec2 = pg.math.Vector2
 
-RES = WIDTH, HEIGHT = vec2(1600, 900)
-# RES = WIDTH, HEIGHT = vec2(1920, 1080)
+#RES = WIDTH, HEIGHT = vec2(2560, 1440)
+RES = WIDTH, HEIGHT = vec2(1920, 1080)
 CENTER = H_WIDTH, H_HEIGHT = RES // 2
 TILE_SIZE = 250  #
 
@@ -36,7 +36,7 @@ ENTITY_SPRITE_ATTRS = {
         'y_offset': 4
     },
     'MajstorMarko':{
-        'num_layers': 1,
+        'num_layers': 9,
         'scale': 3.5,
         'path': 'assets/entities/npcs/majstorIvan.png',
         'y_offset': 20

@@ -60,6 +60,7 @@ class App:
         questRepository.load_quests_from_json()
 
     def update(self):
+        self.hedgehog_minigame.update()
         self.shoe_delivery.update()
         self.scene.update()
         self.entity_group.update()

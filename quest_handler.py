@@ -88,7 +88,7 @@ class QuestHandler:
                     "Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                     "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
                     "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!",
-                    4
+                    6
                 )
 
                 quest.endQuest()
@@ -172,12 +172,12 @@ class QuestHandler:
             if self.__check_if_close_to_entity('poljoprivrednikDuro'):
                 self.random_berries = random.choices(BERRY_TYPES, k=BERRY_COUNT)
 
-                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
+                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}, \nPritisni E pored grma kako bi pobrao bobice".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
                 quest.setStage(1)
 
         elif quest.current_stage == 1:
             if self.__check_if_close_to_entity('poljoprivrednikDuro'):
-                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
+                self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {} \nPritisni E pored grma kako bi pobrao bobice".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
 
             if self.__check_if_close_to_entity('grm_borovnica', True) and 'borovnica' in self.random_berries:
                 berry_game = BerryMiniGame(self.app)
@@ -233,10 +233,10 @@ class QuestHandler:
             current_time = pg.time.get_ticks()
             elapsed_time = current_time - self.berry_quest_start_time
 
-            if elapsed_time >= 120000:
+            if elapsed_time >= 20000:
                 questRepository.get_quest_by_id(3).startQuest()
                 delattr(self, 'berry_quest_start_time')
-                self.app.popup.show_message("Duro te ponovno traži", 2)
+                self.app.popup.show_message("Đuro te ponovno traži", 2)
     
     def __check_if_close_to_entity(self, npc_name, is_press_needed=False):
         player_pos = self.app.player.offset / TILE_SIZE

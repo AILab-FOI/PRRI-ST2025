@@ -2,7 +2,7 @@
     "items": [
         {
             "itemName": "backpack",
-            "imgPath": "assets/entities/bullet/axe.png"
+            "imgPath": "assets/entities/bullet/torba.png"
         },
         {
             "itemName": "slingshot",
@@ -10,7 +10,7 @@
         },
         {
             "itemName": "hedgehog",
-            "imgPath": "assets/stacked_sprites/hedgehog.png"
+            "imgPath": "assets/entities/bullet/jez.png"
         },
         {
             "itemName": "unrepairedShoes",
@@ -22,15 +22,15 @@
         },
         {
             "itemName": "strawberry",
-            "imgPath": "assets/entities/bullet/torch.png"
+            "imgPath": "assets/entities/bullet/jagoda.png"
         },
         {
             "itemName": "blueberry",
-            "imgPath": "assets/entities/bullet/torch.png"
+            "imgPath": "assets/entities/bullet/Borovnice.png"
         },
         {
             "itemName": "raspberry",
-            "imgPath": "assets/entities/bullet/torch.png"
+            "imgPath": "assets/entities/bullet/malina.png"
         }
     ]
 }
