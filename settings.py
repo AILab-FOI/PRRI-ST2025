@@ -23,18 +23,6 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 3,
         'y_offset': 0,
     },
-    'explosion': {
-        'num_layers': 7,
-        'scale': 1.0,
-        'path': 'assets/entities/explosion/explosion.png',
-        'y_offset': 50,
-    },
-    'bullet': {
-        'num_layers': 1,
-        'scale': 0.4,
-        'path': 'assets/entities/bullet/bullet.png',
-        'y_offset': 50,
-    },
     'MajstorIvan':{
         'num_layers': 9,
         'scale': 3.5,

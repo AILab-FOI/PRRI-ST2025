@@ -1,7 +1,6 @@
 from settings import *
 import math
 from entity import BaseEntity
-from bullet import Bullet
 from itertools import cycle
 
 
@@ -80,10 +79,6 @@ class Player(BaseEntity):
 
         if self.inc.x and self.inc.y:
             self.inc *= self.diag_move_corr
-
-    def single_fire(self, event):
-        if event.key == pg.K_UP:
-            Bullet(app=self.app)
 
     def check_collision(self):
         hitobst = pg.sprite.spritecollide(self, self.app.collision_group,

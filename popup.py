@@ -263,7 +263,7 @@ class MessagePopup:
 class SettingsPopup(Popup):
     def __init__(self, screen, help_popup=None):
         super().__init__(screen, "Settings")
-        self.options = ["Continue", "Quests", "Help", "Quit Game"]
+        self.options = ["Continue", "Quests", "Kontrole", "Quit Game"]
         self.option_rects = []
         self.hovered_option = None
         self.help_popup = help_popup
@@ -290,7 +290,7 @@ class SettingsPopup(Popup):
     def handle_mouse_click(self):
         if self.visible and self.hovered_option is not None:
             selected_option = self.options[self.hovered_option]
-            if selected_option == "Help":
+            if selected_option == "Kontrole":
                 self.help_popup.visible = True  
             return selected_option
         return None
@@ -417,7 +417,7 @@ class HintPopup(Popup):
 
 class HelpPopup(Popup):
     def __init__(self, screen):
-        super().__init__(screen, "Help", 0.6, 0.6)
+        super().__init__(screen, "Kontrole", 0.6, 0.6)
         
         self.text = [
             ("Esc", "Zatvaranje Help popupa"),

@@ -130,8 +130,6 @@ class App:
                     else:
                         self.settings_popup.toggle()
                         self.help_popup.visible = False
-                if not (self.settings_popup.visible or self.inventory_popup.visible) and self.player is not None:
-                    self.player.single_fire(event=e)
                 if self.hedgehog_minigame.is_active():
                     self.hedgehog_minigame.handle_input()
             elif e.type == pg.MOUSEBUTTONDOWN and e.button == 1:
