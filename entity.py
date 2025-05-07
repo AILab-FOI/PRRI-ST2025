@@ -4,7 +4,7 @@ class BaseEntity(pg.sprite.Sprite):
     def __init__(self, app, name):
         self.app = app
         self.name = name
-        if name == 'player' or name == 'bullet' or name == 'explosion':
+        if name == 'player':
             self.group = app.main_group
         else:
             self.group = app.entity_group

@@ -27,6 +27,7 @@ class QuestHandler:
 
         def start_repair():
             self.repair_in_progress = True
+            pg.mixer.Sound("assets/sound/entity_interaction/anvil-hit.mp3").play()
             self.repair_start_time = pg.time.get_ticks()
 
         def update_repair():
