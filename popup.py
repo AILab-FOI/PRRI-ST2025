@@ -1,6 +1,8 @@
 import pygame as pg
 import inventoryRepository
 import questRepository
+import time
+import random
 
 class Popup:
     def __init__(self, screen, title, width_ratio=0.6, height_ratio=0.6):
@@ -653,3 +655,87 @@ class HedgehogMiniGame(Popup):
         instruction = self.font.render("Spamaj SPACE da uhvatiš ježa, imaš 4 sekunde!", True, self.text_color)
         instr_rect = instruction.get_rect(center=(self.screen.get_width() // 2, bar_y - 60))
         self.screen.blit(instruction, instr_rect)
+
+class BerryMiniGame:
+        def __init__(self, app):
+                self.app = app
+                self.screen = app.screen
+                self.font = pg.font.SysFont("Arial", 48)
+
+                self.RED = (200, 0, 0)
+                self.GREEN = (0, 180, 0)
+                self.WHITE = (255, 255, 255)
+                self.BLACK = (0, 0, 0)
+
+                self.WAITING = 0
+                self.READY = 1
+                self.DONE = 2
+                self.TOO_SOON = 3
+
+                self.state = self.WAITING
+                self.start_time = 0
+                self.reaction_time = 0
+                self.wait_time = random.uniform(1.5, 4.0)
+
+                self.clock = pg.time.Clock()
+                self.game_start_ticks = pg.time.get_ticks()
+                self.surface = pg.Surface((600, 350), pg.SRCALPHA)
+                self.rect = self.surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+
+
+        def run(self):
+            running = True
+            self.state = self.WAITING
+            self.wait_time = random.uniform(1.5, 4.0)
+            self.game_start_ticks = pg.time.get_ticks()
+
+            while running:
+                self.screen.fill(
+                    self.RED if self.state == self.WAITING else
+                    self.GREEN if self.state == self.READY else
+                    self.BLACK
+                )
+
+                for event in pg.event.get():
+                    if event.type == pg.QUIT:
+                        running = False
+                        return None
+                    elif event.type == pg.KEYDOWN:
+                        if self.state == self.WAITING:
+                            self.state = self.TOO_SOON
+                        elif self.state == self.READY:
+                            self.reaction_time = time.time() - self.start_time
+                            self.state = self.DONE
+
+                if self.state == self.WAITING and (pg.time.get_ticks() - self.game_start_ticks) > self.wait_time * 1000:
+                    self.state = self.READY
+                    self.start_time = time.time()
+
+                if self.state == self.READY and (time.time() - self.start_time) > 5:
+                    self.state = self.WAITING
+                    self.wait_time = random.uniform(1.5, 4.0)
+                    self.game_start_ticks = pg.time.get_ticks()
+
+                if self.state == self.WAITING:
+                    text = self.font.render("\u010cekaj zeleno...", True, self.WHITE)
+                elif self.state == self.READY:
+                    text = self.font.render("PRITISNI SPACE!", True, self.BLACK)
+                elif self.state == self.DONE:
+                    text = self.font.render(f"Refleks: {self.reaction_time:.3f} sek", True, self.WHITE)
+                elif self.state == self.TOO_SOON:
+                    text = self.font.render("Prebrzo! Probaj opet.", True, self.WHITE)
+
+                self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 180))
+                pg.display.flip()
+                self.clock.tick(60)
+
+                if self.state == self.DONE:
+                    pg.time.wait(1500)
+                    running = False
+                elif self.state == self.TOO_SOON:
+                    pg.time.wait(1500)
+                    self.state = self.WAITING
+                    self.wait_time = random.uniform(1.5, 4.0)
+                    self.game_start_ticks = pg.time.get_ticks()
+
+            return self.reaction_time if self.state == self.DONE else None

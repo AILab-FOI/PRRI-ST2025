@@ -1,6 +1,7 @@
 import pygame as pg
 import random
 import inventoryRepository
+import time
 
 class Minigame:
     def __init__(self, app):
@@ -99,3 +100,4 @@ class Minigame:
 
     def is_active(self):
         return self.active
+    

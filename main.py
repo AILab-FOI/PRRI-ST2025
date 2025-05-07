@@ -10,7 +10,7 @@ from scene import Scene, LoadingScene
 import asyncio
 from itertools import cycle
 from message import Message
-from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp, DeliveryNPCPopUp
+from popup import InventoryPopup, SettingsPopup, QuestPopup, MainMenu, HintPopup, HelpPopup, MessagePopup, ShoePickupPopUp, DeliveryNPCPopUp, BerryMiniGame
 import questRepository 
 from shoeDeliverySystem import ShoeDelivery
 from popup import HedgehogMiniGame
@@ -56,6 +56,7 @@ class App:
         self.delivery_popup = DeliveryNPCPopUp(self.screen, self.npc_path)
         self.show_settings = False
         self.hedgehog_minigame = HedgehogMiniGame(self)
+        self.berry_minigame = BerryMiniGame(self)
         questRepository.load_quests_from_json()
 
     def update(self):
@@ -65,7 +66,7 @@ class App:
         self.main_group.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
-        self.hedgehog_minigame.update()
+
 
     def draw(self):
         try:
@@ -97,6 +98,7 @@ class App:
             self.shoe_delivery.minigame.draw()
         if self.hedgehog_minigame.is_active():
             self.hedgehog_minigame.draw()
+       
         pg.display.flip()
 
     def start_game(self):

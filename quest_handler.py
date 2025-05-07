@@ -1,7 +1,9 @@
 import random
 import questRepository
 import inventoryRepository
+from popup import BerryMiniGame
 from settings import *
+
 
 class QuestHandler:
     def __init__(self, app, MAP, entity_repository):
@@ -56,7 +58,7 @@ class QuestHandler:
                 self.app.popup.show_message(
                     "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
                     "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
-                    0.5
+                    2
                 )
 
             if player_inventory.contains_item('backpack'):
@@ -65,7 +67,7 @@ class QuestHandler:
         elif quest.current_stage == 1:
             if self.__check_if_close_to_entity('anvil'):
                 if not self.repair_in_progress:
-                    self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 0.5)
+                    self.app.popup.show_message("Pritisnite tipku E za popravak torbe.", 2)
                     keys = pg.key.get_pressed()
                     if keys[pg.K_e]:
                         self.app.popup.show_message("Popravljanje u tijeku...", 5)
@@ -79,7 +81,7 @@ class QuestHandler:
                     "Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                     "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
                     "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!",
-                    3
+                    4
                 )
 
                 quest.endQuest()
@@ -168,12 +170,33 @@ class QuestHandler:
                 self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {}".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
 
             if self.__check_if_close_to_entity('grm_borovnica', True) and 'borovnica' in self.random_berries:
+                berry_game = BerryMiniGame(self.app)
+                reaction_time = berry_game.run()
+
+                if reaction_time is not None:
+                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
+                else:
+                    print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
                 self.app.popup.show_message("Borovnica je sakupljena", 0.5)
             elif self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
+                berry_game = BerryMiniGame(self.app)
+                reaction_time = berry_game.run()
+
+                if reaction_time is not None:
+                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
+                else:
+                    print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
                 self.app.popup.show_message("Jagoda je sakupljena", 0.5)
             elif self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
+                berry_game = BerryMiniGame(self.app)
+                reaction_time = berry_game.run()
+
+                if reaction_time is not None:
+                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
+                else:
+                    print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
                 self.app.popup.show_message("Malina je sakupljena", 0.5)
 
