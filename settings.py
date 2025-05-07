@@ -88,10 +88,10 @@ ENTITY_SPRITE_ATTRS = {
         'mask_layer': 1
     },
         'poljoprivrednikDuro':{
-        'num_layers': 1,
+        'num_layers': 15,
         'scale': 3,
-        'path': 'assets/entities/npcs/npc4.png',
-        'y_offset': 20
+        'path': 'assets/entities/npcs/SeljakDjuro.png',
+        'y_offset': 0
     }
 }
 
@@ -175,25 +175,25 @@ STACKED_SPRITE_ATTRS = {
         'mask_layer': 34
     },
     'grm_malina':{
-        'path': 'assets/stacked_sprites/anvil.png',
-        'num_layers': 28,
+        'path': 'assets/stacked_sprites/GrmMalina.png',
+        'num_layers': 21,
         'scale': 4,
         'y_offset': -30,
-        'mask_layer': 14
+        'mask_layer': 10
     },
     'grm_jagoda':{
-        'path': 'assets/stacked_sprites/anvil.png',
-        'num_layers': 28,
+        'path': 'assets/stacked_sprites/jagode.png',
+        'num_layers': 8,
         'scale': 4,
         'y_offset': -30,
-        'mask_layer': 14
+        'mask_layer': 4
     },
     'grm_borovnica':{
-        'path': 'assets/stacked_sprites/anvil.png',
-        'num_layers': 28,
+        'path': 'assets/stacked_sprites/GrmBorovnica.png',
+        'num_layers': 21,
         'scale': 4,
         'y_offset': -30,
-        'mask_layer': 14
+        'mask_layer': 10
     },
 }
 

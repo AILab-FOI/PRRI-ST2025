@@ -34,7 +34,7 @@ MAP = [
     [t, d3, 0, t, 0, t, 0, d2, 0, 0, d1, t, J3, t, d1],
     [c, 0, t, d1, MM, t, b, 0, 0, d3, J4, t, d3, GJ, t],
     [0, ML, 0, 0, t, 0, MJ, 0, d1, t, d2, t, t, d1, d3],
-    [d1, t, d3, t, 0, d3, 0, d2, 0, t, 0, PD, GM, 0, 0],
+    [d1, t, d3, t, 0, d3, 0, d2, 0, t, PD, 0, GM, 0, 0],
 
 ]
 
@@ -93,6 +93,12 @@ class Scene:
                 elif name == 'stol_majstor':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'crafting':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'grm_borovnica':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'grm_jagoda':
+                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'grm_malina':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'radni_stol':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
