@@ -429,7 +429,6 @@ class HelpPopup(Popup):
             ("D", "Kretanje desno"),
             ("E", "Interakcija s objektima"),
             ("Tab", "Otvaranje inventorija"),
-            ("↑", "Bacanje blata"),
             ("←", "Okretanje kamere lijevo"),
             ("→", "Okretanje kamere desno")
         ]

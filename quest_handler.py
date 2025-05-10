@@ -57,7 +57,8 @@ class QuestHandler:
             if self.__check_if_close_to_entity('MajstorIvan'):
                 self.app.popup.show_message(
                     "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
-                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
+                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!\n"
+                    "(Koristi strelice lijevo i desno za okretanje kamere!)",
                     2
                 )
 
@@ -68,8 +69,9 @@ class QuestHandler:
             if self.__check_if_close_to_entity('MajstorIvan'):
                 self.app.popup.show_message(
                     "Dobro došao! Prije nego kreneš u pustolovinu, moraš popraviti svoju torbu. "
-                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!",
-                    0.5
+                    "Imaš u škrinji neke stvari koji će ti pomoći, zajedno s tvojom torbom. Sretno!\n"
+                    "(Koristi strelice lijevo i desno za okretanje kamere!)",
+                    2
                 )
 
             if self.__check_if_close_to_entity('anvil'):
