@@ -42,6 +42,7 @@ class App:
         self.popup = MessagePopup(self)
         self.menu = MainMenu(self)
         self.cozy_mechanic_begin = False
+        self.show_chest_hint = True
 
         self.shoe_pickup = ShoePickupPopUp(self.screen, "assets/entities/bullet/cipele2.png")
         self.shoe_delivery = ShoeDelivery(self)
@@ -123,7 +124,14 @@ class App:
                     self.inventory_popup.toggle()
                 if e.key == pg.K_t:
                     self.quest_popup.toggle()
+                if e.key == pg.K_e:
+                    if self.scene and self.scene.questHandler.is_player_near_chest():
+                        self.chest_popup.visible = True
+                        self.show_chest_hint = False
                 elif e.key == pg.K_ESCAPE:
+                    if self.chest_popup.visible:
+                        self.chest_popup.visible = False
+                        return
                     if self.shoe_delivery.minigame and self.shoe_delivery.minigame.is_active():
                         self.shoe_delivery.minigame.active = False
                         self.popup.show_message("Izašao si iz miniigre za popravak.", 1.5)

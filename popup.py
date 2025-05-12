@@ -384,7 +384,6 @@ class QuestPopup(Popup):
             if self.visible and self.close_button_rect.collidepoint(event.pos):
                 self.visible = False
     
-#popup hint kako bi igrač znao otvoriti postavke na početku igre
 class HintPopup(Popup):
     def __init__(self, screen):
         super().__init__(screen, "", 0.4, 0.1)
@@ -618,7 +617,6 @@ class HedgehogMiniGame(Popup):
             self.app.popup.show_message("Nisi uspio uhvatiti ježa! Pokušaj ponovno.", 0.8)
             self.fail_timer = pg.time.get_ticks()
 
-        # Odgođeno zatvaranje nakon neuspjeha
         elif self.fail_shown and self.fail_timer > 0:
             if pg.time.get_ticks() - self.fail_timer >= self.wait_before_close:
                 self.fail()

@@ -22,6 +22,12 @@ class QuestHandler:
         quest = questRepository.get_quest_by_id(0)
         player_inventory = inventoryRepository.get_inventory_by_entity_name('player')
 
+        if self.__check_if_close_to_entity('chest'):
+            if self.app.show_chest_hint and not self.app.chest_popup.visible:
+                self.app.popup.show_message("Pritisni tipku E za otvaranje škrinje.", 1)
+        else:
+            self.app.show_chest_hint = True
+
         if not hasattr(self, 'repair_in_progress'):
             self.repair_in_progress = False
             self.repair_start_time = 0
@@ -47,11 +53,6 @@ class QuestHandler:
             quest.setStage(2)
 
         update_repair()
-
-        if self.__check_if_close_to_entity('chest'):
-            self.app.chest_popup.visible = True
-        else:
-            self.app.chest_popup.visible = False
         
         if quest.current_stage == 0:
             if self.__check_if_close_to_entity('MajstorIvan'):
@@ -120,7 +121,7 @@ class QuestHandler:
                 self.app.popup.show_message("Ijao izgubila sam ježa !!!\n Možeš li mi pomoći pronaći ga? Trebao bi biti na jednom od puteljaka.", 2)
 
             if self.__check_if_close_to_entity(self.entity_repository[self.random_index].name):
-                self.app.popup.show_message("Pritisnite tipku E za pokupiti ježa.", 0.5)
+                self.app.popup.show_message("Pritisni tipku E za pokupiti ježa.", 0.5)
                 keys = pg.key.get_pressed()
 
                 if keys[pg.K_e]:
@@ -259,6 +260,9 @@ class QuestHandler:
             else:
                 return True
         return False
+    
+    def is_player_near_chest(self):
+        return self.__check_if_close_to_entity('chest')
     
     def __find_entity_pos_in_map(self, npc_name):
         for j, row in enumerate(self.MAP):

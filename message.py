@@ -14,7 +14,7 @@ class Message:
         self.border_color = border_color
         self.overlay_surface = pg.Surface((self.x - 2 * self.border, self.y - 2 * self.border), pg.SRCALPHA)
         self.overlay_surface.fill((0, 0, 0, self.alpha))
-        self.inner_border = 20  # Define the inner padding
+        self.inner_border = 20  
         self.inner_surface = self.empty_surface()
         #self.overlay_surface.fill((0, 0, 0, 255))
         self.active = False
@@ -35,7 +35,7 @@ class Message:
             ),
             pg.SRCALPHA
         )
-        s.fill((0, 0, 0, 0))  # Clear the inner surface
+        s.fill((0, 0, 0, 0))  
         return s
         
     def draw_border(self):
@@ -45,7 +45,7 @@ class Message:
     def set_message( self, msg ):
         self.message = msg
         t = [ textwrap.wrap( m, width=39 ) for m in self.message.split( '\n' ) ]
-        self.wrapped_text = list( chain( *t ) )  # Adjust the width based on your preference
+        self.wrapped_text = list( chain( *t ) )  
         
     def draw_message(self):
         self.show_text = self.wrapped_text[self.text_index:self.text_index + self.max_lines]

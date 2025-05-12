@@ -47,6 +47,11 @@ class Player(BaseEntity):
         if self.app.quest_popup.visible:
             self.moving = False
             self.inc = vec2(0)
+            return
+        if self.app.chest_popup.visible:
+            self.moving = False
+            self.inc = vec2(0)
+            return
 
         self.moving = False
         self.inc = vec2(0)

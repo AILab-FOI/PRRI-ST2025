@@ -246,19 +246,16 @@ class LoadingScene:
         screen_center_x = self.app.screen.get_width() // 2
         screen_center_y = self.app.screen.get_height() // 100 * 85
 
-        # Display the current message based on progress
         current_message_index = min(int(self.progress), len(self.messages) - 1)
         msg = self.messages[current_message_index]
         text = self.font.render(msg, True, (255, 255, 255))
         text_rect = text.get_rect(center=(screen_center_x, screen_center_y + 80))
         self.app.screen.blit(text, text_rect)
 
-        # Draw the progress bar background
         bar_bg_rect = pg.Rect(0, 0, self.bar_width, self.bar_height)
         bar_bg_rect.center = (screen_center_x, screen_center_y + 40)
         pg.draw.rect(self.app.screen, (204, 239, 253), bar_bg_rect)
 
-        # Draw the progress bar
         progress_width = int(self.progress / len(self.messages) * self.bar_width)
         bar_rect = pg.Rect(0, 0, progress_width, self.bar_height)
         bar_rect.midleft = bar_bg_rect.midleft
