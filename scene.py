@@ -29,12 +29,15 @@ NPC_SPRITES = [M,MM,MD,ML,MJ,S,PD]
 MAP = [
     [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2],
     [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
-    [d2, t, c, t, t, d3, t, ML, t, d3, J3, t, t, J1, t, GB, t, GM, t, d3, d2],
-    [d3, RS, t, t, t, t, t, t, t, MD, t, t, t, t, d2, t, t, t, t, d2, d3],
-    [d2, C, t, P, M, d2, t, MM, t, t, d2, t, S, t, t, t, PD, t, t, d3, d2],
-    [d3, a, t, t, t, t, t, t, t, t, t, t, t, t, t, d3, t, t, t, d3, d2],
-    [d2, t, t, t, d3, t, MJ, t, d3, J2, t, t, t, J4, t, t, t, GJ, t, d2, d3],
-    [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
+    [d2, t, t, t, J1, d3, t, t, t, d3, t, t, t, S, t, t, t, MD, t, d3, d2],
+    [d3, RS, c, t, t, t, t, t, MM, t, t, d2, t, t, d2, t, t, t, J3, d2, d3],
+    [d2, C, t, P, M, d2, t, t, t, t, t, t, t, d3, t, t, t, t, GB, d3, d2],
+    [d3, a, t, t, t, t, t, t, d3, t, t, d3, t, t, t, d3, t, t, t, d3, d2],
+    [d2, d3, t, t, d2, t, t, t, t, t, t, t, t, t, t, GM, t, t, t, d2, d3],
+    [d3, t, t, t, t, d3, t, t, t, t, d2, t, t, t, d3, t, t, t, PD, t, d2],
+    [d2, t, ML, t, t, t, t, d2, t, t, MJ, t, t, t, t, t, t, t, t, t, d3],
+    [d3, J4, t, t, d3, t, t, t, t, t, t, t, d3, J2, d2, t, t, t, t, GJ, d3],
+    [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2],
     [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2]
 ]
 

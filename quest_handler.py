@@ -91,7 +91,7 @@ class QuestHandler:
                     "Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                     "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
                     "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!",
-                    6
+                    4
                 )
                 pg.mixer.Sound("assets/audio/level_up_1.mp3").play()
                 quest.endQuest()
@@ -193,7 +193,7 @@ class QuestHandler:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
                 pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Borovnica je sakupljena", 0.5)
+                self.app.popup.show_message("Borovnica je sakupljena!", 0.5)
             elif self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
                 berry_game = BerryMiniGame(self.app)
                 reaction_time = berry_game.run()
@@ -204,7 +204,7 @@ class QuestHandler:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
                 pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Jagoda je sakupljena", 0.5)
+                self.app.popup.show_message("Jagoda je sakupljena!", 0.5)
             elif self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
                 berry_game = BerryMiniGame(self.app)
                 reaction_time = berry_game.run()
@@ -215,11 +215,11 @@ class QuestHandler:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
                 pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Malina je sakupljena", 0.5)
+                self.app.popup.show_message("Malina je sakupljena!", 0.5)
 
             required_berries = [BERRY_MAPPING[berry] for berry in self.random_berries]
             if player_inventory.contains_items(required_berries):
-                self.app.popup.show_message("Sve bobice su sakupljene", 1)
+                self.app.popup.show_message("Sve bobice su sakupljene!", 1)
                 quest.setStage(2)
 
         elif quest.current_stage == 2:
@@ -227,7 +227,7 @@ class QuestHandler:
                 for berry in self.random_berries:
                     player_inventory.remove_item(player_inventory.get_item(BERRY_MAPPING[berry]))
 
-                self.app.popup.show_message("Hvala ti puno", 1)
+                self.app.popup.show_message("Hvala ti puno!", 1)
                 quest.setStage(3)
 
         elif quest.current_stage == 3:
