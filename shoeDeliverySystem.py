@@ -55,6 +55,7 @@ class ShoeDelivery:
                 self.pickup = False
                 self.app.shoe_pickup.visible = False
                 inventoryRepository.switch_items_from_inventories('MajstorMarko', 'player', 'unrepairedShoes')
+                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
 
 
     def check_repair(self):

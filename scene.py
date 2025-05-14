@@ -101,7 +101,7 @@ class Scene:
                 elif name == 'grm_malina':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'radni_stol':
-                    TrnspStackedSprite(self.app, name=name, pos=pos)
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=-45)
                 elif name == 'chest':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=-90)
                 elif name:

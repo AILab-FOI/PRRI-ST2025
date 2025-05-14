@@ -93,7 +93,7 @@ class QuestHandler:
                     "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!",
                     6
                 )
-
+                pg.mixer.Sound("assets/audio/level_up_1.mp3").play()
                 quest.endQuest()
                 questRepository.get_quest_by_id(1).startQuest()
                 questRepository.get_quest_by_id(2).startQuest()
@@ -130,6 +130,7 @@ class QuestHandler:
                         keys = pg.key.get_pressed()
                         if keys[pg.K_e]:
                             def on_success():
+                                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
                                 hedgehog = inventoryRepository.create_item('hedgehog')
                                 inventoryRepository.get_inventory_by_entity_name('player').add_item(hedgehog)
 
@@ -191,6 +192,7 @@ class QuestHandler:
                 else:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
+                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
                 self.app.popup.show_message("Borovnica je sakupljena", 0.5)
             elif self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
                 berry_game = BerryMiniGame(self.app)
@@ -201,6 +203,7 @@ class QuestHandler:
                 else:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
+                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
                 self.app.popup.show_message("Jagoda je sakupljena", 0.5)
             elif self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
                 berry_game = BerryMiniGame(self.app)
@@ -211,6 +214,7 @@ class QuestHandler:
                 else:
                     print("Igrač nije uspio dovršiti miniigru")
                 player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
+                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
                 self.app.popup.show_message("Malina je sakupljena", 0.5)
 
             required_berries = [BERRY_MAPPING[berry] for berry in self.random_berries]
