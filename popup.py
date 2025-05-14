@@ -573,7 +573,7 @@ class HedgehogMiniGame(Popup):
         self.start_time = 0
         self.duration = 4000  
         self.progress = 0
-        self.required_progress = 15
+        self.required_progress = 12
         self.success_shown = False
         self.fail_shown = False
         self.on_success = lambda: None
@@ -710,11 +710,12 @@ class BerryMiniGame:
                     running = False
                     return None
                 elif event.type == pg.KEYDOWN:
-                    if self.state == self.WAITING:
-                        self.state = self.TOO_SOON
-                    elif self.state == self.READY:
-                        self.reaction_time = time.time() - self.start_time
-                        self.state = self.DONE
+                    if event.key == pg.K_SPACE:
+                        if self.state == self.WAITING:
+                            self.state = self.TOO_SOON
+                        elif self.state == self.READY:
+                            self.reaction_time = time.time() - self.start_time
+                            self.state = self.DONE
 
             if self.state == self.WAITING and (pg.time.get_ticks() - self.game_start_ticks) > self.wait_time * 1000:
                 self.state = self.READY

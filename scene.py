@@ -7,6 +7,7 @@ from entity import Entity
 from cache import Cache
 from player import Player
 import threading
+import pygame as pg
 
 P = 'player'
 M = 'MajstorIvan' #NPC
@@ -30,9 +31,9 @@ MAP = [
     [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
     [d2, t, c, t, t, d3, t, ML, t, d3, J3, t, t, J1, t, GB, t, GM, t, d3, d2],
     [d3, RS, t, t, t, t, t, t, t, MD, t, t, t, t, d2, t, t, t, t, d2, d3],
-    [d2, C, t, P, M, d2, t, MM, t, t, d2, t, S, t, J4, t, PD, t, t, d3, d2],
+    [d2, C, t, P, M, d2, t, MM, t, t, d2, t, S, t, t, t, PD, t, t, d3, d2],
     [d3, a, t, t, t, t, t, t, t, t, t, t, t, t, t, d3, t, t, t, d3, d2],
-    [d2, t, t, t, d3, t, MJ, t, d3, J2, t, t, t, t, t, t, t, GJ, t, d2, d3],
+    [d2, t, t, t, d3, t, MJ, t, d3, J2, t, t, t, J4, t, t, t, GJ, t, d2, d3],
     [d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3],
     [d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2, d3, d2]
 ]
@@ -101,6 +102,8 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=pos)
                 elif name == 'radni_stol':
                     TrnspStackedSprite(self.app, name=name, pos=pos)
+                elif name == 'chest':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=-90)
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 
