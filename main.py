@@ -68,7 +68,7 @@ class App:
         self.main_group.update()
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
-
+        self.berry_minigame.update()
 
     def draw(self):
         try:
@@ -100,6 +100,8 @@ class App:
             self.shoe_delivery.minigame.draw()
         if self.hedgehog_minigame.is_active():
             self.hedgehog_minigame.draw()
+        if self.berry_minigame.active and self.berry_minigame.visible:
+            self.berry_minigame.draw()
        
         pg.display.flip()
 
@@ -163,6 +165,7 @@ class App:
             elif e.type == pg.MOUSEWHEEL:
                 if self.quest_popup.visible:
                     self.quest_popup.handle_mouse_wheel(e)
+            self.berry_minigame.handle_event(e)
                      
 
     def get_time(self):

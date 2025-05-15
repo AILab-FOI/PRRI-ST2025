@@ -653,7 +653,6 @@ class HedgehogMiniGame(Popup):
         instr_rect = instruction.get_rect(center=(self.screen.get_width() // 2, bar_y - 60))
         self.screen.blit(instruction, instr_rect)
 
-
 class BerryMiniGame:
     def __init__(self, app):
         self.app = app
@@ -675,81 +674,92 @@ class BerryMiniGame:
         self.start_time = 0
         self.reaction_time = 0
         self.wait_time = random.uniform(1.5, 4.0)
-
-        self.clock = pg.time.Clock()
-        self.game_start_ticks = pg.time.get_ticks()
+        self.result_time = 0
 
         self.surface_width = self.screen.get_width() // 2
         self.surface_height = self.screen.get_height() // 2
         self.surface = pg.Surface((self.surface_width, self.surface_height), pg.SRCALPHA)
         self.rect = self.surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
 
-    def run(self):
-        running = True
+        self.active = False
+        self.visible = False
+        self.callback = None
+
+    def run(self, callback=None):
+        self.active = True
+        self.visible = True
         self.state = self.WAITING
         self.wait_time = random.uniform(1.5, 4.0)
         self.game_start_ticks = pg.time.get_ticks()
+        self.reaction_time = 0
+        self.result_time = 0
+        self.callback = callback
 
-        while running:
-            self.surface.fill((0, 0, 0, 0))  
+    def handle_event(self, event):
+        if not self.active:
+            return
 
-            border_rect = pg.Rect(0, 0, self.surface_width, self.surface_height)
-            pg.draw.rect(self.surface, self.GREY, border_rect, border_radius=16) 
-            pg.draw.rect(self.surface, self.BLACK, border_rect, width=4, border_radius=16) 
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                if self.state == self.WAITING:
+                    self.state = self.TOO_SOON
+                    self.result_time = pg.time.get_ticks()
+                elif self.state == self.READY:
+                    self.reaction_time = (pg.time.get_ticks() - self.ready_ticks) / 1000.0
+                    self.state = self.DONE
+                    self.result_time = pg.time.get_ticks()
 
-            fill_color = (
-                self.RED if self.state == self.WAITING else
-                self.GREEN if self.state == self.READY else
-                self.BLACK
-            )
-            inner_rect = border_rect.inflate(-20, -20)
-            pg.draw.rect(self.surface, fill_color, inner_rect, border_radius=12)
+    def update(self):
+        if not self.active:
+            return
 
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    running = False
-                    return None
-                elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE:
-                        if self.state == self.WAITING:
-                            self.state = self.TOO_SOON
-                        elif self.state == self.READY:
-                            self.reaction_time = time.time() - self.start_time
-                            self.state = self.DONE
+        now = pg.time.get_ticks()
 
-            if self.state == self.WAITING and (pg.time.get_ticks() - self.game_start_ticks) > self.wait_time * 1000:
-                self.state = self.READY
-                self.start_time = time.time()
+        if self.state == self.WAITING and (now - self.game_start_ticks) > self.wait_time * 1000:
+            self.state = self.READY
+            self.ready_ticks = now
 
-            if self.state == self.READY and (time.time() - self.start_time) > 1:
-                self.state = self.WAITING
-                self.wait_time = random.uniform(1.5, 4.0)
-                self.game_start_ticks = pg.time.get_ticks()
+        elif self.state == self.READY and (now - self.ready_ticks) > 1000:
+            self.state = self.WAITING
+            self.wait_time = random.uniform(1.5, 4.0)
+            self.game_start_ticks = now
 
-            if self.state == self.WAITING:
-                text = self.font.render("Čekaj zeleno...", True, self.WHITE)
-            elif self.state == self.READY:
-                text = self.font.render("PRITISNI SPACE!", True, self.BLACK)
-            elif self.state == self.DONE:
-                text = self.font.render(f"Refleks: {self.reaction_time:.3f} sek", True, self.WHITE)
-            elif self.state == self.TOO_SOON:
-                text = self.font.render("Prebrzo! Probaj opet.", True, self.WHITE)
+        elif self.state in (self.DONE, self.TOO_SOON):
+            if now - self.result_time > 1500:
+                if self.state == self.DONE:
+                    if self.callback:
+                        self.callback(self.reaction_time)
+                self.active = False
+                self.visible = False
 
-            text_pos = (self.surface.get_width() // 2 - text.get_width() // 2,
-                        self.surface.get_height() // 2 - text.get_height() // 2)
-            self.surface.blit(text, text_pos)
+    def draw(self):
+        if not self.active or not self.visible:
+            return
 
-            self.screen.blit(self.surface, self.rect)
-            pg.display.flip()
-            self.clock.tick(60)
+        self.surface.fill((0, 0, 0, 0))
+        border_rect = pg.Rect(0, 0, self.surface_width, self.surface_height)
+        pg.draw.rect(self.surface, self.GREY, border_rect, border_radius=16)
+        pg.draw.rect(self.surface, self.BLACK, border_rect, width=4, border_radius=16)
 
-            if self.state == self.DONE:
-                pg.time.wait(1500)
-                running = False
-            elif self.state == self.TOO_SOON:
-                pg.time.wait(1500)
-                self.state = self.WAITING
-                self.wait_time = random.uniform(1.5, 4.0)
-                self.game_start_ticks = pg.time.get_ticks()
+        fill_color = (
+            self.RED if self.state == self.WAITING else
+            self.GREEN if self.state == self.READY or self.state == self.DONE else
+            self.BLACK
+        )
+        inner_rect = border_rect.inflate(-20, -20)
+        pg.draw.rect(self.surface, fill_color, inner_rect, border_radius=12)
 
-        return self.reaction_time if self.state == self.DONE else None
+        if self.state == self.WAITING:
+            text = self.font.render("Čekaj zeleno...", True, self.WHITE)
+        elif self.state == self.READY:
+            text = self.font.render("PRITISNI SPACE!", True, self.BLACK)
+        elif self.state == self.DONE:
+            text = self.font.render(f"Refleks: {self.reaction_time:.3f} sek", True, self.WHITE)
+        elif self.state == self.TOO_SOON:
+            text = self.font.render("Prebrzo! Probaj opet.", True, self.WHITE)
+
+        text_pos = (self.surface.get_width() // 2 - text.get_width() // 2,
+                    self.surface.get_height() // 2 - text.get_height() // 2)
+        self.surface.blit(text, text_pos)
+
+        self.screen.blit(self.surface, self.rect)

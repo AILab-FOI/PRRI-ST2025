@@ -52,6 +52,10 @@ class Player(BaseEntity):
             self.moving = False
             self.inc = vec2(0)
             return
+        if self.app.berry_minigame.active and self.app.berry_minigame.visible:
+            self.moving = False
+            self.inc = vec2(0)
+            return
 
         self.moving = False
         self.inc = vec2(0)

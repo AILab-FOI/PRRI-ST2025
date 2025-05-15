@@ -184,38 +184,28 @@ class QuestHandler:
                 self.app.popup.show_message("Hej, možeš li mi pomoći? Trebam 3 bobice: {}, {}, {} \nPritisni E pored grma kako bi pobrao bobice".format(self.random_berries[0], self.random_berries[1], self.random_berries[2]), 2)
 
             if self.__check_if_close_to_entity('grm_borovnica', True) and 'borovnica' in self.random_berries:
-                berry_game = BerryMiniGame(self.app)
-                reaction_time = berry_game.run()
+                if not self.app.berry_minigame.active:
+                    def on_berry_success(reaction_time):
+                        player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
+                        pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
+                        self.app.popup.show_message("Borovnica je sakupljena!", 0.5)
+                    self.app.berry_minigame.run(callback=on_berry_success)
+                    
+            if self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
+                if not self.app.berry_minigame.active:
+                    def on_berry_success(reaction_time):
+                        player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
+                        pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
+                        self.app.popup.show_message("Jagoda je sakupljena!", 0.5)
+                    self.app.berry_minigame.run(callback=on_berry_success)
 
-                if reaction_time is not None:
-                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
-                else:
-                    print("Igrač nije uspio dovršiti miniigru")
-                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['borovnica']))
-                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Borovnica je sakupljena!", 0.5)
-            elif self.__check_if_close_to_entity('grm_jagoda', True) and 'jagoda' in self.random_berries:
-                berry_game = BerryMiniGame(self.app)
-                reaction_time = berry_game.run()
-
-                if reaction_time is not None:
-                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
-                else:
-                    print("Igrač nije uspio dovršiti miniigru")
-                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['jagoda']))
-                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Jagoda je sakupljena!", 0.5)
-            elif self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
-                berry_game = BerryMiniGame(self.app)
-                reaction_time = berry_game.run()
-
-                if reaction_time is not None:
-                    print(f"Igrač je imao refleks od {reaction_time:.3f} sekundi")
-                else:
-                    print("Igrač nije uspio dovršiti miniigru")
-                player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
-                pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
-                self.app.popup.show_message("Malina je sakupljena!", 0.5)
+            if self.__check_if_close_to_entity('grm_malina', True) and 'malina' in self.random_berries:
+                if not self.app.berry_minigame.active:
+                    def on_berry_success(reaction_time):
+                        player_inventory.add_item(inventoryRepository.create_item(BERRY_MAPPING['malina']))
+                        pg.mixer.Sound("assets/audio/select_sound_1.mp3").play()
+                        self.app.popup.show_message("Malina je sakupljena!", 0.5)
+                    self.app.berry_minigame.run(callback=on_berry_success)
 
             required_berries = [BERRY_MAPPING[berry] for berry in self.random_berries]
             if player_inventory.contains_items(required_berries):
