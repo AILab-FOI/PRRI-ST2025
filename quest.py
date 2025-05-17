@@ -27,7 +27,7 @@ class Quest():
             self.is_active = False
 
     def showCurrentObjective(self):
-        return self.stages[self.current_stage].id
+        return self.stages[self.current_stage].objective
 
 class Stage():
     def __init__(self, id, objective):

@@ -8,13 +8,13 @@ item_data = {}
 
 def load_items(file_path):
     global item_data
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding="utf-8") as file:
         data = json.load(file)
         item_data = {item['itemName']: item for item in data['items']}
 
 def load_inventories(file_path):
     global inventories
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding="utf-8") as file:
         data = json.load(file)
         inventories = [
             Inventory(

@@ -350,7 +350,7 @@ class QuestPopup(Popup):
             self.screen.blit(quest_name_surface, quest_name_rect)
             text_height += self.font.get_height() + line_spacing
             
-            wrapped_description = self.wrap_text(quest.description, self.font, self.text_wrap_width)
+            wrapped_description = self.wrap_text(quest.showCurrentObjective(), self.font, self.text_wrap_width)
             
             for line in wrapped_description:
                 quest_surface = self.font.render(line, True, self.text_color)

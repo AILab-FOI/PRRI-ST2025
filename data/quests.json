@@ -21,8 +21,8 @@
         },
         {
             "id": 1,
-            "name": "Marin jez",
-            "description": "Mara je izgubila svog jeza, opet. Pomogni joj u potrazi",
+            "name": "Marin jež",
+            "description": "Mara je izgubila svog ježa, opet. Pomogni joj u potrazi",
             "stages": [
                 {
                     "id": 0,
@@ -72,23 +72,23 @@
         {
             "id": 3,
             "name": "Sakupljanje bobica",
-            "description": "Pomogni poljoprivredniku Duri u sakupljanju bobica",
+            "description": "Pomogni poljoprivredniku Đuri u sakupljanju bobica",
             "stages": [
                 {
                     "id": 0,
-                    "objective": "Poljoprivrednik Duro ima bobice koje treba ubrati, pitaj ga mozes li mu pomoci"
+                    "objective": "Poljoprivrednik Đuro ima bobice koje treba ubrati, pitaj ga možeš li mu pomoći"
                 },
                 {
                     "id": 1,
-                    "objective": "Duro te je zamolio da pomogneš s branjem bobica"
+                    "objective": "Đuro te je zamolio da pomogneš s branjem bobica"
                 },
                 {
                     "id": 2,
-                    "objective": "Sve bobice su ubrane, vrati se Duri i reci mu da si zavrsio"
+                    "objective": "Sve bobice su ubrane, vrati se Đuri i reci mu da si završio"
                 },
                 {
                     "id": 3,
-                    "objective": "Duro je odusevljen sto si mu pomogao"
+                    "objective": "Đuro je oduševljen što si mu pomogao"
                 }
             ]
         }
