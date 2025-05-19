@@ -3,6 +3,7 @@ import inventoryRepository
 import questRepository
 import time
 import random
+import sys
 
 class Popup:
     def __init__(self, screen, title, width_ratio=0.6, height_ratio=0.6):
@@ -495,7 +496,7 @@ class MainMenu:
                         self.app.start_game()  
                     elif self.selected_option == 1: 
                         pg.quit()
-                        exit()
+                        sys.exit()
 
 class ShoePickupPopUp:
     def __init__(self, screen, image_path=None):
