@@ -91,7 +91,7 @@ class QuestHandler:
                     "Legendarni zlatni šav... Jedina nit koja može spojiti ono što je jednom bilo izgubljeno.\n"
                     "Kažu da se nalazi samo onima koji pokažu dovoljno strpljenja i hrabrosti.\n"
                     "Požuri do Majstora Marka da ti pokaže što ti je dalje činiti!",
-                    4
+                    10
                 )
                 pg.mixer.Sound("assets/audio/level_up_1.mp3").play()
                 quest.endQuest()
